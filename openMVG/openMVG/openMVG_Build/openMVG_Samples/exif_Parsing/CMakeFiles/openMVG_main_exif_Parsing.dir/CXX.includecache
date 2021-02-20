@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/leming/workspace/openMVG/src/openMVG/exif/exif_IO.hpp
+string
+-
+
+/home/leming/workspace/openMVG/src/openMVG/exif/exif_IO_EasyExif.hpp
+memory
+-
+string
+-
+openMVG/exif/exif_IO.hpp
+/home/leming/workspace/openMVG/src/openMVG/exif/openMVG/exif/exif_IO.hpp
+
+/home/leming/workspace/openMVG/src/openMVG_Samples/exif_Parsing/exifParsing.cpp
+openMVG/exif/exif_IO_EasyExif.hpp
+/home/leming/workspace/openMVG/src/openMVG_Samples/exif_Parsing/openMVG/exif/exif_IO_EasyExif.hpp
+third_party/cmdLine/cmdLine.h
+/home/leming/workspace/openMVG/src/openMVG_Samples/exif_Parsing/third_party/cmdLine/cmdLine.h
+memory
+-
+
+/home/leming/workspace/openMVG/src/third_party/cmdLine/cmdLine.h
+vector
+-
+algorithm
+-
+iostream
+-
+string
+-
+sstream
+-
+cassert
+-
+

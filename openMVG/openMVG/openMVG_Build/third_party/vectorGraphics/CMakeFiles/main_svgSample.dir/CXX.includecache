@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/leming/workspace/openMVG/src/third_party/vectorGraphics/main.cpp
+iostream
+-
+cstdlib
+-
+math.h
+-
+vector
+-
+svgDrawer.hpp
+/home/leming/workspace/openMVG/src/third_party/vectorGraphics/svgDrawer.hpp
+
+/home/leming/workspace/openMVG/src/third_party/vectorGraphics/svgDrawer.hpp
+fstream
+-
+iterator
+-
+sstream
+-
+string
+-
+vector
+-
+

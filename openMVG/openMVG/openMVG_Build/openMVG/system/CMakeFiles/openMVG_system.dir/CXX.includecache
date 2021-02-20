@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/leming/workspace/openMVG/src/openMVG/system/timer.cpp
+openMVG/system/timer.hpp
+/home/leming/workspace/openMVG/src/openMVG/system/openMVG/system/timer.hpp
+ratio
+-
+type_traits
+-
+
+/home/leming/workspace/openMVG/src/openMVG/system/timer.hpp
+chrono
+-
+iostream
+-
+

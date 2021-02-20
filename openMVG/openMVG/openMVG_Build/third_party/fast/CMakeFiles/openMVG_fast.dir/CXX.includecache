@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/leming/workspace/openMVG/src/third_party/fast/fast.c
+stdlib.h
+-
+fast.h
+/home/leming/workspace/openMVG/src/third_party/fast/fast.h
+
+/home/leming/workspace/openMVG/src/third_party/fast/fast.h
+
+/home/leming/workspace/openMVG/src/third_party/fast/fast_10.c
+stdlib.h
+-
+
+/home/leming/workspace/openMVG/src/third_party/fast/fast_11.c
+stdlib.h
+-
+
+/home/leming/workspace/openMVG/src/third_party/fast/fast_12.c
+stdlib.h
+-
+
+/home/leming/workspace/openMVG/src/third_party/fast/fast_9.c
+stdlib.h
+-
+
+/home/leming/workspace/openMVG/src/third_party/fast/nonmax.c
+stdlib.h
+-
+fast.h
+/home/leming/workspace/openMVG/src/third_party/fast/fast.h
+

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../Linux-aarch64-RELEASE/libopenMVG_matching_image_collection.a  CMakeFiles/openMVG_matching_image_collection.dir/Cascade_Hashing_Matcher_Regions.cpp.o CMakeFiles/openMVG_matching_image_collection.dir/Geometric_Filter_utils.cpp.o CMakeFiles/openMVG_matching_image_collection.dir/Matcher_Regions.cpp.o
+/usr/bin/ranlib ../../Linux-aarch64-RELEASE/libopenMVG_matching_image_collection.a

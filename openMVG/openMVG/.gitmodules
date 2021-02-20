@@ -1,0 +1,9 @@
+[submodule "src/dependencies/glfw"]
+	path = src/dependencies/glfw
+	url = https://github.com/elmindreda/glfw.git
+[submodule "src/dependencies/osi_clp"]
+	path = src/dependencies/osi_clp
+	url = https://github.com/openMVG-thirdparty/osi_clp.git
+[submodule "src/dependencies/cereal"]
+	path = src/dependencies/cereal
+	url = https://github.com/openMVG-thirdparty/cereal.git

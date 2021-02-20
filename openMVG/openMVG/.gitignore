@@ -1,0 +1,14 @@
+*.log
+*.aux
+*.gz
+*.toc
+*.bbl
+*.blg
+*.cbp*
+*.layout*
+*~
+*.pyc
+*.db
+build*
+*.out
+docs/openmvg.pdf
