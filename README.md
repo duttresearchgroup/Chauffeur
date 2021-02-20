@@ -26,16 +26,16 @@ I build the project from source for Hydra.
 Then to run Classifying Images with ImageNet:
 
 $ cd jetson-inference/build/aarch64/bin
-# To run C++ sample program:
+To run C++ sample program:
 $ ./imagenet images/orange_0.jpg images/test/output_0.jpg     # (default network is googlenet)
-# To run Python sample program:
+To run Python sample program:
 $ ./imagenet.py images/orange_0.jpg images/test/output_0.jpg  # (default network is googlenet)
 
-## If you met "failed to open swrast" issue, you could try link the libdrm.so.2 to libdrm.so.2.4.0 (Thank you Hans!)
+If you met "failed to open swrast" issue, you could try link the libdrm.so.2 to libdrm.so.2.4.0 (Thank you Hans!)
 $ cd /usr/lib/aarch64-linux-gnu
 $ sudo ln -sf libdrm.so.2.4.0 libdrm.so.2
 
-## Except for object detection, Jetson-Inference have more features like Locating and Semantic Segmentation in the future that we might need to work with.
+Except for object detection, Jetson-Inference have more features like Locating and Semantic Segmentation in the future that we might need to work with.
 
 
 
