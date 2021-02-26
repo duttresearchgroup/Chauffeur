@@ -4,6 +4,7 @@ Benchmark suite for embedded autonomous vehicle application
 What we have:
 Structure-From-Mothion  =>  OpenMVG
 Object Detection:       =>  Jetson-Inference(Hello_Ai_World)
+Lane Detection:         =>  Jetson TX2 Lane Detection
 
 Essential dependencies version on Hydra:
 Eigen3 -- 3.3.9
@@ -77,6 +78,36 @@ Except for object detection, Jetson-Inference have more features like Locating a
 
 
 
+Jetson TX2 Lane Detection:
+
+
+To build the application, we first need to modify two functions in src/detector.cpp since the updated OpenCV version:
+
+In src/detector.cpp 	
+
+
+line 51: 	CV_FOURCC('M', 'P', 'E', 'G') -> cv::VideoWriter::fourcc('M', 'P', 'E', 'G')
+
+
+Line 284:	CV_BGR2GRAY -> cv::COLOR_BGR2GRAY
+
+
+Then we will need to install the dependencies and then build:
+
+
+$./install_dependencies.sh
+
+
+$./build.sh
+
+
+$./build.sh clean
+
+
+Then after building the application, we can run the sample with the run.sh we wrote.
+
+
+
 
 
 
@@ -110,3 +141,19 @@ Yohann Salaun
 
 Author of Jetson-inference:
 Nvidia
+
+
+
+
+Author of Jetson TX2 Lane Detection:
+@jaredraycoleman 
+
+
+@tainagdcoleman
+
+
+@antwonn
+
+
+@fieryWaters
+
