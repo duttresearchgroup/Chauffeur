@@ -5,12 +5,12 @@
 - Lane Detection:         =>  Jetson TX2 Lane Detection
 - Extended Kalman Filter => CarND-Extended-Kalman-Filter
 
-#Essential dependencies version on Hydra:
+# Essential dependencies version on Hydra:
 - Eigen3 -- 3.3.9
 - Ceres Solver -- 2.0.0
 
-#For run application on sample inputs as quick start:
-###OpenMVG: 
+# For run application on sample inputs as quick start:
+### OpenMVG: 
 `$ cd openMVG_Build/software/SfM/`
 
 
@@ -20,7 +20,7 @@
 
 The asscociate Image_dataset is under the openMVG folder.
 
-###Jetson-Inference:
+### Jetson-Inference:
 First you will need to build the project following the instruction on Dusty's website.
 There're two way to build it:
 - Running the Docker Container  --  https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-docker.md
@@ -36,7 +36,7 @@ To run C++ sample program:
 To run Python sample program:
 `$ ./imagenet.py images/orange_0.jpg images/test/output_0.jpg  # (default network is googlenet)`
 
-#####If you met "failed to open swrast" issue, you could try link the libdrm.so.2 to libdrm.so.2.4.0 (Thank you Hans!)
+##### If you met "failed to open swrast" issue, you could try link the libdrm.so.2 to libdrm.so.2.4.0 (Thank you Hans!)
 `$ cd /usr/lib/aarch64-linux-gnu`
 `$ sudo ln -sf libdrm.so.2.4.0 libdrm.so.2`
 
@@ -44,13 +44,13 @@ Except for object detection, Jetson-Inference have more features like Locating a
 
 
 
-###Jetson TX2 Lane Detection:
+### Jetson TX2 Lane Detection:
 To build the application, we first need to modify two functions in src/detector.cpp since the updated OpenCV version:
 
 `sudo vim src/detector.cpp`
 
->line 51: 	CV_FOURCC('M', 'P', 'E', 'G') -> cv::VideoWriter::fourcc('M', 'P', 'E', 'G')
->Line 284:	CV_BGR2GRAY -> cv::COLOR_BGR2GRAY
+> line 51: 	CV_FOURCC('M', 'P', 'E', 'G') -> cv::VideoWriter::fourcc('M', 'P', 'E', 'G')
+> Line 284:	CV_BGR2GRAY -> cv::COLOR_BGR2GRAY
 
 Then we will need to install the dependencies and then build:
 
@@ -65,7 +65,7 @@ Then we will need to install the dependencies and then build:
 
 Then after building the application, we can run the sample with the run.sh we wrote.
 
-###CarND-Extended-Kalman-Filter:
+### CarND-Extended-Kalman-Filter:
 - Clone this repo.
 - Make a build directory: `mkdir build && cd build`
 - Compile: `cmake .. && make`
@@ -79,12 +79,12 @@ Then after building the application, we can run the sample with the run.sh we wr
 
 
 
-####Authors of OpenMVG:
+#### Authors of OpenMVG:
 - Pierre Moulon <pmoulon@gmail.com>
 - Pascal Monasse <monasse@imagine.enpc.fr>
 - Renaud Marlet <renaud.marlet@enpc.fr>
 
-#####anhtuann
+##### anhtuann
 - Bruno Duisit
 - Fabien Castan
 - Iivari Äikäs
@@ -102,19 +102,19 @@ Then after building the application, we can run the sample with the run.sh we wr
 
 
 
-####Author of Jetson-inference:
+#### Author of Jetson-inference:
 - Nvidia
 
 
 
 
-###Author of Jetson TX2 Lane Detection:
+### Author of Jetson TX2 Lane Detection:
 - jaredraycoleman 
 - tainagdcoleman
 - antwonn
 - fieryWaters
 
-###Author of CarND-Extended-Kalman-Filter:
+### Author of CarND-Extended-Kalman-Filter:
 - Cameron Pittman
 - Dennis Krut
 - Jeremy Shannon
