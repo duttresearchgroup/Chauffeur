@@ -8,6 +8,7 @@
 # Essential dependencies version on Hydra:
 - Eigen3 -- 3.3.9
 - Ceres Solver -- 2.0.0
+- ROS Melodic
 
 # For run application on sample inputs as quick start:
 ### OpenMVG: 
