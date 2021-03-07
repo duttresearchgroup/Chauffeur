@@ -1,9 +1,9 @@
 # biton: Benchmark suite for embedded autonomous vehicle application
 #What we have:
-- Structure-From-Mothion  =>  OpenMVG
-- Object Detection:       =>  Jetson-Inference(Hello_Ai_World)
-- Lane Detection:         =>  Jetson TX2 Lane Detection
-- Extended Kalman Filter => CarND-Extended-Kalman-Filter
+- Structure-From-Mothion  =>  OpenMVG (CPU/GPU, C++)
+- Object Detection:       =>  Jetson-Inference(Hello_Ai_World) (CPU/GPU, C++)
+- Lane Detection:         =>  Jetson TX2 Lane Detection (CPU/GPU, C++)
+- Extended Kalman Filter => CarND-Extended-Kalman-Filter (CPU, C++)
 
 # Essential dependencies version on Hydra:
 - Eigen3 -- 3.3.9
@@ -85,7 +85,7 @@ Then after building the application, we can run the sample with the run.sh we wr
 - Pascal Monasse <monasse@imagine.enpc.fr>
 - Renaud Marlet <renaud.marlet@enpc.fr>
 
-##### anhtuann
+###### anhtuann
 - Bruno Duisit
 - Fabien Castan
 - Iivari Äikäs
@@ -109,13 +109,13 @@ Then after building the application, we can run the sample with the run.sh we wr
 
 
 
-### Author of Jetson TX2 Lane Detection:
+#### Author of Jetson TX2 Lane Detection:
 - jaredraycoleman 
 - tainagdcoleman
 - antwonn
 - fieryWaters
 
-### Author of CarND-Extended-Kalman-Filter:
+#### Author of CarND-Extended-Kalman-Filter:
 - Cameron Pittman
 - Dennis Krut
 - Jeremy Shannon
