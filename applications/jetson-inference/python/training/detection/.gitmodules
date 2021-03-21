@@ -1,3 +1,0 @@
-[submodule "ssd"]
-	path = ssd
-	url = https://github.com/dusty-nv/pytorch-ssd

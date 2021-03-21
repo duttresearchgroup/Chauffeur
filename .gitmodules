@@ -1,0 +1,3 @@
+[submodule "applications/jetson-inference"]
+	path = applications/jetson-inference
+	url = https://github.com/dusty-nv/jetson-inference/
