@@ -1,11 +1,23 @@
-# biton: Benchmark suite for embedded autonomous vehicle application
-#What we have:
+# MiSelf: Micro-Benchmark Suite for Designing Self-Driving Vehicles
+# Included Microbenchmarks:
 - Structure-From-Mothion  =>  OpenMVG (CPU/GPU, C++)
 - Object Detection:       =>  Jetson-Inference(Hello_Ai_World) (CPU/GPU, C++)
 - Lane Detection:         =>  Jetson TX2 Lane Detection (CPU/GPU, C++)
 - Extended Kalman Filter => CarND-Extended-Kalman-Filter (CPU, C++)
 
-# Essential dependencies version on Hydra:
+# Step 1: Compilation 
+We are using dockers to compile the source code of the micro-benchmarks. Please navigate to the `docker` folder and perform the following steps:
+* `docker-compose build` : This will prepare the environment to build the applications.
+* Check the version of L4T running on the NVidia board with jtop. Download the correct cross compiler corresponding to the L4T version from nvidia's website and place it inside the `cross-compiler` folder. Now this folder should look like this:
+
+![](data/folder-layout.jpg)
+
+* `docker-compose up`: This will utilize the cross-compilers inside the build environment to produce the binaries. 
+
+# Step 2: Deployment on board
+
+# Step 3: Running on board
+## Essential dependencies version on Hydra:
 - Eigen3 -- 3.3.9
 - Ceres Solver -- 2.0.0
 - ROS Melodic

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  miself.builder:
+    image: miself.builder
+    build: .
+    volumes:
+      - $PWD/../applications:/workspace/applications
+      - $PWD/cross-compiler:/workspace/cross-compiler
+      - $PWD/build.sh:/workspace/build.sh
+    environment:
+    - NVIDIA_TOOLCHAIN_PATH=/workspace/cross-compiler/
