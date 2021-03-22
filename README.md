@@ -14,6 +14,8 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 
 * `docker-compose up`: This will utilize the cross-compilers inside the build environment to produce the binaries. 
 
+* [Debug] For using an interactive debugging environment, please run `docker-compose run miself.builder bash`
+
 # Step 2: Deployment on board
 
 # Step 3: Running on board

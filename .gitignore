@@ -1,2 +1,4 @@
 docker/cross-compiler/*
+docker/jetpack-files/*
 applications/bin
+applications/tmp

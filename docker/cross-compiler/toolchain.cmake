@@ -30,3 +30,11 @@ set(CMAKE_CXX_FLAGS_RELEASE         "${CMAKE_C_FLAGS_RELEASE}" CACHE INTERNAL ""
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+
+# set(TARGET_SUPPORTS_SHARED_LIBS TRUE)
+# CUDA librares
+set(CUDA_TOOLKIT_ROOT_DIR           "/usr/local/cuda/targets/aarch64-linux/")
+set(CUDA_TOOLKIT_INCLUDE            "/usr/local/cuda/targets/aarch64-linux/include")
+set(CUDA_CUDART_LIBRARY             "/usr/local/cuda/targets/aarch64-linux/lib/libcudart.so")
+set(CUDA_nppicc_LIBRARY             "/usr/local/cuda/targets/aarch64-linux/lib/libnppicc.so")
