@@ -8,4 +8,4 @@ services:
       - $PWD/cross-compiler:/workspace/cross-compiler
       - $PWD/build.sh:/workspace/build.sh
     environment:
-    - NVIDIA_TOOLCHAIN_PATH=/workspace/cross-compiler/
+    - NVIDIA_TOOLCHAIN_PATH=/workspace/cross-compiler

@@ -17,19 +17,30 @@ cd applications/tmp
 root=$(pwd)
 
 # Build Kalman filter
-cd $root
-rm -rf *
-cmake $root/../Kalman-Filter -DCMAKE_TOOLCHAIN_FILE=$NVIDIA_TOOLCHAIN_PATH/toolchain.cmake
-make
-cp ExtendedKF ../bin/ExtendedKF
+# cd $root
+# rm -rf *
+# cmake $root/../Kalman-Filter -DCMAKE_TOOLCHAIN_FILE=$NVIDIA_TOOLCHAIN_PATH/toolchain.cmake
+# make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+# cp ExtendedKF ../bin/ExtendedKF
 
 # Build 2
+# Lane Detection
+# cd $root
+# rm -rf *
+# cmake -DBoost_DEBUG=ON -DJETSON_TX2=ON -DCMAKE_TOOLCHAIN_FILE=$NVIDIA_TOOLCHAIN_PATH/toolchain.cmake $root/../lane_detection
+# make
+# rm -rf *
+
+# # Build 3 FLOAM
+# cd $root
+# rm -rf *
+# cmake -DCMAKE_TOOLCHAIN_FILE=$NVIDIA_TOOLCHAIN_PATH/toolchain.cmake $root/../odometry/floam
+
+#  Build OpenMVG
 cd $root
 rm -rf *
+cmake -DCMAKE_TOOLCHAIN_FILE=$NVIDIA_TOOLCHAIN_PATH/toolchain.cmake $root/../openMVG/openMVG/src
 
-# Build 3
-cd $root
-rm -rf *
 
-# Cleanup temporary folder
-rm -rf $root
+# # Cleanup temporary folder
+# rm -rf $root

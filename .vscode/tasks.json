@@ -1,0 +1,30 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Remove all stopped containers",
+            "type": "shell",
+            "command": "docker container prune --force"
+        },
+        {
+            "label": "Send binaries",
+            "type": "shell",
+            "command": "scripts/send.sh",
+            "args": [
+                "applications/bin",
+                "bin"
+            ]
+        },
+        {
+            "label": "Send data",
+            "type": "shell",
+            "command": "scripts/send.sh",
+            "args": [
+                "data",
+                "data"
+            ]
+        }
+    ]
+}
