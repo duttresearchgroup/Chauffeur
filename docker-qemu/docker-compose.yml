@@ -1,0 +1,10 @@
+version: '3'
+services:
+  miself.qemu.builder:
+    image: miself.qemu.builder
+    build: .
+    volumes:
+      - $PWD/../applications:/workspace/applications
+      - $PWD/build.sh:/workspace/build.sh
+      - $PWD/../docker/tmp-jetpack-files:/jetpack-files
+      - $PWD/keys/trusted-keys:/trusted-keys
