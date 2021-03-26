@@ -1,11 +1,11 @@
 version: '3'
 services:
-  miself.builder:
-    image: miself.builder
+  miself.qemu.builder:
+    image: miself.qemu.builder
     build: .
     volumes:
       - $PWD/../applications:/workspace/applications
-      - $PWD/cross-compiler:/workspace/cross-compiler
       - $PWD/build.sh:/workspace/build.sh
-    environment:
-    - NVIDIA_TOOLCHAIN_PATH=/workspace/cross-compiler
+      - $PWD/../docker/tmp-jetpack-files:/jetpack-files
+      - $PWD/keys/trusted-keys:/trusted-keys
+      - $PWD/patches:/workspace/applications/patches
