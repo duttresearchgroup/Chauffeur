@@ -104,7 +104,7 @@ you may need to proload the library. You can do it like this: \
 
 
 
-# Thanks the Authors for all these application!
+# Thanks the Authors for all these applications!
 [Authors](https://github.com/duttresearchgroup/miself/files/6209700/Authors.txt)
 
 
