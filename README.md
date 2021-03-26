@@ -26,8 +26,9 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 
 # For run application on sample inputs as quick start:
 ### OpenMVG: 
-`$ cd openMVG_Build/software/SfM/`
+[https://github.com/openMVG/openMVG](https://github.com/openMVG/openMVG)
 
+`$ cd openMVG_Build/software/SfM/`
 
 `$ python SfM_GlobalPipeline.py [full path image directory] [resulting directory]`          
 
@@ -36,6 +37,8 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 The asscociate Image_dataset is under the openMVG folder.
 
 ### Jetson-Inference:
+[https://github.com/dusty-nv/jetson-inference#recommended-system-requirements](https://github.com/dusty-nv/jetson-inference#recommended-system-requirements)
+
 First you will need to build the project following the instruction on Dusty's website.
 There're two way to build it:
 - Running the Docker Container  --  https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-docker.md
@@ -60,6 +63,8 @@ Except for object detection, Jetson-Inference have more features like Locating a
 
 
 ### Jetson TX2 Lane Detection:
+[https://github.com/jaredraycoleman/lane_detection](https://github.com/jaredraycoleman/lane_detection)
+
 To build the application, we first need to modify two functions in src/detector.cpp since the updated OpenCV version:
 
 `sudo vim src/detector.cpp`
@@ -81,6 +86,8 @@ Then we will need to install the dependencies and then build:
 Then after building the application, we can run the sample with the run.sh we wrote.
 
 ### CarND-Extended-Kalman-Filter:
+[https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project](https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project)
+
 - Clone this repo.
 - Make a build directory: `mkdir build && cd build`
 - Compile: `cmake .. && make`
@@ -88,57 +95,31 @@ Then after building the application, we can run the sample with the run.sh we wr
 - Run it: `./ExtendedKF path/to/input.txt path/to/output.txt.` You can find some sample inputs in 'data/'. eg. `./ExtendedKF ../data/sample-laser-radar-measurement-data-1.txt output.txt`
 
 
+### LaneNet-Lane-Detection:
+[https://github.com/MaybeShewill-CV/lanenet-lane-detection](https://github.com/MaybeShewill-CV/lanenet-lane-detection)
+To test a single image with the trained model, use the following:
+`cd lanenet-lane-detection/lanenet-lane-detection'
+`python python tools/test_lanenet.py --weights_path /PATH/TO/YOUR/CKPT_FILE_PATH --image_path ./data/tusimple_test_image/0.jpg`
+Please note that the ckpt are save in miself/applications/lanenet-lane-detection/model/tusimple_lanenet.
+The runing command is like this:
+`python3.6 tools/test_lanenet.py --weights_path /PATH/TO/APPLICATIONS/lanenet-lane-detection/model/tusimple_lanenet/tusimple_lanenet.ckpt --image_path ./data/tusimple_test_image/0.jpg`
+If you meet the error like "ImportError: /PATH/TO/SOME/FILE: cannot allocate memory in static TLS block"
+you may need to proload the library. You can do it like this:
+`LD_PRELOAD=NAME_OF_THE_LIBARY python3 YOUR_PYTHON_SCRIPT`
+
+
+
+
+
+# Thanks the Authors for all these application!
+[Authors.txt](https://github.com/duttresearchgroup/miself/files/6209700/Authors.txt)
 
 
 
 
 
 
-#### Authors of OpenMVG:
-- Pierre Moulon <pmoulon@gmail.com>
-- Pascal Monasse <monasse@imagine.enpc.fr>
-- Renaud Marlet <renaud.marlet@enpc.fr>
 
-###### anhtuann
-- Bruno Duisit
-- Fabien Castan
-- Iivari Äikäs
-- luxigo
-- Michael Holroyd
-- Romain Janvier
-- Rory McCann
-- Romuald Perrot
-- rhiestan
-- sergi pujades-rocamora
-- sflotron
-- vincentweb
-- Yohann Salaun
-
-
-
-
-#### Author of Jetson-inference:
-- Nvidia
-
-
-
-
-#### Author of Jetson TX2 Lane Detection:
-- jaredraycoleman 
-- tainagdcoleman
-- antwonn
-- fieryWaters
-
-#### Author of CarND-Extended-Kalman-Filter:
-- Cameron Pittman
-- Dennis Krut
-- Jeremy Shannon
-- Andrew
-- Kyle Stewart-Frantz
-- Mike Allen 
-- Alex Cui 
-- Andrei Vatavu
-- Wolfgang Steiner
 
 
 
