@@ -47,72 +47,65 @@ There're two way to build it:
 
 
 I build the project from source for Hydra.
-Then to run Classifying Images with ImageNet:
-`$ cd jetson-inference/build/aarch64/bin`
-To run C++ sample program:
-`$ ./imagenet images/orange_0.jpg images/test/output_0.jpg     # (default network is googlenet)`
-To run Python sample program:
-`$ ./imagenet.py images/orange_0.jpg images/test/output_0.jpg  # (default network is googlenet)`
+Then to run Classifying Images with ImageNet: \
+`$ cd jetson-inference/build/aarch64/bin` \
+To run C++ sample program: \
+`$ ./imagenet images/orange_0.jpg images/test/output_0.jpg     # (default network is googlenet)` \
+To run Python sample program: \
+`$ ./imagenet.py images/orange_0.jpg images/test/output_0.jpg  # (default network is googlenet)` \
 
 ##### If you met "failed to open swrast" issue, you could try link the libdrm.so.2 to libdrm.so.2.4.0 (Thank you Hans!)
-`$ cd /usr/lib/aarch64-linux-gnu`
-`$ sudo ln -sf libdrm.so.2.4.0 libdrm.so.2`
+`$ cd /usr/lib/aarch64-linux-gnu` \
+`$ sudo ln -sf libdrm.so.2.4.0 libdrm.so.2` \
 
-Except for object detection, Jetson-Inference have more features like Locating and Semantic Segmentation in the future that we might need to work with.
-
+Except for object detection, Jetson-Inference have more features like Locating and Semantic Segmentation in the future that we might need to work with. \
 
 
 ### Jetson TX2 Lane Detection:
 [https://github.com/jaredraycoleman/lane_detection](https://github.com/jaredraycoleman/lane_detection)
 
-To build the application, we first need to modify two functions in src/detector.cpp since the updated OpenCV version:
+To build the application, we first need to modify two functions in src/detector.cpp since the updated OpenCV version: \
 
 `sudo vim src/detector.cpp`
 
 > line 51: 	CV_FOURCC('M', 'P', 'E', 'G') -> cv::VideoWriter::fourcc('M', 'P', 'E', 'G')
 > Line 284:	CV_BGR2GRAY -> cv::COLOR_BGR2GRAY
 
-Then we will need to install the dependencies and then build:
+Then we will need to install the dependencies and then build: \
+`$./install_dependencies.sh` \
+`$./build.sh` \
+`$./build.sh clean` \
 
+Then after building the application, we can run the sample with the run.sh we wrote. \
 
-`$./install_dependencies.sh`
-
-
-`$./build.sh`
-
-
-`$./build.sh clean`
-
-Then after building the application, we can run the sample with the run.sh we wrote.
 
 ### CarND-Extended-Kalman-Filter:
-[https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project](https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project)
-
-- Clone this repo.
-- Make a build directory: `mkdir build && cd build`
-- Compile: `cmake .. && make`
-- On windows, you may need to run: `cmake .. -G "Unix Makefiles" && make`
-- Run it: `./ExtendedKF path/to/input.txt path/to/output.txt.` You can find some sample inputs in 'data/'. eg. `./ExtendedKF ../data/sample-laser-radar-measurement-data-1.txt output.txt`
+[https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project](https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project) \
+Clone this repo. \
+Make a build directory: `mkdir build && cd build` \
+Compile: `cmake .. && make` \
+On windows, you may need to run: `cmake .. -G "Unix Makefiles" && make` \
+Run it: `./ExtendedKF path/to/input.txt path/to/output.txt.` You can find some sample inputs in 'data/'. eg. `./ExtendedKF ../data/sample-laser-radar-measurement-data-1.txt output.txt` \
 
 
 ### LaneNet-Lane-Detection:
-[https://github.com/MaybeShewill-CV/lanenet-lane-detection](https://github.com/MaybeShewill-CV/lanenet-lane-detection)
-To test a single image with the trained model, use the following:
-`cd lanenet-lane-detection/lanenet-lane-detection'
-`python python tools/test_lanenet.py --weights_path /PATH/TO/YOUR/CKPT_FILE_PATH --image_path ./data/tusimple_test_image/0.jpg`
+[https://github.com/MaybeShewill-CV/lanenet-lane-detection](https://github.com/MaybeShewill-CV/lanenet-lane-detection) \
+To test a single image with the trained model, use the following: \
+`cd lanenet-lane-detection/lanenet-lane-detection` \
+`python python tools/test_lanenet.py --weights_path /PATH/TO/YOUR/CKPT_FILE_PATH --image_path ./data/tusimple_test_image/0.jpg` \
 Please note that the ckpt are save in miself/applications/lanenet-lane-detection/model/tusimple_lanenet.
-The runing command is like this:
-`python3.6 tools/test_lanenet.py --weights_path /PATH/TO/APPLICATIONS/lanenet-lane-detection/model/tusimple_lanenet/tusimple_lanenet.ckpt --image_path ./data/tusimple_test_image/0.jpg`
+The runing command is like this: \
+`python3.6 tools/test_lanenet.py --weights_path /PATH/TO/APPLICATIONS/lanenet-lane-detection/model/tusimple_lanenet/tusimple_lanenet.ckpt --image_path ./data/tusimple_test_image/0.jpg` \
 If you meet the error like "ImportError: /PATH/TO/SOME/FILE: cannot allocate memory in static TLS block"
-you may need to proload the library. You can do it like this:
-`LD_PRELOAD=NAME_OF_THE_LIBARY python3 YOUR_PYTHON_SCRIPT`
+you may need to proload the library. You can do it like this: \
+`LD_PRELOAD=NAME_OF_THE_LIBARY python3 YOUR_PYTHON_SCRIPT` \
 
 
 
 
 
 # Thanks the Authors for all these application!
-[Authors.txt](https://github.com/duttresearchgroup/miself/files/6209700/Authors.txt)
+[Authors](https://github.com/duttresearchgroup/miself/files/6209700/Authors.txt)
 
 
 
