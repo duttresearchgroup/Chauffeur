@@ -25,6 +25,15 @@
                 "data",
                 "data"
             ]
+        },
+        {
+            "label": "Send scripts",
+            "type": "shell",
+            "command": "scripts/send.sh",
+            "args": [
+                "scripts",
+                "scripts"
+            ]
         }
     ]
 }

@@ -1,22 +1,8 @@
 # Password is read from this file. Don't change this line
 export R_PASS="-f passwd"
 
-# Chimera
-export R_USER=deep
-export R_PORT=-p22
-export R_HOST=chimera.ics.uci.edu
-export R_SRC_ROOT=/home/deep/workspace/miself
-
-# Drive PX2
-# export R_USER=nvidia
-# export R_PORT=-p22222
-# export R_HOST=203.246.112.155
-# export R_SRC_ROOT=/home/nvidia/deep/miself
-
-# export R_USER=leming
-# export R_PORT=-p22
-# export R_HOST=hydra.ics.uci.edu
-# export R_SRC_ROOT=/home/leming/deep/miself
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+source $DIR/envs.sh cross
 
 # Uncomment for verbose remote commands
 export R_VERBOSE=-v

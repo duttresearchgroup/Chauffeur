@@ -33,12 +33,18 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 * Create a file called `scripts/passwd` to store the ssh password.
 * Next using `bash` shell execute `scripts/send.sh applications/bin bin`. If you are using VSCode, we already include a 'Send Binaries' task.
 # Step 3: Running on board
+* In `scripts` folder we have include the relevant launching script `run.sh` for each application. For example, to run application kalman_filter, `sh scripts/kalman_filter/run.sh`
+* For cross compiled environment, pass `cross` as an argument to the file. Example:  `sh scripts/kalman_filter/run.sh cross`.
+
+
+
+# Other important information
 ## Essential dependencies version on Hydra:
 - Eigen3 -- 3.3.9
 - Ceres Solver -- 2.0.0
 - ROS Melodic
 
-# For run application on sample inputs as quick start:
+## Quick start
 ### OpenMVG: 
 [https://github.com/openMVG/openMVG](https://github.com/openMVG/openMVG)
 
