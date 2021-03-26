@@ -19,7 +19,7 @@ RUN apt-get install -y --no-install-recommends \
 
 COPY keys/trusted-keys /trusted-keys 
 
-# TebsorRT required for Jetson Inference
+# TensorRT required for Jetson Inference
 RUN printf 'deb https://repo.download.nvidia.com/jetson/common r32 main\ndeb https://repo.download.nvidia.com/jetson/t210 r32 main' > /etc/apt/sources.list.d/nvidia-l4t-apt-source.list && \
      apt-key add /trusted-keys && \
      apt-get update && \
@@ -33,6 +33,8 @@ RUN apt-get install -y libhdf5-dev python3-pip
 RUN pip3 --no-cache-dir install \
      Cython \
      numpy
+
+RUN apt-get install -y libgtk2.0-dev
 
 # OpenCV
 RUN OPENCV_VERSION=4.5.0 && \
@@ -70,7 +72,7 @@ RUN OPENCV_VERSION=4.5.0 && \
           -DCUDA_ARCH_BIN="6.2" \
           -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib-${OPENCV_VERSION}/modules \
           -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs \
-          -DWITH_GTK=OFF \
+          -DWITH_GTK=ON \
           -DWITH_VTK=OFF \
           -DWITH_TBB=OFF \
           -DWITH_1394=OFF \
@@ -82,6 +84,10 @@ RUN OPENCV_VERSION=4.5.0 && \
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
     rm -rf /opencv-${OPENCV_VERSION} && \
     rm -rf /opencv_contrib-{OPENCV_VERSION}
+
+# For Lane detection
+RUN apt-get install -y --no-install-recommends \
+     libconfig++-dev
 
 RUN mkdir -p /workspace
 WORKDIR /workspace
