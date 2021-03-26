@@ -53,3 +53,14 @@ else
     JETSON_INFERENCE_BINARY_NAME=imagenet
     JETSON_INFERENCE_DATA_FOLDER=$R_SRC_ROOT/applications/jetson-inference/build/aarch64/bin
 fi
+
+# Cuda Lane Detection
+if [[ $1 == 'cross' ]]; then
+    CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/bin/
+    CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
+    CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/cuda-lane-detection
+else
+    CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection/build
+    CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
+    CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
+fi
