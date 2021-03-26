@@ -8,3 +8,4 @@ services:
       - $PWD/build.sh:/workspace/build.sh
       - $PWD/../docker/tmp-jetpack-files:/jetpack-files
       - $PWD/keys/trusted-keys:/trusted-keys
+      - $PWD/patches:/workspace/applications/patches

@@ -1,6 +1,6 @@
 docker/cross-compiler/*
 docker/jetpack-files/*
 applications/bin
-applications/*/build
+build/
 applications/tmp
 scripts/passwd

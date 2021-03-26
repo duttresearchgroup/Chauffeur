@@ -13,6 +13,11 @@ export R_SRC_ROOT=/home/deep/workspace/miself
 # export R_HOST=203.246.112.155
 # export R_SRC_ROOT=/home/nvidia/deep/miself
 
+# export R_USER=leming
+# export R_PORT=-p22
+# export R_HOST=hydra.ics.uci.edu
+# export R_SRC_ROOT=/home/leming/deep/miself
+
 # Uncomment for verbose remote commands
 export R_VERBOSE=-v
 

@@ -35,19 +35,35 @@ build_kalman_filter() {
 }
 
 # Build Lane Detection
-build_lane_detection(){
+build_lane_detection() {
     cd $root/lane_detection
     rm -rf build && mkdir -p build && cd build
-    cmake -DCMAKE_BUILD_TYPE=Debug  ..
+    cmake ..
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
     cp ../bin/detect $root/bin/lane-detect
     # -DJETSON_TX2=ON \
     # -DOpenCV_DIR=/usr/local/opencv2/share/OpenCV/OpenCVConfig-version.cmake \
 }
 
+build_cuda_lane_detection() {
+    # nvcc -gencode arch=compute_62,code=sm_62 -I/usr/local/include/opencv4 -L/usr/local/lib/ *.cpp *cu -lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -std=c++11 -o $root/bin/cudaLaneDetection
+    cd $root/cuda-lane-detection
+    patch -b -p1 < $root/patches/cuda-lane-detection.patch
+    rm -rf build && mkdir -p build && cd build
+    cmake ..
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+    rm -rf ../CMakeLists.txt
+    cp cuda-lane-detection $root/bin/cuda-lane-detection
+    cd ..
+    rm -rf build
+    patch -R -p1 < $root/patches/cuda-lane-detection.patch
+    rm -rf *.orig
+}
 
-# # Build 3 FLOAM
-build_floam(){
+
+# Build 3 FLOAM
+# UNDER CONSTRUCTION
+build_floam() {
     cd $root/odometry/floam
     rm -rf build && mkdir -p build && cd build    
     cmake ..
@@ -55,7 +71,8 @@ build_floam(){
 
 
 # Build OpenMVG
-build_openmvg(){
+# UNDER CONSTRUCTION
+build_openmvg() {
     cd $root/openMVG
     rm -rf build && mkdir -p build && cd build
     cmake $root/openMVG/openMVG/src
@@ -64,6 +81,7 @@ build_openmvg(){
 
 
 #  Build cuda-sfm
+# UNDER CONSTRUCTION
 build_cuda_sfm() {
     cd $root/cuda-sfm
     rm -rf build && mkdir -p build && cd build
@@ -72,9 +90,10 @@ build_cuda_sfm() {
     cp cuda-sfm $root/bin/cuda-sfm
 }
 
-# build_jetson_inference
-# build_kalman_filter
+build_jetson_inference
+build_kalman_filter
 build_lane_detection
+build_cuda_lane_detection
 # build_floam
 # build_openmvg
 # build_cuda_sfm
