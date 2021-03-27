@@ -90,3 +90,16 @@ else
     LANENET_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/application/lanenet-lane-detection/lanenet-lane-detection/data/tusimple_test_image
     LANENET_LANE_DETECTION_PRELOAD_DIR=/usr/local/lib/python3.6/dist-packages/scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
 fi
+
+
+# FLOAM:
+if [[ $1 == 'cross' ]]; then
+    FLOAM_BINARY_FOLDER=$R_SRC_ROOT/bin
+    FLOAM_BINARY_NAME=floam
+    #FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
+else
+    FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/odometry/floam/
+    FLOAM_BINARY_NAME=floam
+    #FLOAM_DATA_FOLDER=$R_SRC_ROOT/
+fi
+
