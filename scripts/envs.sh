@@ -64,3 +64,16 @@ else
     CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
     CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
 fi
+
+# OpenMVG
+if [[ $1 == 'cross' ]]; then
+    OPEN_MVG_BINARY_FOLDER=$R_SRC_ROOT/bin/openMVG
+    OPEN_MVG_SCRIPT_NAME=SfM_SequentialPipeline.py
+    OPEN_MVG_DATA_FOLDER=$R_SRC_ROOT/data/openMVG/Image_dataset/360_dataset/360_Flat/images
+    OPEN_MVG_OUTPUT_FOLDER=$R_SRC_ROOT/output/openMVG/
+else
+    OPEN_MVG_BINARY_FOLDER=$R_SRC_ROOT/applications/openMVG/build/software/SfM/
+    OPEN_MVG_SCRIPT_NAME=SfM_SequentialPipeline.py
+    OPEN_MVG_DATA_FOLDER=$R_SRC_ROOT/applications/openMVG/Image_dataset/360_dataset/360_Flat/images
+    OPEN_MVG_OUTPUT_FOLDER=$R_SRC_ROOT/applications/openMVG/output
+fi
