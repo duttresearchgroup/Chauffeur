@@ -5,8 +5,12 @@
 - Lane Detection:         =>  Jetson TX2 Lane Detection (CPU/GPU, C++)
 - Extended Kalman Filter => CarND-Extended-Kalman-Filter (CPU, C++)
 
+# For local download
+```
+git clone https://github.com/duttresearchgroup/miself
+git submodule update --init --recursive
+```
 # Step 0: Download MiSelf :)
-
 
 # Step 1: (Cross) Compilation using qemu based docker
 We are using dockers to compile the source code of the micro-benchmarks. Please navigate to the `docker` folder and perform the following steps:
