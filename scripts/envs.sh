@@ -73,7 +73,7 @@ if [[ $1 == 'cross' ]]; then
     OPEN_MVG_WEIGHT_FOLDER=$R_SRC_ROOT/data/openMVG
     OPEN_MVG_OUTPUT_FOLDER=$R_SRC_ROOT/output/openMVG
 else
-    OPEN_MVG_BINARY_FOLDER=$R_SRC_ROOT/applications/openMVG/build/software/SfM/
+    OPEN_MVG_BINARY_FOLDER=$R_SRC_ROOT/applications/openMVG/openMVG/build/software/SfM/
     OPEN_MVG_SCRIPT_NAME=SfM_SequentialPipeline.py
     OPEN_MVG_DATA_FOLDER=$R_SRC_ROOT/applications/openMVG/Image_dataset/360_dataset/360_Flat/images
     OPEN_MVG_WEIGHT_FOLDER=$R_SRC_ROOT/applications/openMVG/openMVG/src/openMVG/exif/sensor_width_database
