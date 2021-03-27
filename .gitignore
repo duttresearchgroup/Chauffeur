@@ -4,3 +4,5 @@ applications/bin
 build/
 applications/tmp
 scripts/passwd
+scripts/
+scripts/profile/output/*
