@@ -7,9 +7,7 @@ if(UNIX)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif(UNIX)
 
-if(NOT USE_SSE2)
-  add_definitions(-DVL_DISABLE_SSE2)
-endif()
+add_definitions(-DVL_DISABLE_SSE2)
 
 add_definitions(-DVL_DISABLE_THREADS)
 

@@ -52,7 +52,6 @@ build_cuda_lane_detection() {
     rm -rf build && mkdir -p build && cd build
     cmake ..
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    rm -rf ../CMakeLists.txt
     cp cuda-lane-detection $root/bin/cuda-lane-detection
     cd ..
     rm -rf build
@@ -71,12 +70,13 @@ build_floam() {
 
 
 # Build OpenMVG
-# UNDER CONSTRUCTION
 build_openmvg() {
     cd $root/openMVG
     rm -rf build && mkdir -p build && cd build
-    cmake $root/openMVG/openMVG/src
+    cmake -DOpenMVG_USE_OCVSIFT=ON $root/openMVG/openMVG/src
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+    cp -r Linux-aarch64-Release $root/bin/openMVG
+    cp software/SfM/SfM_SequentialPipeline.py $root/bin/openMVG/SfM_SequentialPipeline.py
 }
 
 
@@ -90,10 +90,10 @@ build_cuda_sfm() {
     cp cuda-sfm $root/bin/cuda-sfm
 }
 
-build_jetson_inference
-build_kalman_filter
-build_lane_detection
-build_cuda_lane_detection
+# build_jetson_inference
+# build_kalman_filter
+# build_lane_detection
+# build_cuda_lane_detection
 # build_floam
-# build_openmvg
+build_openmvg
 # build_cuda_sfm
