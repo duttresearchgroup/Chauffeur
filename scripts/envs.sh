@@ -60,7 +60,7 @@ if [[ $1 == 'cross' ]]; then
     CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
     CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/cuda-lane-detection
 else
-    CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection/build
+    CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
     CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
     CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
 fi
