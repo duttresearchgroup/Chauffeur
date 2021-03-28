@@ -1,0 +1,26 @@
+#!/usr/bin/gnuplot
+
+reset
+
+set terminal pngcairo enhanced font 'Verdana,8'
+set output '../tmp_graphs/contextsw.png'
+set title "Context switches"
+set key bmargin
+
+set style line 1 lc rgb '#e74c3c' pt 1 ps 1 lt 1 lw 2 
+set style line 2 lc rgb '#3498db' pt 6 ps 1 lt 1 lw 2 
+
+set style line 11 lc rgb '#2c3e50' lt 1 lw 1.5
+set border 3 back ls 11
+set tics nomirror
+set autoscale xy
+set xdata time
+set timefmt "%H:%M:%S"
+set format x "%H:%M"
+set xlabel "Time"
+set ylabel "Context switches"
+
+set style line 11 lc rgb '#aeb6bf' lt 0 lw 2
+set grid back ls 11
+
+plot '../tmp_data/proc.dat' using 1:3 title 'Context switches performed per second' with l ls 1
