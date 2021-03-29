@@ -106,6 +106,9 @@ build_floam() {
         -DCATKIN_DEVEL_PREFIX=$root/odometry/devel \
         -DCMAKE_INSTALL_PREFIX=$root/odometry/install \
         -DBUILD_SHARED_LIBS=OFF
+
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+    make install
 }
 
 
@@ -124,8 +127,7 @@ build_cuda_sfm() {
 # build_kalman_filter
 # build_lane_detection
 # build_cuda_lane_detection
-# build_floam
 # build_openmvg
+# build_darknet_ros
+build_floam
 # build_cuda_sfm
-build_darknet_ros
-# build_floam
