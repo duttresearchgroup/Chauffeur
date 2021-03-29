@@ -51,16 +51,16 @@ RUN apt-get install -y --no-install-recommends \
      libswresample-dev
 
 # OpenCV
-RUN OPENCV_VERSION=4.5.0 && \
+RUN OPENCV_VERSION=3.4.13 && \
     curl -L https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.tar.gz | tar -xzf - && \
     curl -L https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.tar.gz | tar -xzf - && \
     cd /opencv-${OPENCV_VERSION} && \
-    wget -O cmake/FindCUDA.cmake https://raw.githubusercontent.com/opencv/opencv/master/cmake/FindCUDA.cmake && \
+#     wget -O cmake/FindCUDA.cmake https://raw.githubusercontent.com/opencv/opencv/master/cmake/FindCUDA.cmake && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_INSTALL_PREFIX=/usr/local \
           -DBUILD_SHARED_LIBS=OFF \
-          -DBUILD_LIST=core,improc,imgcodecs,cudev,highgui,videoio,cudaimgproc,ximgproc \
+          -DBUILD_LIST=core,improc,imgcodecs,cudev,highgui,videoio,cudaimgproc,ximgproc,objdetect \
           -DBUILD_PNG=OFF \
           -DBUILD_TIFF=OFF \
           -DBUILD_TBB=OFF \
@@ -85,7 +85,7 @@ RUN OPENCV_VERSION=4.5.0 && \
           -DWITH_GSTREAMER_0_10=OFF \
           -DWITH_CUDA=ON \
           -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/targets/aarch64-linux/ \
-          -DCUDA_ARCH_BIN="6.1 6.2" \
+          -DCUDA_ARCH_BIN="6.2" \
           -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib-${OPENCV_VERSION}/modules \
           -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs \
           -DWITH_GTK=ON \
@@ -100,6 +100,21 @@ RUN OPENCV_VERSION=4.5.0 && \
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
     rm -rf /opencv-${OPENCV_VERSION} && \
     rm -rf /opencv_contrib-{OPENCV_VERSION}
+
+
+# install ros-melodic-ros-base packages
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
+     apt-get update && apt-get install -q -y --no-install-recommends \
+    ros-melodic-ros-base \
+    ros-melodic-cv-bridge \
+    ros-melodic-tf \
+    ros-melodic-image-transport \
+    ros-melodic-eigen-conversions \
+    libpcl-dev \
+    libceres-dev \
+    python-catkin-tools \
+    && source /opt/ros/melodic/setup.sh
 
 RUN mkdir -p /workspace
 WORKDIR /workspace

@@ -108,13 +108,14 @@ fi
 # YOLO ROS
 # Lanenet-Lane-detection
 if [[ $1 == 'cross' ]]; then
-    DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/bin/
+    DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/bin/darknet_ros
     DARKNET_ROS_BINARY_NAME=darknet_ros
-    DARKNET_ROS__DATA_FOLDER=$R_SRC_ROOT/data/
+    DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/data/darknet_ros
+    DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/data/darknet_ros
 else
     DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros
     DARKNET_ROS_BINARY_NAME=darknet_ros
-    DARKNET_ROS_DATA_FOLDER=$R_SRC_ROOT/application/object_detection/darknet_ros/darknet_ros/yolo_network_config
-
+    DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros/darknet/data
+    DARKNET_ROS_BAG_FOLDER=/home/share
 fi
 

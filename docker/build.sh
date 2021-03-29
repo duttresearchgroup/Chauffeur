@@ -1,4 +1,4 @@
-# /bin/bash
+#!/bin/bash
 
 # Remove previous build
 rm -rf applications/bin
@@ -60,15 +60,6 @@ build_cuda_lane_detection() {
 }
 
 
-# Build 3 FLOAM
-# UNDER CONSTRUCTION
-build_floam() {
-    cd $root/odometry/floam
-    rm -rf build && mkdir -p build && cd build    
-    cmake ..
-}
-
-
 # Build OpenMVG
 build_openmvg() {
     cd $root/openMVG
@@ -78,6 +69,45 @@ build_openmvg() {
     cp -r Linux-aarch64-Release $root/bin/openMVG
     cp software/SfM/SfM_SequentialPipeline.py $root/bin/openMVG/SfM_SequentialPipeline.py
 }
+
+#  Build darknet_ros
+build_darknet_ros() {
+    source /opt/ros/melodic/setup.sh
+    cd $root/object_detection
+    cd darknet_ros && catkin_init_workspace && cd ..
+    rm -rf devel && rm -rf build && rm -rf install
+    mkdir -p build && cd build
+    # [HACK] cv_bridge searches in /usr/include/opencv
+    ln -s /usr/local/include/opencv /usr/include/opencv
+    cmake $root/object_detection/darknet_ros \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCATKIN_DEVEL_PREFIX=$root/object_detection/devel \
+        -DCMAKE_INSTALL_PREFIX=$root/object_detection/install \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
+
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+    make install
+    mv $root/object_detection/install $root/bin/darknet_ros
+    rm -rf $root/object_detection/devel $root/object_detection/build
+}
+
+
+# Build 3 FLOAM
+# UNDER CONSTRUCTION
+build_floam() {
+    source /opt/ros/melodic/setup.sh
+    cd $root/odometry
+    cd floam && catkin_init_workspace && cd ..
+    rm -rf devel && rm -rf build && rm -rf install
+    mkdir -p build && cd build
+    cmake $root/odometry/floam \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCATKIN_DEVEL_PREFIX=$root/odometry/devel \
+        -DCMAKE_INSTALL_PREFIX=$root/odometry/install \
+        -DBUILD_SHARED_LIBS=OFF
+}
+
 
 
 #  Build cuda-sfm
@@ -95,5 +125,7 @@ build_cuda_sfm() {
 # build_lane_detection
 # build_cuda_lane_detection
 # build_floam
-build_openmvg
+# build_openmvg
 # build_cuda_sfm
+build_darknet_ros
+# build_floam

@@ -180,6 +180,8 @@ else()
 
 endif()
 
+message("OpenCV libs linking: ${OpenCV_LIBRARIES}")
+
 target_link_libraries(${PROJECT_NAME}_lib
   m
   pthread

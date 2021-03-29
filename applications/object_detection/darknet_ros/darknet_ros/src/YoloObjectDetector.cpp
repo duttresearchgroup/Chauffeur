@@ -98,8 +98,7 @@ void YoloObjectDetector::init() {
   strcpy(cfg, configPath.c_str());
 
   // Path to data folder.
-  dataPath = darknetFilePath_;
-  dataPath += "/data";
+  nodeHandle_.param("data_path", dataPath, std::string(darknetFilePath_+"/data"));
   data = new char[dataPath.length() + 1];
   strcpy(data, dataPath.c_str());
 

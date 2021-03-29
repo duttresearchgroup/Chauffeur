@@ -21,11 +21,12 @@
   <node pkg="darknet_ros" type="darknet_ros" name="darknet_ros" output="screen" launch-prefix="$(arg launch_prefix)">
     <param name="weights_path"          value="$(arg yolo_weights_path)" />
     <param name="config_path"           value="$(arg yolo_config_path)" />
+    <param name="data_path"             value="$(env DARKNET_ROS_LABELS_FOLDER)" />
     <remap from="camera/rgb/image_raw"  to="$(arg image)" />
   </node>
 
  <!--<node name="republish" type="republish" pkg="image_transport" output="screen" 	args="compressed in:=/front_camera/image_raw raw out:=/camera/image_raw" /> -->
 
   <!-- Camera input stream -->
-  <node pkg="rosbag" type="play" name="rosbag_play" args='--clock /home/share/2011_09_30_0027-10s.bag /cam00/image_raw:=camera/rgb/image_raw'/>
+  <node pkg="rosbag" type="play" name="rosbag_play" args='--clock $(optenv DARKNET_ROS_BAG_FOLDER /home/share)/2011_09_30_0027-10s.bag /cam00/image_raw:=camera/rgb/image_raw'/>
 </launch>
