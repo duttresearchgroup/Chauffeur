@@ -9,6 +9,7 @@
 # For local download
 ```
 git clone https://github.com/duttresearchgroup/miself
+cd miself
 git submodule update --init --recursive
 ```
 # Step 0: Download MiSelf :)
