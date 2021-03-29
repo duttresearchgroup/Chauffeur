@@ -113,9 +113,9 @@ if [[ $1 == 'cross' ]]; then
     DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/data/darknet_ros
     DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/data/darknet_ros
 else
-    DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros
+    DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/install
     DARKNET_ROS_BINARY_NAME=darknet_ros
     DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros/darknet/data
-    DARKNET_ROS_BAG_FOLDER=/home/share
+    DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/..
 fi
 
