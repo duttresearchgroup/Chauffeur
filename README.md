@@ -9,6 +9,7 @@
 # For local download
 ```
 git clone https://github.com/duttresearchgroup/miself
+cd miself
 git submodule update --init --recursive
 ```
 # Step 0: Download MiSelf :)
@@ -21,6 +22,7 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 * Pleaser refer [to this link](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/) for more details. 
 
 ## Getting the virtual L4T ready
+* `sudo apt install docker-compose`
 * `docker-compose build` : This will prepare the environment to build the applications.
 * You can check the version of L4T running on the NVidia board with jtop. 
 * This is the most time-consuming step of the process. Remember to grab your coffee at this point. We are downloading all the necessary tools so that you don't have to compile on the board.
