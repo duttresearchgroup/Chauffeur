@@ -15,9 +15,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get install -y --no-install-recommends \
      libgstreamer1.0-dev \
      libgstreamer-plugins-base1.0-dev \
-     libglew-dev 
+     libglew-dev
 
-COPY keys/trusted-keys /trusted-keys 
+COPY keys/trusted-keys /trusted-keys
 
 # TensorRT required for Jetson Inference
 RUN printf 'deb https://repo.download.nvidia.com/jetson/common r32 main\ndeb https://repo.download.nvidia.com/jetson/t210 r32 main' > /etc/apt/sources.list.d/nvidia-l4t-apt-source.list && \
@@ -26,7 +26,7 @@ RUN printf 'deb https://repo.download.nvidia.com/jetson/common r32 main\ndeb htt
      apt-get install -y tensorrt
 
 #  Required for Lane Detection
-RUN apt-get install -y libgsl-dev libboost-system-dev libboost-log-dev 
+RUN apt-get install -y libgsl-dev libboost-system-dev libboost-log-dev
 
 #  Required for Opencv
 RUN apt-get install -y libhdf5-dev python3-pip
@@ -38,7 +38,7 @@ RUN apt-get install -y --no-install-recommends \
      # For openCV
      libgtk2.0-dev \
      # For Lane detection
-     libconfig++-dev \ 
+     libconfig++-dev \
      # For OpenSFM
      libglfw3-dev
 
@@ -111,9 +111,14 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     ros-melodic-tf \
     ros-melodic-image-transport \
     ros-melodic-eigen-conversions \
+    ros-melodic-pcl-ros \
+    ros-melodic-pcl-conversions \
     libpcl-dev \
     libceres-dev \
     python-catkin-tools \
+    python-rosdep \
+    && rosdep init \
+    && rosdep update \
     && source /opt/ros/melodic/setup.sh
 
 RUN mkdir -p /workspace
