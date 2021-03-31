@@ -101,10 +101,10 @@ Except for object detection, Jetson-Inference have more features like Locating a
 Update for video input: \
 
 Imagenet is for object-detection, the sample video which is a .mkv file with the codec = h264, you might need to change the --input-codec flag if you have other format of video input. And --network flag is default to GoogleNet: \
-`python3.6 imagenet.py --headless --input-codec=h264 --network=resnet-18 images/jellyfish.mkv images/test/jellyfish.mkv`\
+`./imagenet --headless --input-codec=h264 --network=resnet-18 images/jellyfish.mkv images/test/jellyfish.mkv`\
 
 Detectnet is for locating object with boxes: \
-`$python3.6 detectnet.py --headless --input-codec=h264 images/jellyfish.mkv images/test/jellyfishdet.mkv`\ 
+`./detectnet --headless --input-codec=h264 images/jellyfish.mkv images/test/jellyfishdet.mkv`\ 
 \
 For more camera and video settings please check: https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-streaming.md#sequences
 
