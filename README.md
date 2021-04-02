@@ -1,27 +1,25 @@
-# MiSelf: Micro-Benchmark Suite for Designing Self-Driving Vehicles
+# Chauffeur: Micro-Benchmark Suite for Designing Self-Driving Vehicles
 # Included Microbenchmarks:
 - Structure-From-Mothion  =>  OpenMVG (CPU/GPU, C++)
 - Object Detection:       =>  Jetson-Inference(Hello_Ai_World) (CPU/GPU, C++)
 - Lane Detection:         =>  Jetson TX2 Lane Detection (CPU/GPU, C++)
 - Extended Kalman Filter  =>  CarND-Extended-Kalman-Filter (CPU, C++)
 - Lane-Detection          =>  LaneNet-Lane-Detection(GPU, Pythoh/C++)
-
-# For local download
+# Step 0: Download Chauffeur :)
 ```
-git clone https://github.com/duttresearchgroup/miself
-cd miself
+git clone https://github.com/duttresearchgroup/Chauffeur
+cd Chauffeur
 git submodule update --init --recursive
 ```
-# Step 0: Download MiSelf :)
-
-# Step 1: (Cross) Compilation using qemu based docker
+# Step 1 Compilation
+## (Cross)  using qemu based docker
 We are using dockers to compile the source code of the micro-benchmarks. Please navigate to the `docker` folder and perform the following steps:
-## Setting up qemu based cross-compiler env
+### Setting up qemu based cross-compiler env
 * `sudo apt-get install qemu binfmt-support qemu-user-static # Install the qemu packages`
 * `docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts`
 * Pleaser refer [to this link](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/) for more details. 
 
-## Getting the virtual L4T ready
+### Getting the virtual L4T ready
 * `sudo apt install docker-compose`
 * `docker-compose build` : This will prepare the environment to build the applications.
 * You can check the version of L4T running on the NVidia board with jtop. 
@@ -29,28 +27,36 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 <!-- Download the correct cross compiler corresponding to the L4T version from nvidia's website and place it inside the `cross-compiler` folder. Now this folder should look like this:
 
 ![](data/folder-layout.jpg) -->
-## Ready to cross compile
+### Ready to cross compile
 * `docker-compose up`: This will utilize the compilers inside the build environment to produce the binaries. By default it calls the `build.sh` script which builds the applications one by one and produces the final binaries in a `applications/bin` folder. Once the applications are generated, you are ready to run them!
 
-* [Debug] For using an interactive debugging environment, please run `docker-compose run miself.builder bash`
+* [Debug] For using an interactive debugging environment, please run `docker-compose run Chauffeur.builder bash`
 
+## Compilation on the board
+```
+source scripts/env.sh
+bash scripts/APP_NAME/build.sh [tx2/px2>] 
+(e.g., bash scripts/darknet_ros/build.sh tx2)
+```
 # Step 2: Deployment on board
 * Please ensure that `rsync` is installed in both host and target, and additionally `sshpass` is installed on host. 
 * In `scripts/remote_sync.sh` modify the remote credentials where you want to deploy. 
 * Create a file called `scripts/passwd` to store the ssh password.
 * Next using `bash` shell execute `scripts/send.sh applications/bin bin`. If you are using VSCode, we already include a 'Send Binaries' task.
 # Step 3: Running on board
+* `source scripts/env.sh`
 * In `scripts` folder we have include the relevant launching script `run.sh` for each application. For example, to run application kalman_filter, `sh scripts/kalman_filter/run.sh`
 * For cross compiled environment, pass `cross` as an argument to the file. Example:  `sh scripts/kalman_filter/run.sh cross`.
 
 
 
 # Other important information
-## Essential dependencies version on Hydra:
+## Essential dependencies for running Chauffeur:
 - Eigen3 -- 3.3.9
 - Ceres Solver -- 2.0.0
 - ROS Melodic
 - TensorFlow - 1.15 (For LaneNet-Lane-Detection)
+- OpenCV (with CUDA) -- 3.4.13
 
 
 Instruction for installing TensorFlow 1.15 for Python3.6+JetPack4.4. Source from https://forums.developer.nvidia.com/t/tensorflow-for-jetson-tx2/64596 \
@@ -141,7 +147,7 @@ Run it: `./ExtendedKF path/to/input.txt path/to/output.txt.` You can find some s
 To test a single image with the trained model, use the following: \
 `cd lanenet-lane-detection/lanenet-lane-detection` \
 `python python tools/test_lanenet.py --weights_path /PATH/TO/YOUR/CKPT_FILE_PATH --image_path ./data/tusimple_test_image/0.jpg` \
-Please note that the ckpt are save in miself/applications/lanenet-lane-detection/model/tusimple_lanenet.
+Please note that the ckpt are save in Chauffeur/applications/lanenet-lane-detection/model/tusimple_lanenet.
 The runing command is like this: \
 `python3.6 tools/test_lanenet.py --weights_path /PATH/TO/APPLICATIONS/lanenet-lane-detection/model/tusimple_lanenet/tusimple_lanenet.ckpt --image_path ./data/tusimple_test_image/0.jpg` \
 If you meet the error like "ImportError: /PATH/TO/SOME/FILE: cannot allocate memory in static TLS block"
@@ -153,7 +159,7 @@ you may need to proload the library. You can do it like this: \
 
 
 # Thanks the Authors for all these applications!
-[Authors](https://github.com/duttresearchgroup/miself/files/6209700/Authors.txt)
+[Authors](https://github.com/duttresearchgroup/Chauffeur/files/6209700/Authors.txt)
 
 
 
