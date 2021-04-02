@@ -1,0 +1,58 @@
+diff --git a/HoughTransform.cu b/HoughTransform.cu
+index dd62983..d628df2 100644
+--- a/HoughTransform.cu
++++ b/HoughTransform.cu
+@@ -108,8 +108,10 @@ void houghTransformSeq(HoughTransformHandle *handle, Mat frame, vector<Line> &li
+  * non-zero pixels and adding votes to accumulator
+  */
+ __global__ void houghKernel(int frameWidth, int frameHeight, unsigned char* frame, int nRows, int nCols, int *accumulator) {
+-    int i = blockIdx.x * blockDim.y + threadIdx.y;
+-    int j = blockIdx.y * blockDim.z + threadIdx.z;
++//    int i = blockIdx.x * blockDim.y + threadIdx.y;
++//    int j = blockIdx.y * blockDim.z + threadIdx.z;
++    int i = blockIdx.y * blockDim.x + threadIdx.x;
++    int j = blockIdx.z * blockDim.y + threadIdx.y;
+     double theta;
+     int rho;
+@@ -118,7 +120,8 @@ __global__ void houghKernel(int frameWidth, int frameHeight, unsigned char* fram
+         // thetas of interest will be close to 45 and close to 135 (vertical lines)
+         // we are doing 2 thetas at a time, 1 for each theta of Interest
+         // we use thetas varying 15 degrees more and less
+-        for(int k = threadIdx.x * (1 / THETA_STEP_SIZE); k < (threadIdx.x + 1) * (1 / THETA_STEP_SIZE); k++) {
++//        for(int k = threadIdx.x * (1 / THETA_STEP_SIZE); k < (threadIdx.x + 1) * (1 / THETA_STEP_SIZE); k++) {
++        for(int k = blockIdx.x * (1 / THETA_STEP_SIZE); k < (blockIdx.x + 1) * (1 / THETA_STEP_SIZE); k++) {
+             theta = THETA_A-THETA_VARIATION + ((double)k*THETA_STEP_SIZE);
+             rho = calcRho(j, i, theta);
+             atomicAdd(&accumulator[index(nRows, nCols, rho, theta)], 1);
+@@ -161,6 +164,7 @@ void houghTransformCuda(HoughTransformHandle *handle, Mat frame, vector<Line> &l
+     cudaMemcpy(h->d_frame, frame.ptr(), h->frameSize, cudaMemcpyHostToDevice);
+     cudaMemset(h->d_accumulator, 0, h->nRows * h->nCols * sizeof(int));
++    //printf("(1) GridDim=%d BlockDim=%d\n", h->houghGridDim,h->houghBlockDim);
+     houghKernel<<<h->houghGridDim,h->houghBlockDim>>>(frame.cols, frame.rows, h->d_frame, h->nRows, h->nCols, h->d_accumulator);
+     cudaDeviceSynchronize();
+@@ -169,10 +173,15 @@ void houghTransformCuda(HoughTransformHandle *handle, Mat frame, vector<Line> &l
+         printf("Error: %s\n", cudaGetErrorString( err ));
+     cudaMemset(h->d_lineCounter, 0, sizeof(int));
++    //printf("(2) GridDim=%d BlockDim=%d\n", h->findLinesGridDim, h->findLinesBlockDim);
+     findLinesKernel<<<h->findLinesGridDim, h->findLinesBlockDim>>>(h->nRows, h->nCols,
+         h->d_accumulator, h->d_lines, h->d_lineCounter);
+     cudaDeviceSynchronize();
++    err = cudaGetLastError();
++    if (err != cudaSuccess)
++        printf("Error: %s\n", cudaGetErrorString( err ));
++
+     cudaMemcpy(&h->lineCounter, h->d_lineCounter, sizeof(int), cudaMemcpyDeviceToHost);
+     cudaMemcpy(h->lines, h->d_lines, 2 * MAX_NUM_LINES * sizeof(int), cudaMemcpyDeviceToHost);
+@@ -202,8 +211,12 @@ void createHandle(HoughTransformHandle *&handle, int houghStrategy, int frameWid
+         cudaMalloc(&h->d_frame, h->frameSize);
+         cudaMalloc(&h->d_accumulator, nRows * nCols * sizeof(int));
+-        h->houghBlockDim = dim3(32, 5, 5);
+-        h->houghGridDim = dim3(ceil(frameHeight / 5), ceil(frameWidth / 5));
++        printf("[%d %d]\n", frameHeight, frameWidth);
++        //h->houghBlockDim = dim3(32, 5, 5);
++        //h->houghGridDim = dim3(ceil(frameHeight / 5), ceil(frameWidth / 5));
++        int numThreadsPerBlock = 16;
++        h->houghBlockDim = dim3(numThreadsPerBlock, numThreadsPerBlock);
++        h->houghGridDim = dim3(32, ceil(frameHeight / numThreadsPerBlock), ceil(frameWidth / numThreadsPerBlock));
+         h->findLinesBlockDim = dim3(32, 32);
+         h->findLinesGridDim = dim3(ceil(nRows / 32), ceil(nCols / 32));
