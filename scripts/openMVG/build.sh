@@ -5,7 +5,16 @@ if [[ $# -eq 0 ]];then
 	exit 1
 fi
 
-if [[ $1 -eq "px2" ]];then
+if [[ $1 == "px2" ]];then
 	cd ../../applications/openMVG/openMVG;mkdir build;cd build;cmake -DCMAKE_BUILD_TYPE=RELEASE ../src/;make -j$(nproc)
 	mv Linux-aarch64-RELEASE/* software/SfM/.
 fi
+
+
+if [[ $1 == "tx2" ]];then
+	echo"$1"
+        cd ../../applications/openMVG/openMVG;mkdir build;cd build;cmake -DCMAKE_BUILD_TYPE=RELEASE ../src/;make -j$(nproc)
+        mv Linux-aarch64-RELEASE/* software/SfM/.
+fi
+
+

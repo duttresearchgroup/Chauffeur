@@ -27,7 +27,7 @@ if [[ $1 == 'cross' ]]; then
     LANE_DETECTION_BINARY_NAME=lane-detect
     LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane-detect
 else
-    LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/lane_detection$/bin
+    LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/lane_detection/bin
     LANE_DETECTION_BINARY_NAME=detect
     LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/applications/lane_detection/test
 fi
@@ -50,7 +50,9 @@ if [[ $1 == 'cross' ]]; then
     JETSON_INFERENCE_DATA_FOLDER=$R_SRC_ROOT/data/jetson-inference
 else
     JETSON_INFERENCE_BINARY_FOLDER=$R_SRC_ROOT/applications/jetson-inference/build/aarch64/bin
-    JETSON_INFERENCE_BINARY_NAME=imagenet
+    JETSON_INFERENCE_BINARY_NAME_IMAGENET=imagenet
+    JETSON_INFERENCE_BINARY_NAME_DETECTNET=detectnet
+    JETSON_INFERENCE_BINARY_NAME_SEGNET=segnet
     JETSON_INFERENCE_DATA_FOLDER=$R_SRC_ROOT/applications/jetson-inference/build/aarch64/bin
 fi
 
