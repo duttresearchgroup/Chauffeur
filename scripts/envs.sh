@@ -94,21 +94,29 @@ else
     LANENET_LANE_DETECTION_PRELOAD_DIR=/usr/local/lib/python3.6/dist-packages/scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
 fi
 
-
 # FLOAM:
 if [[ $1 == 'cross' ]]; then
     FLOAM_BINARY_FOLDER=$R_SRC_ROOT/bin
     FLOAM_BINARY_NAME=floam
-    #FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
+    FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
 else
     FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/odometry/floam/
     FLOAM_BINARY_NAME=floam
-    #FLOAM_DATA_FOLDER=$R_SRC_ROOT/
+    FLOAM_DATA_FOLDER=$R_SRC_ROOT/
 fi
 
+# Hybrid A* Path Planner:
+if [[ $1 == 'cross' ]]; then
+    HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/bin
+    HYBRID_ASTAR_BINARY_NAME=hybrid_astar
+    HYBRID_ASTAR_DATA_FOLDER=$R_SRC_ROOT/data
+else
+    HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar/
+    HYBRID_ASTAR_BINARY_NAME=hybrid_astar
+    HYBRID_ASTAR_DATA_FOLDER=$R_SRC_ROOT/
+fi
 
 # YOLO ROS
-# Lanenet-Lane-detection
 if [[ $1 == 'cross' ]]; then
     DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/bin/darknet_ros
     DARKNET_ROS_BINARY_NAME=darknet_ros

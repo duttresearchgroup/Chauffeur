@@ -7,8 +7,8 @@ fi
 
 if [[ $1 == "px2" ]];then
 	source /opt/ros/melodic/setup.bash
-	cd $R_SRC_ROOT/applications/odometry
-	cd floam && catkin_init_workspace
+	cd $R_SRC_ROOT/applications/path_planning
+	cd hybrid-astar && catkin_init_workspace
 	rm -rf devel && rm -rf build && rm -rf install
 	mkdir -p build
 	cmake . \
@@ -22,12 +22,11 @@ fi
 
 if [[ $1 == "tx2" ]];then
 	source /opt/ros/melodic/setup.bash
-	cd $R_SRC_ROOT/applications/odometry
-	cd floam
+	cd $R_SRC_ROOT/applications/path_planning
+	cd hybrid-astar
 	rm -rf devel && rm -rf build && rm -rf install
-	mkdir -p build
 	cmake . \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DBUILD_SHARED_LIBS=OFF 
+		-DBUILD_SHARED_LIBS=OFF
 	make -j$(nproc)
 fi
