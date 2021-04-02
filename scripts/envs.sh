@@ -16,9 +16,15 @@ if [[ $1 == 'cross' ]]; then
     # export R_PORT=-p22
     # export R_HOST=hydra.ics.uci.edu
     # export R_SRC_ROOT=/home/leming/deep/miself
+
+    # export R_USER=drg
+    # export R_PORT=-p60000
+    # export R_HOST=hylo.asuscomm.com
+    # export R_SRC_ROOT=/home/saehansy/Workspace/biton
+
 else
-    DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-    export R_SRC_ROOT=$DIR/..
+    ENV_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+    export R_SRC_ROOT=$ENV_DIR/..
 fi
 
 # Lane Detection
