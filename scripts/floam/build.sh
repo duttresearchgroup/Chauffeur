@@ -5,21 +5,32 @@ if [[ $# -eq 0 ]];then
 	exit 1
 fi
 
-if [[ $1 == "tx2" ]];then
-
-	source /opt/ros/melodic/setup.sh
-	cd ../../applications/odometry
-	cd floam && catkin_init_workspace && cd ..
+if [[ $1 == "px2" ]];then
+	source /opt/ros/melodic/setup.bash
+	cd $R_SRC_ROOT/applications/odometry
+	cd floam && catkin_init_workspace
 	rm -rf devel && rm -rf build && rm -rf install
-	mkdir build && cd build
-	cmake .. \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=../devel \
-        -DCMAKE_INSTALL_PREFIX=../install \
-        -DBUILD_SHARED_LIBS=OFF
+	mkdir -p build
+	cmake . \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCATKIN_DEVEL_PREFIX=devel \
+		-DCMAKE_INSTALL_PREFIX=install \
+		-DBUILD_SHARED_LIBS=OFF \
 
 	make -j$(nproc)
-	make install
+fi
 
+if [[ $1 == "tx2" ]];then
+	source /opt/ros/melodic/setup.bash
+	cd $R_SRC_ROOT/applications/odometry
+	cd floam && catkin_init_workspace
+	rm -rf devel && rm -rf build && rm -rf install
+	mkdir -p build
+	cmake . \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCATKIN_DEVEL_PREFIX=devel \
+		-DCMAKE_INSTALL_PREFIX=install \
+		-DBUILD_SHARED_LIBS=OFF \
 
+	make -j$(nproc)
 fi
