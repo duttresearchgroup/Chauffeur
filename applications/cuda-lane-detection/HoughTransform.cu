@@ -108,8 +108,16 @@ void houghTransformSeq(HoughTransformHandle *handle, Mat frame, vector<Line> &li
  * non-zero pixels and adding votes to accumulator
  */
 __global__ void houghKernel(int frameWidth, int frameHeight, unsigned char* frame, int nRows, int nCols, int *accumulator) {
-    int i = blockIdx.x * blockDim.y + threadIdx.y;
-    int j = blockIdx.y * blockDim.z + threadIdx.z;
+
+    // ******** Modifications for Chauffeur ***********
+    // ***** Original version fails on Jetson TX2 *****
+    // ************************************************
+    // int i = blockIdx.x * blockDim.y + threadIdx.y;
+    // int j = blockIdx.y * blockDim.z + threadIdx.z;
+    // ************************************************
+    int i = blockIdx.y * blockDim.x + threadIdx.x;
+    int j = blockIdx.z * blockDim.y + threadIdx.y;
+
     double theta;
     int rho;
 
@@ -118,7 +126,13 @@ __global__ void houghKernel(int frameWidth, int frameHeight, unsigned char* fram
         // thetas of interest will be close to 45 and close to 135 (vertical lines)
         // we are doing 2 thetas at a time, 1 for each theta of Interest
         // we use thetas varying 15 degrees more and less
-        for(int k = threadIdx.x * (1 / THETA_STEP_SIZE); k < (threadIdx.x + 1) * (1 / THETA_STEP_SIZE); k++) {
+    
+        // ******** Modifications for Chauffeur ***********
+        // ***** Original version fails on Jetson TX2 *****
+        // ************************************************
+        //for(int k = threadIdx.x * (1 / THETA_STEP_SIZE); k < (threadIdx.x + 1) * (1 / THETA_STEP_SIZE); k++) {
+        // ************************************************
+        for(int k = blockIdx.x * (1 / THETA_STEP_SIZE); k < (blockIdx.x + 1) * (1 / THETA_STEP_SIZE); k++) {
             theta = THETA_A-THETA_VARIATION + ((double)k*THETA_STEP_SIZE);
             rho = calcRho(j, i, theta);
             atomicAdd(&accumulator[index(nRows, nCols, rho, theta)], 1);
@@ -202,8 +216,17 @@ void createHandle(HoughTransformHandle *&handle, int houghStrategy, int frameWid
         cudaMalloc(&h->d_frame, h->frameSize);
         cudaMalloc(&h->d_accumulator, nRows * nCols * sizeof(int));
 
-        h->houghBlockDim = dim3(32, 5, 5);
-        h->houghGridDim = dim3(ceil(frameHeight / 5), ceil(frameWidth / 5));
+        // ******** Modifications for Chauffeur ***********
+        // ***** Original version fails on Jetson TX2 *****
+        // ************************************************
+        // h->houghBlockDim = dim3(32, 5, 5);
+        // h->houghGridDim = dim3(ceil(frameHeight / 5), ceil(frameWidth / 5));
+        // ************************************************
+        int numThreadsPerBlock = 16;
+        h->houghBlockDim = dim3(numThreadsPerBlock, numThreadsPerBlock);
+        h->houghGridDim = dim3(32, ceil(frameHeight / numThreadsPerBlock), ceil(frameWidth / numThreadsPerBlock));
+        // ************************************************
+        
         h->findLinesBlockDim = dim3(32, 32);
         h->findLinesGridDim = dim3(ceil(nRows / 32), ceil(nCols / 32));
 
