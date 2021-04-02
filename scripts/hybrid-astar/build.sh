@@ -6,17 +6,13 @@ if [[ $# -eq 0 ]];then
 fi
 
 if [[ $1 == "px2" ]];then
-	source /opt/ros/melodic/setup.bash
+	source /opt/ros/kinetic/setup.bash
 	cd $R_SRC_ROOT/applications/path_planning
-	cd hybrid-astar && catkin_init_workspace
+	cd hybrid-astar
 	rm -rf devel && rm -rf build && rm -rf install
-	mkdir -p build
 	cmake . \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCATKIN_DEVEL_PREFIX=devel \
-		-DCMAKE_INSTALL_PREFIX=install \
-		-DBUILD_SHARED_LIBS=OFF \
-
+		-DBUILD_SHARED_LIBS=OFF
 	make -j$(nproc)
 fi
 
