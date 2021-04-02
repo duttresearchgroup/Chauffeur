@@ -5,6 +5,3 @@
 	path = applications/cuda-sfm
 	url = https://github.com/Black-Phoenix/CUDA-SfM
 	
-[submodule "applications/cuda-lane-detection"]
-	path = applications/cuda-lane-detection
-	url = https://github.com/jonaspfab/cuda-lane-detection
