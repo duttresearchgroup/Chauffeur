@@ -25,6 +25,7 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 
 ### Getting the virtual L4T ready
 * `sudo apt install docker-compose`
+* `cd docker`
 * `docker-compose build` : This will prepare the environment to build the applications.
 * You can check the version of L4T running on the NVidia board with jtop. 
 * This is the most time-consuming step of the process. Remember to grab your coffee at this point. We are downloading all the necessary tools so that you don't have to compile on the board.
