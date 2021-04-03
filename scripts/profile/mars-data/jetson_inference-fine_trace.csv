@@ -1,0 +1,2 @@
+sample_id;timestamp;GPU_freq_set;power_cpu_w;power_gpu_w;power_mem_w;total_cpu_time_s;total_mem_access;total_llc_misses
+0;0.050000000000000003;1300;1.6879999999999999;0.46000000000000002;1.25;0.039;8871736;101719
