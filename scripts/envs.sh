@@ -106,7 +106,7 @@ if [[ $1 == 'cross' ]]; then
 else
     HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar/
     HYBRID_ASTAR_BINARY_NAME=hybrid_astar
-    HYBRID_ASTAR_DATA_FOLDER=$R_SRC_ROOT/
+    HYBRID_ASTAR_DATA_FOLDER=$HYBRID_ASTAR_BINARY_FOLDER/maps
 fi
 
 # YOLO ROS

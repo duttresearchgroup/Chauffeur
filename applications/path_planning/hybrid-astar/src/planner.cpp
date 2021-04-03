@@ -106,6 +106,7 @@ void Planner::setMap(const nav_msgs::OccupancyGrid::Ptr map) {
       plan();
   }
   std::cout << "LOOPDONE" << std::endl;
+  exit(0);
 }
 
 //###################################################
