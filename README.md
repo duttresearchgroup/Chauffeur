@@ -115,24 +115,6 @@ Detectnet is for locating object with boxes: \
 For more camera and video settings please check: https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-streaming.md#sequences
 
 
-### Jetson TX2 Lane Detection:
-[https://github.com/jaredraycoleman/lane_detection](https://github.com/jaredraycoleman/lane_detection)
-
-To build the application, we first need to modify two functions in src/detector.cpp since the updated OpenCV version: \
-
-`sudo vim src/detector.cpp`
-
-> line 51: 	CV_FOURCC('M', 'P', 'E', 'G') -> cv::VideoWriter::fourcc('M', 'P', 'E', 'G')
-> Line 284:	CV_BGR2GRAY -> cv::COLOR_BGR2GRAY
-
-Then we will need to install the dependencies and then build: \
-`$./install_dependencies.sh` \
-`$./build.sh` \
-`$./build.sh clean` \
-
-Then after building the application, we can run the sample with the run.sh we wrote. \
-
-
 ### CarND-Extended-Kalman-Filter:
 [https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project](https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project) \
 Clone this repo. \
@@ -142,17 +124,7 @@ On windows, you may need to run: `cmake .. -G "Unix Makefiles" && make` \
 Run it: `./ExtendedKF path/to/input.txt path/to/output.txt.` You can find some sample inputs in 'data/'. eg. `./ExtendedKF ../data/sample-laser-radar-measurement-data-1.txt output.txt` \
 
 
-### LaneNet-Lane-Detection:
-[https://github.com/MaybeShewill-CV/lanenet-lane-detection](https://github.com/MaybeShewill-CV/lanenet-lane-detection) \
-To test a single image with the trained model, use the following: \
-`cd lanenet-lane-detection/lanenet-lane-detection` \
-`python python tools/test_lanenet.py --weights_path /PATH/TO/YOUR/CKPT_FILE_PATH --image_path ./data/tusimple_test_image/0.jpg` \
-Please note that the ckpt are save in Chauffeur/applications/lanenet-lane-detection/model/tusimple_lanenet.
-The runing command is like this: \
-`python3.6 tools/test_lanenet.py --weights_path /PATH/TO/APPLICATIONS/lanenet-lane-detection/model/tusimple_lanenet/tusimple_lanenet.ckpt --image_path ./data/tusimple_test_image/0.jpg` \
-If you meet the error like "ImportError: /PATH/TO/SOME/FILE: cannot allocate memory in static TLS block"
-you may need to proload the library. You can do it like this: \
-`LD_PRELOAD=NAME_OF_THE_LIBARY python3 YOUR_PYTHON_SCRIPT` \
+
 
 
 
