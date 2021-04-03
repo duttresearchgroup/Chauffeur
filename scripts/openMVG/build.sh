@@ -12,9 +12,8 @@ fi
 
 
 if [[ $1 == "tx2" ]];then
-	echo"$1"
-        cd ../../applications/openMVG/openMVG;mkdir build;cd build;cmake -DCMAKE_BUILD_TYPE=RELEASE ../src/;make -j$(nproc)
-        mv Linux-aarch64-RELEASE/* software/SfM/.
+	cd ../../applications/openMVG/openMVG;mkdir build;cd build;cmake -DCMAKE_BUILD_TYPE=RELEASE ../src/;make -j$(nproc)
+	mv Linux-aarch64-RELEASE/* software/SfM/.
 fi
 
 

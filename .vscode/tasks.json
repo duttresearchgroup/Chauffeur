@@ -13,8 +13,8 @@
             "type": "shell",
             "command": "scripts/send.sh",
             "args": [
-                "applications/bin",
-                "bin"
+                "cross-apps",
+                "applications"
             ]
         },
         {
@@ -34,6 +34,11 @@
                 "scripts",
                 "scripts"
             ]
+        },
+        {
+            "label": "Fetch",
+            "type": "shell",
+            "command": "scp -r deep@chimera.ics.uci.edu:~/workspace/miself/scripts/mars-data /home/biswadip/Desktop/"
         }
     ]
 }

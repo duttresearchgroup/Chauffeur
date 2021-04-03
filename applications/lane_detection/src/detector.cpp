@@ -13,6 +13,7 @@ using namespace std;
 #include <list>
 #include <chrono>
 #include <future>
+#include <iostream>
 
 using namespace cv;
 

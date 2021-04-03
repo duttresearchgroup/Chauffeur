@@ -1,8 +1,6 @@
 #!/bin/bash
-
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $DIR/../envs.sh $1
-
+source $DIR/../envs.sh
 
 if [[ $# -eq 0 ]];then
 	echo "usage : $0 [imagenet/detectnet/segnet] [image/video]"
@@ -10,10 +8,9 @@ if [[ $# -eq 0 ]];then
 fi
 
 if [[ $1 == "imagenet" && $2 == video ]];then
-
 	cd $JETSON_INFERENCE_BINARY_FOLDER
 	./$JETSON_INFERENCE_BINARY_NAME_IMAGENET --headless --input-codec=h264 \
-    	$CUDA_LANE_DETECTION_BINARY_FOLDER/test-video.mp4 \
+    	$CUDA_LANE_DETECTION_DATA_FOLDER/test-video.mp4 \
     	$JETSON_INFERENCE_DATA_FOLDER/images/test/output_video_imagenet.mp4
 fi
 
@@ -29,7 +26,7 @@ if [[ $1 == "detectnet" && $2 == video ]];then
 
         cd $JETSON_INFERENCE_BINARY_FOLDER
         ./$JETSON_INFERENCE_BINARY_NAME_DETECTNET --headless --input-codec=h264 \
-        $CUDA_LANE_DETECTION_BINARY_FOLDER/test-video.mp4 \
+        $CUDA_LANE_DETECTION_DATA_FOLDER/test-video.mp4 \
         $JETSON_INFERENCE_DATA_FOLDER/images/test/output_video_detectnet.mp4
 fi
 
@@ -46,7 +43,7 @@ if [[ $1 == "segnet" && $2 == video ]];then
 
         cd $JETSON_INFERENCE_BINARY_FOLDER
         ./$JETSON_INFERENCE_BINARY_NAME_SEGNET  --headless --input-codec=h264 \
-        $CUDA_LANE_DETECTION_BINARY_FOLDER/test-video.mp4 \
+        $CUDA_LANE_DETECTION_DATA_FOLDER/test-video.mp4 \
         $JETSON_INFERENCE_DATA_FOLDER/images/test/output_video_segnet.mp4
 fi
 

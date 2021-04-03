@@ -23,20 +23,13 @@ if [[ $1 == 'cross' ]]; then
     # export R_SRC_ROOT=/home/saehansy/Workspace/biton
 
 else
-    ENV_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-    export R_SRC_ROOT=$ENV_DIR/..
+    export R_SRC_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/.."
 fi
 
 # Lane Detection
-if [[ $1 == 'cross' ]]; then
-    LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/bin
-    LANE_DETECTION_BINARY_NAME=lane-detect
-    LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane-detect
-else
-    LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/lane_detection/bin
-    LANE_DETECTION_BINARY_NAME=detect
-    LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/applications/lane_detection/test
-fi
+LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/lane_detection/bin
+LANE_DETECTION_BINARY_NAME=detect
+LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection
 
 # Kalman Filter
 if [[ $1 == 'cross' ]]; then
@@ -63,15 +56,9 @@ else
 fi
 
 # Cuda Lane Detection
-if [[ $1 == 'cross' ]]; then
-    CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/bin/
-    CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
-    CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/cuda-lane-detection
-else
-    CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
-    CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
-    CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
-fi
+CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
+CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
+CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/cuda-lane-detection
 
 # OpenMVG
 if [[ $1 == 'cross' ]]; then
