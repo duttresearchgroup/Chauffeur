@@ -14,13 +14,14 @@ git submodule update --init --recursive
 # Step 1 Compilation
 ## (Cross)  using qemu based docker
 We are using dockers to compile the source code of the micro-benchmarks. Please navigate to the `docker` folder and perform the following steps:
+
+### Setting up docker
+* follow instructions [here](https://docs.docker.com/engine/install/ubuntu/) to make sure docker is installed
+
 ### Setting up qemu based cross-compiler env
 * `sudo apt-get install qemu binfmt-support qemu-user-static # Install the qemu packages`
 * `docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts`
 * Pleaser refer [to this link](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/) for more details. 
-
-### Setting up docker
-* follow instructions [here](https://docs.docker.com/engine/install/ubuntu/) to make sure docker is installed
 
 ### Getting the virtual L4T ready
 * `sudo apt install docker-compose`
