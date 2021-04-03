@@ -19,12 +19,12 @@ fi
 
 if [[ $1 == "tx2" ]];then
 	source /opt/ros/melodic/setup.bash
-	cd $R_SRC_ROOT/applications/odometry
-	cd floam
-	rm -rf devel && rm -rf build && rm -rf install
-	mkdir -p build
-	cmake . \
+	cd $R_SRC_ROOT/applications/odometry/floam
+	rm -rf devel && rm -rf build
+	mkdir -p build && cd build
+	cmake .. \
 		-DCMAKE_BUILD_TYPE=Release \
+		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/odometry/floam/devel \
 		-DBUILD_SHARED_LIBS=OFF
 	make -j$(nproc)
 fi
