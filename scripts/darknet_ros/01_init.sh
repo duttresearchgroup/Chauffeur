@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $DIR/../envs.sh $1
+source $DIR/../envs.sh
 
 # ROS_PROCESSES=$(ps aux | grep ros | wc -l)
 # if [[ ${ROS_PROCESSES} -gt 5 ]] ; then

@@ -72,7 +72,7 @@ HYBRID_ASTAR_BINARY_NAME=hybrid_astar
 HYBRID_ASTAR_DATA_FOLDER=$HYBRID_ASTAR_BINARY_FOLDER/maps
 
 # YOLO ROS
-DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/install
+DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros/install
 DARKNET_ROS_BINARY_NAME=darknet_ros
 DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros/darknet/data
 DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/..
