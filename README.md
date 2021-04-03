@@ -80,39 +80,6 @@ sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/
 
 The asscociate Image_dataset is under the openMVG folder.
 
-### Jetson-Inference:
-[https://github.com/dusty-nv/jetson-inference#recommended-system-requirements](https://github.com/dusty-nv/jetson-inference#recommended-system-requirements)
-
-First you will need to build the project following the instruction on Dusty's website.
-There're two way to build it:
-- Running the Docker Container  --  https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-docker.md
-
-- Building the Project from Source  --  https://github.com/dusty-nv/jetson-inference/blob/master/docs/building-repo-2.md
-
-
-I build the project from source for Hydra.
-Then to run Classifying Images with ImageNet: \
-`$ cd jetson-inference/build/aarch64/bin` \
-To run C++ sample program: \
-`$ ./imagenet images/orange_0.jpg images/test/output_0.jpg     # (default network is googlenet)` \
-To run Python sample program: \
-`$ ./imagenet.py images/orange_0.jpg images/test/output_0.jpg  # (default network is googlenet)` \
-
-##### If you met "failed to open swrast" issue, you could try link the libdrm.so.2 to libdrm.so.2.4.0 (Thank you Hans!)
-`$ cd /usr/lib/aarch64-linux-gnu` \
-`$ sudo ln -sf libdrm.so.2.4.0 libdrm.so.2` \
-
-Except for object detection, Jetson-Inference have more features like Locating and Semantic Segmentation in the future that we might need to work with. \
-\
-Update for video input: \
-
-Imagenet is for object-detection, the sample video which is a .mkv file with the codec = h264, you might need to change the --input-codec flag if you have other format of video input. And --network flag is default to GoogleNet: \
-`./imagenet --headless --input-codec=h264 --network=resnet-18 images/jellyfish.mkv images/test/jellyfish.mkv`\
-
-Detectnet is for locating object with boxes: \
-`./detectnet --headless --input-codec=h264 images/jellyfish.mkv images/test/jellyfishdet.mkv`\ 
-\
-For more camera and video settings please check: https://github.com/dusty-nv/jetson-inference/blob/master/docs/aux-streaming.md#sequences
 
 
 ### CarND-Extended-Kalman-Filter:
