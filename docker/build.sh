@@ -75,8 +75,7 @@ build_darknet_ros() {
     ln -s /usr/local/include/opencv /usr/include/opencv
     cmake $source/object_detection/darknet_ros \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$target/object_detection/devel \
-        -DCMAKE_INSTALL_PREFIX=$target/object_detection/install \
+        -DCATKIN_DEVEL_PREFIX=$target/object_detection/darknet_ros/devel \
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
 
@@ -93,12 +92,11 @@ build_floam() {
     mkdir -p build && cd build
     cmake $source/odometry/floam \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$source/odometry/devel \
-        -DCMAKE_INSTALL_PREFIX=$source/odometry/install \
+        -DCATKIN_DEVEL_PREFIX=$target/odometry/floam/devel \
         -DBUILD_SHARED_LIBS=OFF
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    make install
+    cp -r $source/odometry/floam/launch $target/odometry/floam/
 }
 
 
