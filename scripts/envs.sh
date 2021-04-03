@@ -108,7 +108,7 @@ if [[ $1 == 'cross' ]]; then
 else
     FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/odometry/floam/
     FLOAM_BINARY_NAME=floam
-    FLOAM_DATA_FOLDER=$R_SRC_ROOT/
+    FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
 fi
 
 # Hybrid A* Path Planner:
