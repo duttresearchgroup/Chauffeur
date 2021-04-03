@@ -19,6 +19,9 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 * `docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts`
 * Pleaser refer [to this link](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/) for more details. 
 
+### Setting up docker
+* follow instructions [here](https://docs.docker.com/engine/install/ubuntu/) to make sure docker is installed
+
 ### Getting the virtual L4T ready
 * `sudo apt install docker-compose`
 * `docker-compose build` : This will prepare the environment to build the applications.
