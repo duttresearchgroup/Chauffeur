@@ -27,6 +27,7 @@ else
 fi
 
 # Lane Detection
+# Info: lane_detection cmake generates output in bin not build
 LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/lane_detection/bin
 LANE_DETECTION_BINARY_NAME=detect
 LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection
@@ -44,7 +45,7 @@ JETSON_INFERENCE_BINARY_NAME_SEGNET=segnet
 JETSON_INFERENCE_DATA_FOLDER=$R_SRC_ROOT/applications/jetson-inference/build/aarch64/bin
 
 # Cuda Lane Detection
-CUDA_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
+CUDA_LANE_DETECTION_ROOT_FOLDER=$R_SRC_ROOT/applications/cuda-lane-detection
 CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
 CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/cuda-lane-detection
 

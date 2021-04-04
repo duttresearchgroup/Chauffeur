@@ -1,12 +1,9 @@
 #!/bin/bash
 
-if [[ $# -eq 0 ]];then
-	echo "usage : $0 [px2/tx2]"
-fi
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+source $DIR/../envs.sh
 
-if [[ $1 == "tx2" ]];then
-	cd ../../applications/lane_detection
-	rm -rf build && mkdir -p build && cd build
-    	cmake ..
-	make -j$(nproc)
-fi
+cd $R_SRC_ROOT/applications/lane_detection
+rm -rf build && mkdir -p build && cd build
+cmake ..
+make -j$(nproc)
