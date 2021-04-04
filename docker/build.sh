@@ -57,12 +57,11 @@ build_cuda_lane_detection() {
 
 # Build OpenMVG
 build_openmvg() {
-    mkdir -p $target/openMVG && cd $target/openMVG
+    mkdir -p $target/openMVG/openMVG && cd $target/openMVG/openMVG
     rm -rf build && mkdir -p build && cd build
     cmake -DOpenMVG_USE_OCVSIFT=ON $source/openMVG/openMVG/src
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    mv Linux-aarch64-RELEASE/* software/SfM/.
-    cp software/SfM/SfM_SequentialPipeline.py $source/bin/openMVG/SfM_SequentialPipeline.py
+    mv Linux-aarch64-Release/* software/SfM/.
 }
 
 #  Build darknet_ros
@@ -99,7 +98,9 @@ build_floam() {
     cp -r $source/odometry/floam/launch $target/odometry/floam/
 }
 
-
+build_lanenet_lane_detection() {
+    cp -r $source/lanenet-lane-detection $target/lanenet-lane-detection
+}
 
 #  Build cuda-sfm
 # UNDER CONSTRUCTION
@@ -115,6 +116,7 @@ build_floam() {
 # build_kalman_filter
 # build_lane_detection
 # build_cuda_lane_detection
+# build_lanenet_lane_detection
 # build_openmvg
 # build_darknet_ros
 build_floam

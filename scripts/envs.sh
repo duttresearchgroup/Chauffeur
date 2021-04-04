@@ -56,10 +56,10 @@ OPEN_MVG_WEIGHT_FOLDER=$R_SRC_ROOT/data/openMVG
 OPEN_MVG_OUTPUT_FOLDER=$R_SRC_ROOT/applications/openMVG/output
 
 # Lanenet-Lane-detection
-LANENET_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/lanenet-lane-detection
-LANENET_LANE_DETECTION_BINARY_NAME=lanenet-lane-detection
-LANENET_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/application/lanenet-lane-detection/lanenet-lane-detection/data/tusimple_test_image
+LANENET_LANE_DETECTION_ROOT_FOLDER=$R_SRC_ROOT/applications/lanenet-lane-detection
+LANENET_LANE_DETECTION_MODEL_FOLDER=$R_SRC_ROOT/data/lanenet-lane-detection
 LANENET_LANE_DETECTION_PRELOAD_DIR=/usr/local/lib/python3.6/dist-packages/scikit_learn.libs/libgomp-d22c30c5.so.1.0.0
+LANENET_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lanenet-lane-detection
 
 # FLOAM:
 FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/odometry/floam/
