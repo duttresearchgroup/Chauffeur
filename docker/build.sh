@@ -99,6 +99,7 @@ build_floam() {
 }
 
 build_lanenet_lane_detection() {
+    rm -rf $target/lanenet-lane-detection
     cp -r $source/lanenet-lane-detection $target/lanenet-lane-detection
 }
 

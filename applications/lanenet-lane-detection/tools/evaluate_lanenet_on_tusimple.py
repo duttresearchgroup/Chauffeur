@@ -76,6 +76,7 @@ def eval_lanenet(src_dir, weights_path, save_dir):
 
         image_list = glob.glob('{:s}/**/*.jpg'.format(src_dir), recursive=True)
         avg_time_cost = []
+        LOG.info('[Chauffeur] Ready for inference')
         for index, image_path in tqdm.tqdm(enumerate(image_list), total=len(image_list)):
 
             image = cv2.imread(image_path, cv2.IMREAD_COLOR)
@@ -96,7 +97,7 @@ def eval_lanenet(src_dir, weights_path, save_dir):
                 source_image=image_vis
             )
 
-            if index % 100 == 0:
+            if index % 5 == 0:
                 LOG.info('Mean inference time every single image: {:.5f}s'.format(np.mean(avg_time_cost)))
                 avg_time_cost.clear()
 
