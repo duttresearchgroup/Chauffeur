@@ -12,13 +12,13 @@ if [[ $1 == "px2" ]];then
 	echo $root
 	source /opt/ros/kinetic/setup.sh
 	cd object_detection
-	cd darknet_ros && catkin_init_workspace && cd ..
+	cd darknet_ros && catkin_init_workspace
 	rm -rf devel && rm -rf build && rm -rf install
 	mkdir -p build && cd build
-	cmake $root/object_detection/darknet_ros \
+	cmake $root/applications/object_detection/darknet_ros \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$root/object_detection/devel \
-        -DCMAKE_INSTALL_PREFIX=$root/object_detection/install \
+        -DCATKIN_DEVEL_PREFIX=$root/applications/object_detection/darknet_ros/devel \
+        -DCMAKE_INSTALL_PREFIX=$root/applications/object_detection/darknet_ros/install \
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
 
@@ -30,14 +30,13 @@ fi
 
 if [[ $1 == "tx2" ]];then
 	source /opt/ros/melodic/setup.bash
-	cd $R_SRC_ROOT/applications/object_detection
-	cd darknet_ros && catkin_init_workspace && cd ..
+	cd $R_SRC_ROOT/applications/object_detection/darknet_ros
 	rm -rf devel && rm -rf build && rm -rf install
 	mkdir -p build && cd build
-	cmake .. \
+	cmake $R_SRC_ROOT/applications/object_detection/darknet_ros \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCATKIN_DEVEL_PREFIX=../devel \
-		-DCMAKE_INSTALL_PREFIX=../install \
+		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/object_detection/darknet_ros/devel \
+		-DCMAKE_INSTALL_PREFIX=$R_SRC_ROOT/applications/object_detection/darknet_ros/install \
 		-DBUILD_SHARED_LIBS=OFF \
 		-DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
     	

@@ -75,10 +75,14 @@ build_darknet_ros() {
     cmake $source/object_detection/darknet_ros \
         -DCMAKE_BUILD_TYPE=Release \
         -DCATKIN_DEVEL_PREFIX=$target/object_detection/darknet_ros/devel \
+        -DCMAKE_INSTALL_PREFIX=$target/object_detection/darknet_ros/install \
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+    make install
+    rm -rf $target/object_detection/darknet_ros/devel && \
+        rm -rf $target/object_detection/darknet_ros/build
 }
 
 
@@ -92,10 +96,11 @@ build_floam() {
     cmake $source/odometry/floam \
         -DCMAKE_BUILD_TYPE=Release \
         -DCATKIN_DEVEL_PREFIX=$target/odometry/floam/devel \
+        -DCMAKE_INSTALL_PREFIX=$target/odometry/install \
         -DBUILD_SHARED_LIBS=OFF
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    cp -r $source/odometry/floam/launch $target/odometry/floam/
+    make install
 }
 
 build_lanenet_lane_detection() {
