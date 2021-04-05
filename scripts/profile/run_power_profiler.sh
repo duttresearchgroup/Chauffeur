@@ -11,6 +11,7 @@ if [ -z ${R_SRC_ROOT+x} ]; then
 fi
 
 mkdir -p $R_SRC_ROOT/scripts/mars-data/
+rm -rf $R_SRC_ROOT/scripts/mars-data/*.csv
 source $MARS_SCRIPTDIR/runtime/common.sh
 
 for task in cuda-lane-detection kalman_filter lane_detection openMVG lanenet-lane-detection
@@ -45,5 +46,24 @@ do
     wait
     sudosh $MARS_SCRIPTDIR/runtime/stop.sh
 
+    cp $RTS_DAEMON_OUTDIR/execTraceFine.csv $R_SRC_ROOT/scripts/mars-data/$task-fine_trace.csv
+done
+
+for task in lanenet-lane-detection
+do
+    echo $task
+    sudosh $MARS_SCRIPTDIR/runtime/start.sh miself
+    $R_SRC_ROOT/scripts/$task/run.sh video > /dev/null &
+    wait
+    sudosh $MARS_SCRIPTDIR/runtime/stop.sh
+done
+
+for task in idle_power
+do
+    echo $task
+    sudosh $MARS_SCRIPTDIR/runtime/start.sh miself
+    sleep 10
+    sudosh $MARS_SCRIPTDIR/runtime/stop.sh
+    
     cp $RTS_DAEMON_OUTDIR/execTraceFine.csv $R_SRC_ROOT/scripts/mars-data/$task-fine_trace.csv
 done
