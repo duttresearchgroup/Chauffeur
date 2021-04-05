@@ -49,6 +49,7 @@ void velodyneEdgeHandler(const sensor_msgs::PointCloud2ConstPtr &laserCloudMsg)
 bool is_odom_inited = false;
 double total_time =0;
 int total_frame=0;
+int loop_i=0;
 void odom_estimation(){
     while(1){
         if(!pointCloudEdgeBuf.empty() && !pointCloudSurfBuf.empty()){
@@ -75,8 +76,9 @@ void odom_estimation(){
             pcl::fromROSMsg(*pointCloudEdgeBuf.front(), *pointcloud_edge_in);
             pcl::fromROSMsg(*pointCloudSurfBuf.front(), *pointcloud_surf_in);
             ros::Time pointcloud_time = (pointCloudSurfBuf.front())->header.stamp;
-            pointCloudEdgeBuf.pop();
-            pointCloudSurfBuf.pop();
+	    // removing pop() calls to input buffers so there is no idle time (inputs are repeatedly processed)
+            //pointCloudEdgeBuf.pop();
+            //pointCloudSurfBuf.pop();
             mutex_lock.unlock();
 
             if(is_odom_inited == false){
@@ -92,7 +94,7 @@ void odom_estimation(){
                 total_frame++;
                 float time_temp = elapsed_seconds.count() * 1000;
                 total_time+=time_temp;
-                ROS_INFO("average odom estimation time %f ms \n \n", total_time/total_frame);
+                ROS_INFO("average odom estimation time %f ms (%f, %d) \n \n", total_time/total_frame, time_temp, total_frame);
             }
 
 
