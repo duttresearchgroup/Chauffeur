@@ -26,6 +26,10 @@
 #include "lidar.h"
 #include "odomEstimationClass.h"
 
+#define SLIDING_WINDOW_SIZE 8
+int slidingWindow[SLIDING_WINDOW_SIZE] = {0};
+double previousSum = 0.0;
+
 OdomEstimationClass odomEstimation;
 std::mutex mutex_lock;
 std::queue<sensor_msgs::PointCloud2ConstPtr> pointCloudEdgeBuf;
@@ -46,8 +50,17 @@ void velodyneEdgeHandler(const sensor_msgs::PointCloud2ConstPtr &laserCloudMsg)
     mutex_lock.unlock();
 }
 
+double movingAvg(int *ptrArrNumbers, double *ptrSum, int pos, int len, int nextNum)
+{
+  //Subtract the oldest number from the prev sum, add the new number
+  *ptrSum = *ptrSum - ptrArrNumbers[pos] + nextNum;
+  //Assign the nextNum to the position in the array
+  ptrArrNumbers[pos] = nextNum;
+  //return the average
+  return *ptrSum / len;
+}
+
 bool is_odom_inited = false;
-double total_time =0;
 int total_frame=0;
 int loop_i=0;
 void odom_estimation(){
@@ -91,10 +104,10 @@ void odom_estimation(){
                 odomEstimation.updatePointsToMap(pointcloud_edge_in, pointcloud_surf_in);
                 end = std::chrono::system_clock::now();
                 std::chrono::duration<float> elapsed_seconds = end - start;
-                total_frame++;
                 float time_temp = elapsed_seconds.count() * 1000;
-                total_time+=time_temp;
-                ROS_INFO("average odom estimation time %f ms (%f, %d) \n \n", total_time/total_frame, time_temp, total_frame);
+                double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp)
+                total_frame++;
+                ROS_INFO("average odom estimation time %f ms (%f, %d) \n \n", avg, time_temp, total_frame);
             }
 
 

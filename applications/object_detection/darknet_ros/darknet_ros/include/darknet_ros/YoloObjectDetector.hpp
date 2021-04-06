@@ -61,6 +61,8 @@ extern "C" void ipl_into_image(IplImage* src, image im);
 extern "C" image ipl_to_image(IplImage* src);
 extern "C" void show_image_cv(image p, const char* name, IplImage* disp);
 
+#define SLIDING_WINDOW_SIZE 8
+
 namespace darknet_ros {
 
 //! Bounding box of the detected object.
@@ -185,7 +187,9 @@ class YoloObjectDetector {
   float** predictions_;
   int demoIndex_ = 0;
   int total_frame = 0;
-  double total_time = 0;
+  int slidingWindow[SLIDING_WINDOW_SIZE] = {0};
+  double previousSum = 0.0;
+
   int demoDone_ = 0;
   float* lastAvg2_;
   float* lastAvg_;
@@ -243,6 +247,8 @@ class YoloObjectDetector {
   bool isNodeRunning(void);
 
   void* publishInThread();
+
+  double movingAvg(int *ptrArrNumbers, double *ptrSum, int pos, int len, int nextNum);
 };
 
 } /* namespace darknet_ros*/

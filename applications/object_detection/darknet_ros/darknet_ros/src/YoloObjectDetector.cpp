@@ -289,6 +289,16 @@ detection* YoloObjectDetector::avgPredictions(network* net, int* nboxes) {
   return dets;
 }
 
+double YoloObjectDetector::movingAvg(int *ptrArrNumbers, double *ptrSum, int pos, int len, int nextNum)
+{
+  //Subtract the oldest number from the prev sum, add the new number
+  *ptrSum = *ptrSum - ptrArrNumbers[pos] + nextNum;
+  //Assign the nextNum to the position in the array
+  ptrArrNumbers[pos] = nextNum;
+  //return the average
+  return *ptrSum / len;
+}
+
 void* YoloObjectDetector::detectInThread() {
   std::chrono::time_point<std::chrono::system_clock> start, end;
   start = std::chrono::system_clock::now();
@@ -368,9 +378,9 @@ void* YoloObjectDetector::detectInThread() {
   end = std::chrono::system_clock::now();
   std::chrono::duration<float> elapsed_seconds = end - start;
   float time_temp = elapsed_seconds.count() * 1000;
-  total_time+=time_temp;
+  double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
   total_frame++;
-  printf("Avg detction time %f ms (%f, %d) \n \n", total_time/total_frame, time_temp, total_frame);
+  printf("Avg detction time %f ms (%f, %d) \n \n", avg, time_temp, total_frame);
   return 0;
 }
 
