@@ -16,11 +16,12 @@ def find_files(dir) -> list:
     for filename in os.listdir(dir):
         if filename.endswith("-fine_trace.csv"):
             result.append(str(filename))
-    return result
+    return [result, dir]
 
 def process(files:list) -> dict:
     output = []
-    for i in files:
+    os.chdir(files[1])
+    for i in files[0]:
         gpu_run_mean_list = []
         data = pd.read_csv(i,delimiter=";")
         name = i[:-15].replace("_", "-")
@@ -40,6 +41,10 @@ def write_file(data:list):
     col = ['ApplicationName', 'Cpu', 'Gpu', 'Mem']
     new_data = pd.DataFrame(data, columns = col)
     new_data = new_data.sort_values(by=['Cpu','Gpu', 'Mem'])
+    df_1 = new_data.iloc[0:1]
+    df_2 = new_data.iloc[1:]
+    df_2 = df_2.sort_values(by = ['ApplicationName'])
+    new_data = pd.concat([df_1, df_2])
     new_data.to_csv("energy-result.csv", index=False)
 
 
