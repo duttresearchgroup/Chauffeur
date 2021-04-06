@@ -184,6 +184,8 @@ class YoloObjectDetector {
   int demoFrame_ = 3;
   float** predictions_;
   int demoIndex_ = 0;
+  int total_frame = 0;
+  double total_time = 0;
   int demoDone_ = 0;
   float* lastAvg2_;
   float* lastAvg_;

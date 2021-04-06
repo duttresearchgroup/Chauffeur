@@ -47,7 +47,7 @@ YoloObjectDetector::~YoloObjectDetector() {
 
 bool YoloObjectDetector::readParameters() {
   // Load common parameters.
-  nodeHandle_.param("image_view/enable_opencv", viewImage_, true);
+  nodeHandle_.param("image_view/enable_opencv", viewImage_, false);
   nodeHandle_.param("image_view/wait_key_delay", waitKeyDelay_, 3);
   nodeHandle_.param("image_view/enable_console_output", enableConsoleOutput_, false);
 
@@ -290,6 +290,9 @@ detection* YoloObjectDetector::avgPredictions(network* net, int* nboxes) {
 }
 
 void* YoloObjectDetector::detectInThread() {
+  std::chrono::time_point<std::chrono::system_clock> start, end;
+  start = std::chrono::system_clock::now();
+
   running_ = 1;
   float nms = .4;
 
@@ -361,6 +364,13 @@ void* YoloObjectDetector::detectInThread() {
   free_detections(dets, nboxes);
   demoIndex_ = (demoIndex_ + 1) % demoFrame_;
   running_ = 0;
+
+  end = std::chrono::system_clock::now();
+  std::chrono::duration<float> elapsed_seconds = end - start;
+  float time_temp = elapsed_seconds.count() * 1000;
+  total_time+=time_temp;
+  total_frame++;
+  printf("Avg detction time %f ms (%f, %d) \n \n", total_time/total_frame, time_temp, total_frame);
   return 0;
 }
 
