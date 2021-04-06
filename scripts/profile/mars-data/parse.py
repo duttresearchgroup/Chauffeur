@@ -9,6 +9,7 @@ import sys
 import os
 import numpy as np
 import pandas as pd
+from statistics import mean
 
 def find_files(dir) -> list:
     result = []
@@ -20,14 +21,24 @@ def find_files(dir) -> list:
 def process(files:list) -> dict:
     output = []
     for i in files:
+        gpu_run_mean_list = []
         data = pd.read_csv(i,delimiter=";")
         name = i[:-15].replace("_", "-")
-        output.append([name, data["power_cpu_w"].mean(), data["power_gpu_w"].mean(),data["power_mem_w"].mean()])
+        gpu_raw_mean = data["power_gpu_w"].mean()
+        for j in data["power_gpu_w"]:
+            if j > gpu_raw_mean:
+                gpu_run_mean_list.append(j)
+        if len(gpu_run_mean_list) == 0:
+            gpu_run_mean = 0
+        else:
+            gpu_run_mean = mean(gpu_run_mean_list)
+        output.append([name, data["power_cpu_w"].mean(), gpu_run_mean ,data["power_mem_w"].mean()])
     return output
 
 def write_file(data:list):
     col = ['ApplicationName', 'Cpu', 'Gpu', 'Mem']
     new_data = pd.DataFrame(data, columns = col)
+    new_data = new_data.sort_values(by='Cpu')
     new_data.to_csv("energy-result.csv", index=False)
 
 
