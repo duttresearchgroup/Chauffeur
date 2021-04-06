@@ -68,9 +68,9 @@ FLOAM_BINARY_NAME=floam
 FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
 
 # Hybrid A* Path Planner:
-HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar/
+HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar
 HYBRID_ASTAR_BINARY_NAME=hybrid_astar
-HYBRID_ASTAR_DATA_FOLDER=$HYBRID_ASTAR_BINARY_FOLDER/maps
+HYBRID_ASTAR_DATA_FOLDER=$R_SRC_ROOT/data/hybrid-astar/maps
 
 # YOLO ROS
 DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros/install
