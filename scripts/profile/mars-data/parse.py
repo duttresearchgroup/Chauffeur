@@ -28,17 +28,18 @@ def process(files:list) -> dict:
         for j in data["power_gpu_w"]:
             if j > gpu_raw_mean:
                 gpu_run_mean_list.append(j)
-        if len(gpu_run_mean_list) == 0:
-            gpu_run_mean = 0
-        else:
+
+        if len(gpu_run_mean_list) != 0:
             gpu_run_mean = mean(gpu_run_mean_list)
+        else:
+            gpu_run_mean = gpu_raw_mean
         output.append([name, data["power_cpu_w"].mean(), gpu_run_mean ,data["power_mem_w"].mean()])
     return output
 
 def write_file(data:list):
     col = ['ApplicationName', 'Cpu', 'Gpu', 'Mem']
     new_data = pd.DataFrame(data, columns = col)
-    new_data = new_data.sort_values(by='Cpu')
+    new_data = new_data.sort_values(by=['Cpu','Gpu', 'Mem'])
     new_data.to_csv("energy-result.csv", index=False)
 
 
