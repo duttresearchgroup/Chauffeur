@@ -1,0 +1,5 @@
+index,idle-power,cuda-lane-detection,darknet-ros,floam,hybrid-astar,jetson-inference,kalman-filter,lane-detection,lanenet-lane-detection,openMVG
+AvgTotalMemAccess,10,1360,270,822,698,410,1617,291,656,2433
+PeakTotalMemAccess,55,2198,481,1362,1247,1051,2780,800,1380,3920
+AvgTotalLlcMisses,0,4,6,9,7,4,4,3,3,24
+PeakTotalLlcMisses,0,13,12,21,14,12,8,9,11,60
