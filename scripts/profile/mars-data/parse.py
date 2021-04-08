@@ -18,7 +18,7 @@ def find_files(dir) -> list:
             result.append(str(filename))
     return [result, dir]
 
-def process(files:list) -> dict:
+def process(files:list) -> list:
     output = []
     os.chdir(files[1])
     for i in files[0]:
@@ -26,13 +26,16 @@ def process(files:list) -> dict:
         data = pd.read_csv(i,delimiter=";")
         name = i[:-15].replace("_", "-")
         gpu_raw_mean = data["power_gpu_w"].mean()
-        for j in data["power_gpu_w"]:
-            if j > gpu_raw_mean:
-                gpu_run_mean_list.append(j)
+        
+        if data["power_gpu_w"].max() - gpu_raw_mean > 0.1:
+            for j in data["power_gpu_w"]:
+                if j > gpu_raw_mean:
+                    gpu_run_mean_list.append(j)
 
         if len(gpu_run_mean_list) != 0:
             gpu_run_mean = mean(gpu_run_mean_list)
         else:
+            print(name, gpu_raw_mean)
             gpu_run_mean = gpu_raw_mean
         output.append([name, data["power_cpu_w"].mean(), gpu_run_mean ,data["power_mem_w"].mean()])
     return output
