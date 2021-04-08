@@ -6,6 +6,9 @@ import pandas as pd
 from statistics import mean
 from scipy import stats
 
+# Please adjust if applications are misclassified
+POWER_CLASSIFY_MARGIN=0.2
+
 def find_files(dir) -> list:
     result = []
     for filename in os.listdir(dir):
@@ -17,12 +20,22 @@ def process(files:list) -> list:
     output = []
     os.chdir(files[1])
     for i in files[0]:
-        mem_run_mean_list = []
-        llc_run_mean_list = []
-        mem_run_mean = 0
-        llc_run_mean = 0
         data = pd.read_csv(i,delimiter=";")
         name = i[:-15].replace("_", "-")
+
+        gpu_power_mean = data["power_gpu_w"].mean()
+        # Check if GPU App
+        diff = data["power_gpu_w"].max() - gpu_power_mean
+        # Debug print what is the difference
+        # print(diff)
+        if diff > POWER_CLASSIFY_MARGIN:
+            print ("[GPU] ", end='')
+            # Trim GPU apps to remove initialization
+            data = data[data['power_gpu_w']>gpu_power_mean]
+        else:
+            print ("[CPU] ", end='')
+
+        print(name)
 
         df_mem = data["total_mem_access"]
         df_llc = data["total_llc_misses"]
@@ -30,33 +43,8 @@ def process(files:list) -> list:
         df_mem = df_mem[ df_mem.between(df_mem.quantile(0), df_mem.quantile(0.99)) ]
         df_llc = df_llc[ df_llc.between(df_llc.quantile(0), df_llc.quantile(0.99)) ]
 
-        mem_raw_mean = df_mem.mean()
-        llc_raw_mean = df_llc.mean()
-        gpu_raw_mean = data["power_gpu_w"].mean()
-        print(name, gpu_raw_mean)
 
-
-
-        for j in df_mem:
-            if j > mem_raw_mean:
-                mem_run_mean_list.append(j)
-
-
-        for k in df_llc:
-            if k > llc_raw_mean:
-                llc_run_mean_list.append(k)
-        
-        if len(mem_run_mean_list) != 0:
-            mem_run_mean = mean(mem_run_mean_list)
-        else:
-            mem_run_mean = mem_raw_mean
-        
-        if len(llc_run_mean_list) != 0:
-            llc_run_mean = mean(llc_run_mean_list)
-        else:
-            llc_run_mean = llc_raw_mean
-
-        temp = [name, mem_run_mean, df_mem.max(), llc_run_mean, df_llc.max()]
+        temp = [name, df_mem.mean(), df_mem.max(),  df_llc.mean(), df_llc.max()]
         
         for index in range(1,5):
             temp[index] = int( (temp[index]*20)/(10**6))

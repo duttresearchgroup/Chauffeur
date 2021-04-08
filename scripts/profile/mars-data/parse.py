@@ -1,15 +1,11 @@
-#1. Loop all the files and select the ones which end in (-fine_trace.csv)
-#2. Extract the application name -- first part (e.g., jetson_inference)
-
-#    3. For each application extract <avg> power_cpu_w, power_gpu_w, power_mem_w
-    
-#4. Create a new CSV (energy-results.csv) with Appname, <avg> power_cpu_w, <avg> power_gpu_w, <avg> power_mem_w
-
 import sys
 import os
 import numpy as np
 import pandas as pd
 from statistics import mean
+
+# Please adjust if applications are misclassified
+POWER_CLASSIFY_MARGIN=0.2
 
 def find_files(dir) -> list:
     result = []
@@ -22,22 +18,25 @@ def process(files:list) -> list:
     output = []
     os.chdir(files[1])
     for i in files[0]:
-        gpu_run_mean_list = []
         data = pd.read_csv(i,delimiter=";")
         name = i[:-15].replace("_", "-")
-        gpu_raw_mean = data["power_gpu_w"].mean()
-        
-        if data["power_gpu_w"].max() - gpu_raw_mean > 0.1:
-            for j in data["power_gpu_w"]:
-                if j > gpu_raw_mean:
-                    gpu_run_mean_list.append(j)
 
-        if len(gpu_run_mean_list) != 0:
-            gpu_run_mean = mean(gpu_run_mean_list)
+        gpu_power_mean = data["power_gpu_w"].mean()
+        
+        diff = data["power_gpu_w"].max() - gpu_power_mean
+        # Debug print what is the difference
+        # print(diff)
+
+        # Check if GPU App
+        if diff > POWER_CLASSIFY_MARGIN:
+            print ("[GPU] ", end='')
+            data = data[data['power_gpu_w']>gpu_power_mean]
         else:
-            print(name, gpu_raw_mean)
-            gpu_run_mean = gpu_raw_mean
-        output.append([name, data["power_cpu_w"].mean(), gpu_run_mean ,data["power_mem_w"].mean()])
+            print ("[CPU] ", end='')
+
+        print (name, "processed")
+
+        output.append([name, data["power_cpu_w"].mean(), data["power_gpu_w"].mean() ,data["power_mem_w"].mean()])
     return output
 
 def write_file(data:list):
