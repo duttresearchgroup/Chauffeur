@@ -37,6 +37,14 @@ def process(files:list) -> list:
         print (name, "processed")
 
         output.append([name, data["power_cpu_w"].mean(), data["power_gpu_w"].mean() ,data["power_mem_w"].mean()])
+
+        for j in data.columns:
+            temp = j.replace("_","-")
+            data = data.rename(columns={j:temp})
+
+        data["total-llc-misses"] = (data["total-llc-misses"]*20) / (10**6)
+
+        data.to_csv(name+"-pg.csv",index=False, header=True )
     return output
 
 def write_file(data:list):
