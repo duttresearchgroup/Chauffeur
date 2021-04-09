@@ -6,49 +6,59 @@ SHELL ["/bin/bash", "-c"]
 # So that no question/dialog is asked during apt-get install:
 ARG DEBIAN_FRONTEND=noninteractive
 
+# nvidia repo public keys
+COPY keys/trusted-keys /trusted-keys
+
+# TensorRT required for Jetson Inference (apt-get install -y tensorrt)
+RUN printf 'deb https://repo.download.nvidia.com/jetson/common r32 main\ndeb https://repo.download.nvidia.com/jetson/t210 r32 main' > /etc/apt/sources.list.d/nvidia-l4t-apt-source.list && \
+     apt-key add /trusted-keys
+
+# Add ROS package server
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
      ca-certificates curl \
      cmake \
-     build-essential
-
-# For jetson-inference
-RUN apt-get install -y --no-install-recommends \
-     libgstreamer1.0-dev \
+     build-essential \
+     # *** Jetson inference starts ***
+     libgstreamer1.0-dev \                   
      libgstreamer-plugins-base1.0-dev \
-     libglew-dev
-
-COPY keys/trusted-keys /trusted-keys
-
-# TensorRT required for Jetson Inference
-RUN printf 'deb https://repo.download.nvidia.com/jetson/common r32 main\ndeb https://repo.download.nvidia.com/jetson/t210 r32 main' > /etc/apt/sources.list.d/nvidia-l4t-apt-source.list && \
-     apt-key add /trusted-keys && \
-     apt-get update && \
-     apt-get install -y tensorrt
-
-#  Required for Lane Detection
-RUN apt-get install -y libgsl-dev libboost-system-dev libboost-log-dev
-
-#  Required for Opencv
-RUN apt-get install -y libhdf5-dev python3-pip
-RUN pip3 --no-cache-dir install \
-     Cython \
-     numpy
-
-RUN apt-get install -y --no-install-recommends \
-     # For openCV
-     libgtk2.0-dev \
-     # For Lane detection
+     libglew-dev\ 
+     tensorrt \
+     # *** Jetson inference ends ***
+     # *** Lane detection starts ***
+     libgsl-dev \
+     libboost-system-dev \
+     libboost-log-dev \
      libconfig++-dev \
-     # For OpenSFM
-     libglfw3-dev
-
-# Library components for FFMPEG (OpenCV)
-RUN apt-get install -y --no-install-recommends \
+     # *** Lane detection ends ***
+     # *** OpenCV starts ***
+     libhdf5-dev \
+     python3-pip \
+     libgtk2.0-dev \
+     # *** OpenCV ends ***
+     # *** FFMpeg (OpenCV) starts ***
      libavcodec-dev \
      libavformat-dev \
      libavutil-dev \
      libswscale-dev \
-     libswresample-dev
+     libswresample-dev \
+     # *** FFMpeg (OpenCV) ends ***
+     # *** ROS starts ***
+     ros-melodic-ros-base \
+     ros-melodic-cv-bridge \
+     ros-melodic-tf \
+     ros-melodic-image-transport \
+     python-catkin-tools \
+     python-rosdep
+     # *** ROS ends ***
+
+RUN apt-get install python3-setuptools
+
+RUN pip3 --no-cache-dir install \
+     Cython \
+     numpy
 
 # OpenCV
 RUN OPENCV_VERSION=3.4.13 && \
@@ -100,26 +110,43 @@ RUN OPENCV_VERSION=3.4.13 && \
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
     rm -rf /opencv-${OPENCV_VERSION} && \
     rm -rf /opencv_contrib-{OPENCV_VERSION}
-
-
-# install ros-melodic-ros-base packages
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
-     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
-     apt-get update && apt-get install -q -y --no-install-recommends \
-    ros-melodic-ros-base \
-    ros-melodic-cv-bridge \
-    ros-melodic-tf \
-    ros-melodic-image-transport \
+     
+RUN apt-get install -q -y --no-install-recommends \
+     # Floam
     ros-melodic-eigen-conversions \
-    ros-melodic-pcl-ros \
-    ros-melodic-pcl-conversions \
-    libpcl-dev \
-    libceres-dev \
-    python-catkin-tools \
-    python-rosdep \
-    && rosdep init \
-    && rosdep update \
-    && source /opt/ros/melodic/setup.sh
+     # CERES
+    libgoogle-glog-dev
+    
+
+RUN CERES_VERSION=2.0.0 && \
+     curl -L https://github.com/ceres-solver/ceres-solver/archive/refs/tags/${CERES_VERSION}.tar.gz | tar -xzf - && \
+     cd ceres-solver-${CERES_VERSION} && \
+     mkdir build && cd build && \
+     cmake .. && \
+     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
+     rm -rf /ceres-solver-${CERES_VERSION}
+
+RUN apt-get install -q -y --no-install-recommends \
+     # Path planner
+     ros-melodic-ompl \
+     # Path planner
+     libeigen3-dev
+
+#     libpcl-dev \
+#     ros-melodic-pcl-ros \
+#     ros-melodic-pcl-conversions
+#     libpcl-dev \
+#     libceres-dev \
+#     && rosdep init \
+#     && rosdep update \
+#     && source /opt/ros/melodic/setup.sh
+
+# # Docker best practise
+# RUN rm -rf /var/lib/apt/lists/*
+
+# RUN apt-get install -y --no-install-recommends \
+#      # For OpenSFM
+#      libglfw3-dev
 
 RUN mkdir -p /workspace
 WORKDIR /workspace

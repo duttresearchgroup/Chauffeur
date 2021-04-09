@@ -62,7 +62,6 @@ double movingAvg(int *ptrArrNumbers, double *ptrSum, int pos, int len, int nextN
 
 bool is_odom_inited = false;
 int total_frame=0;
-int loop_i=0;
 void odom_estimation(){
     while(1){
         if(!pointCloudEdgeBuf.empty() && !pointCloudSurfBuf.empty()){
@@ -89,9 +88,15 @@ void odom_estimation(){
             pcl::fromROSMsg(*pointCloudEdgeBuf.front(), *pointcloud_edge_in);
             pcl::fromROSMsg(*pointCloudSurfBuf.front(), *pointcloud_surf_in);
             ros::Time pointcloud_time = (pointCloudSurfBuf.front())->header.stamp;
-	    // removing pop() calls to input buffers so there is no idle time (inputs are repeatedly processed)
-            //pointCloudEdgeBuf.pop();
-            //pointCloudSurfBuf.pop();
+	        
+            // ***************************************************************
+            // DATA-READY MODE
+            // remove pop() calls to input buffers so there is no idle time (inputs are repeatedly processed)
+            // ***************************************************************
+            pointCloudEdgeBuf.pop();
+            pointCloudSurfBuf.pop();
+            // ***************************************************************
+            
             mutex_lock.unlock();
 
             if(is_odom_inited == false){

@@ -67,3 +67,27 @@ do
     
     cp $RTS_DAEMON_OUTDIR/execTraceFine.csv $R_SRC_ROOT/scripts/mars-data/$task-fine_trace.csv
 done
+
+
+for task in floam
+do
+    echo $task
+    sudosh $MARS_SCRIPTDIR/runtime/start.sh miself
+    $R_SRC_ROOT/scripts/$task/run.sh &
+    wait
+    sudosh $MARS_SCRIPTDIR/runtime/stop.sh
+    
+    cp $RTS_DAEMON_OUTDIR/execTraceFine.csv $R_SRC_ROOT/scripts/mars-data/$task-fine_trace.csv
+done
+
+
+for task in hybrid-astar
+do
+    echo $task
+    sudosh $MARS_SCRIPTDIR/runtime/start.sh miself
+    $R_SRC_ROOT/scripts/$task/run.sh &
+    wait
+    sudosh $MARS_SCRIPTDIR/runtime/stop.sh
+    
+    cp $RTS_DAEMON_OUTDIR/execTraceFine.csv $R_SRC_ROOT/scripts/mars-data/$task-fine_trace.csv
+done

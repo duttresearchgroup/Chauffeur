@@ -1,27 +1,10 @@
 # Chimera
 
 if [[ $1 == 'cross' ]]; then
-    export R_USER=deep
+    export R_USER=username
     export R_PORT=-p22
-    export R_HOST=chimera.ics.uci.edu
-    export R_SRC_ROOT=/home/deep/workspace/miself
-
-    # Drive PX2
-    # export R_USER=nvidia
-    # export R_PORT=-p22222
-    # export R_HOST=203.246.112.155
-    # export R_SRC_ROOT=/home/nvidia/deep/miself
-
-    # export R_USER=leming
-    # export R_PORT=-p22
-    # export R_HOST=hydra.ics.uci.edu
-    # export R_SRC_ROOT=/home/leming/deep/miself
-
-    # export R_USER=drg
-    # export R_PORT=-p60000
-    # export R_HOST=hylo.asuscomm.com
-    # export R_SRC_ROOT=/home/saehansy/Workspace/biton
-
+    export R_HOST=hostname
+    export R_SRC_ROOT=~/workspace/miself
 else
     export R_SRC_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/.."
 fi

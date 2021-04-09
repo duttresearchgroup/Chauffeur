@@ -79,8 +79,7 @@ build_darknet_ros() {
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
 
-    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    make install
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install
     rm -rf $target/object_detection/darknet_ros/devel && \
         rm -rf $target/object_detection/darknet_ros/build
 }
@@ -102,6 +101,26 @@ build_floam() {
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
     make install
 }
+
+# Build path planner
+build_path_planning() {
+    source /opt/ros/melodic/setup.sh
+    mkdir -p $target/path_planning/hybrid-astar && cd $target/path_planning/hybrid-astar
+    rm -rf devel && rm -rf build && rm -rf install
+    mkdir -p build && cd build
+    cmake $source/path_planning/hybrid-astar \
+        -DCMAKE_BUILD_TYPE=Release \
+        -Dcatkin_DIR=/opt/ros/melodic/share/catkin/cmake/catkinConfig.cmake \
+        -DCATKIN_DEVEL_PREFIX=$target/path_planning/hybrid-astar/devel \
+        -DCMAKE_INSTALL_PREFIX=$target/path_planning/hybrid-astar \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DCMAKE_CXX_FLAGS=-I/usr/include/eigen3
+
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install
+    rm -rf $target/path_planning/hybrid-astar/devel && \
+        rm -rf $target/path_planning/hybrid-astar/build
+}
+
 
 build_lanenet_lane_detection() {
     rm -rf $target/lanenet-lane-detection
@@ -125,5 +144,6 @@ build_lanenet_lane_detection() {
 # build_lanenet_lane_detection
 # build_openmvg
 # build_darknet_ros
-build_floam
+# build_floam
+build_path_planning
 # build_cuda_sfm
