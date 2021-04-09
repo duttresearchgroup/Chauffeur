@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../../Linux-aarch64-RELEASE/libopenMVG_kvld.a  CMakeFiles/openMVG_kvld.dir/kvld.cpp.o CMakeFiles/openMVG_kvld.dir/algorithm.cpp.o
-/usr/bin/ranlib ../../../Linux-aarch64-RELEASE/libopenMVG_kvld.a

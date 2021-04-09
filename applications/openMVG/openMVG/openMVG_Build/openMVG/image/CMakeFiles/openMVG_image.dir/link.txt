@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../Linux-aarch64-RELEASE/libopenMVG_image.a  CMakeFiles/openMVG_image.dir/image_io.cpp.o
-/usr/bin/ranlib ../../Linux-aarch64-RELEASE/libopenMVG_image.a

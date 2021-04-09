@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../Linux-aarch64-RELEASE/libopenMVG_stlplus.a  CMakeFiles/openMVG_stlplus.dir/filesystemSimplified/file_system.cpp.o CMakeFiles/openMVG_stlplus.dir/filesystemSimplified/portability_fixes.cpp.o CMakeFiles/openMVG_stlplus.dir/filesystemSimplified/wildcard.cpp.o
-/usr/bin/ranlib ../../Linux-aarch64-RELEASE/libopenMVG_stlplus.a

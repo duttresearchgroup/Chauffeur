@@ -86,7 +86,6 @@ build_darknet_ros() {
 
 
 # Build 3 FLOAM
-# UNDER CONSTRUCTION
 build_floam() {
     source /opt/ros/melodic/setup.sh
     mkdir -p $target/odometry/floam && cd $target/odometry/floam
@@ -127,23 +126,12 @@ build_lanenet_lane_detection() {
     cp -r $source/lanenet-lane-detection $target/lanenet-lane-detection
 }
 
-#  Build cuda-sfm
-# UNDER CONSTRUCTION
-# build_cuda_sfm() {
-#     cd $source/cuda-sfm
-#     rm -rf build && mkdir -p build && cd build
-#     cmake ..
-#     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-#     cp cuda-sfm $source/bin/cuda-sfm
-# }
-
-# build_jetson_inference
-# build_kalman_filter
-# build_lane_detection
-# build_cuda_lane_detection
-# build_lanenet_lane_detection
-# build_openmvg
-# build_darknet_ros
-# build_floam
+build_jetson_inference
+build_kalman_filter
+build_lane_detection
+build_cuda_lane_detection
+build_lanenet_lane_detection
+build_openmvg
+build_darknet_ros
+build_floam
 build_path_planning
-# build_cuda_sfm

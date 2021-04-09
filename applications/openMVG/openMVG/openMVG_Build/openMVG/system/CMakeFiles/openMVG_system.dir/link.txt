@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../Linux-aarch64-RELEASE/libopenMVG_system.a  CMakeFiles/openMVG_system.dir/timer.cpp.o
-/usr/bin/ranlib ../../Linux-aarch64-RELEASE/libopenMVG_system.a

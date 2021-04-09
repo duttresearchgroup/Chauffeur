@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../Linux-aarch64-RELEASE/libopenMVG_matching.a  CMakeFiles/openMVG_matching.dir/indMatch_utils.cpp.o CMakeFiles/openMVG_matching.dir/regions_matcher.cpp.o CMakeFiles/openMVG_matching.dir/svg_matches.cpp.o
-/usr/bin/ranlib ../../Linux-aarch64-RELEASE/libopenMVG_matching.a

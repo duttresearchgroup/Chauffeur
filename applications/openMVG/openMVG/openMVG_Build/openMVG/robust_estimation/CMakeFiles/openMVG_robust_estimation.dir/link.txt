@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../Linux-aarch64-RELEASE/libopenMVG_robust_estimation.a  CMakeFiles/openMVG_robust_estimation.dir/gms_filter.cpp.o
-/usr/bin/ranlib ../../Linux-aarch64-RELEASE/libopenMVG_robust_estimation.a

@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../Linux-aarch64-RELEASE/libvlsift.a  CMakeFiles/vlsift.dir/vl/generic.c.o CMakeFiles/vlsift.dir/vl/imopv_sse2.c.o CMakeFiles/vlsift.dir/vl/sift.c.o CMakeFiles/vlsift.dir/vl/imopv.c.o CMakeFiles/vlsift.dir/vl/mathop_sse2.c.o CMakeFiles/vlsift.dir/vl/host.c.o CMakeFiles/vlsift.dir/vl/mathop.c.o CMakeFiles/vlsift.dir/vl/random.c.o
-/usr/bin/ranlib ../../Linux-aarch64-RELEASE/libvlsift.a

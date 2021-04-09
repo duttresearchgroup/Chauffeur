@@ -1,1 +1,0 @@
-/usr/bin/c++   -fopenmp -O3  -rdynamic CMakeFiles/main_svgSample.dir/main.cpp.o  -o ../../Linux-aarch64-RELEASE/main_svgSample 
