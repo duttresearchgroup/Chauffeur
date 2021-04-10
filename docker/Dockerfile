@@ -51,8 +51,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
      ros-melodic-tf \
      ros-melodic-image-transport \
      python-catkin-tools \
-     python-rosdep
+     python-rosdep \
      # *** ROS ends ***
+     # *** Path planner starts ***
+     ros-melodic-ompl \
+     libeigen3-dev \
+     # *** Path planner ends ***
+     # Floam
+    ros-melodic-eigen-conversions \
+     # CERES
+    libgoogle-glog-dev
 
 RUN apt-get install python3-setuptools
 
@@ -110,13 +118,6 @@ RUN OPENCV_VERSION=3.4.13 && \
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
     rm -rf /opencv-${OPENCV_VERSION} && \
     rm -rf /opencv_contrib-{OPENCV_VERSION}
-     
-RUN apt-get install -q -y --no-install-recommends \
-     # Floam
-    ros-melodic-eigen-conversions \
-     # CERES
-    libgoogle-glog-dev
-    
 
 RUN CERES_VERSION=2.0.0 && \
      curl -L https://github.com/ceres-solver/ceres-solver/archive/refs/tags/${CERES_VERSION}.tar.gz | tar -xzf - && \
@@ -126,27 +127,8 @@ RUN CERES_VERSION=2.0.0 && \
      make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
      rm -rf /ceres-solver-${CERES_VERSION}
 
-RUN apt-get install -q -y --no-install-recommends \
-     # Path planner
-     ros-melodic-ompl \
-     # Path planner
-     libeigen3-dev
-
-#     libpcl-dev \
-#     ros-melodic-pcl-ros \
-#     ros-melodic-pcl-conversions
-#     libpcl-dev \
-#     libceres-dev \
-#     && rosdep init \
-#     && rosdep update \
-#     && source /opt/ros/melodic/setup.sh
-
-# # Docker best practise
-# RUN rm -rf /var/lib/apt/lists/*
-
-# RUN apt-get install -y --no-install-recommends \
-#      # For OpenSFM
-#      libglfw3-dev
+# Docker best practise
+RUN rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /workspace
 WORKDIR /workspace
