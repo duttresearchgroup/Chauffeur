@@ -1,10 +1,5 @@
-# Chauffeur: Micro-Benchmark Suite for Designing Self-Driving Vehicles
-# Included Microbenchmarks:
-- Structure-From-Mothion  =>  OpenMVG (CPU/GPU, C++)
-- Object Detection:       =>  Jetson-Inference(Hello_Ai_World) (CPU/GPU, C++)
-- Lane Detection:         =>  Jetson TX2 Lane Detection (CPU/GPU, C++)
-- Extended Kalman Filter  =>  CarND-Extended-Kalman-Filter (CPU, C++)
-- Lane-Detection          =>  LaneNet-Lane-Detection(GPU, Pythoh/C++)
+# Chauffeur: Benchmark Suite for Design and End-to-End Analysis of Self-Driving Vehicles on Embedded Systems
+
 # Step 0: Download Chauffeur :)
 ```
 git clone https://github.com/duttresearchgroup/Chauffeur
@@ -72,51 +67,3 @@ sudo pip3 install -U pip
 sudo pip3 install -U pip testresources setuptools numpy==1.16.1 future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
 sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow==1.15.4+nv20.12
 ```
-
-## Quick start
-### OpenMVG: 
-[https://github.com/openMVG/openMVG](https://github.com/openMVG/openMVG)
-
-`$ cd openMVG_Build/software/SfM/`
-
-`$ python SfM_GlobalPipeline.py [full path image directory] [resulting directory]`          
-
-`$ python SfM_GlobalPipeline.py ~/home/user/data/ImageDataset_SceauxCastle/images ~/home/user/data/ImageDataset_SceauxCastle/Castle_Global_Reconstruction`
-
-The asscociate Image_dataset is under the openMVG folder.
-
-
-
-### CarND-Extended-Kalman-Filter:
-[https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project](https://github.com/jeremy-shannon/CarND-Extended-Kalman-Filter-Project) \
-Clone this repo. \
-Make a build directory: `mkdir build && cd build` \
-Compile: `cmake .. && make` \
-On windows, you may need to run: `cmake .. -G "Unix Makefiles" && make` \
-Run it: `./ExtendedKF path/to/input.txt path/to/output.txt.` You can find some sample inputs in 'data/'. eg. `./ExtendedKF ../data/sample-laser-radar-measurement-data-1.txt output.txt` \
-
-
-
-
-
-
-
-
-# Thanks the Authors for all these applications!
-[Authors](https://github.com/duttresearchgroup/Chauffeur/files/6209700/Authors.txt)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
