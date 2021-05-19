@@ -1,7 +1,0 @@
-[submodule "applications/jetson-inference"]
-	path = applications/jetson-inference
-	url = https://github.com/dusty-nv/jetson-inference/
-[submodule "applications/cuda-sfm"]
-	path = applications/cuda-sfm
-	url = https://github.com/Black-Phoenix/CUDA-SfM
-	
