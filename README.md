@@ -52,7 +52,7 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 
 # Other important information
 ## Application versions
-- jetson-inference @ 6e078d21396298c3a9f1f1ea1f2c27bf80bbd4a6
+- jetson-inference @ e4ebc40967604945fd501b8d35ed0b9e86ca8b2d
 - floam @ de361346020575bd89d32eac969614bc2c72d17c
 - cuda-sfm @ 2e3dcdfeb959426ba897358471f4bee7d9c99b79
 ## Essential dependencies for running Chauffeur:
