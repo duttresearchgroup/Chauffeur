@@ -51,6 +51,9 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 
 
 # Other important information
+## Application versions
+- jetson-inference @ 6e078d21396298c3a9f1f1ea1f2c27bf80bbd4a6
+- floam @ de361346020575bd89d32eac969614bc2c72d17c
 ## Essential dependencies for running Chauffeur:
 - Eigen3 -- 3.3.9
 - Ceres Solver -- 2.0.0
