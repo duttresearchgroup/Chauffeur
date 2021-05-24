@@ -1,4 +1,4 @@
-// Author of FLOAM: Wang Han 
+// Author of FLOAM: Wang Han
 // Email wh200720041@gmail.com
 // Homepage https://wanghan.pro
 
@@ -26,6 +26,10 @@
 #include "lidar.h"
 #include "odomEstimationClass.h"
 
+#define SLIDING_WINDOW_SIZE 8
+int slidingWindow[SLIDING_WINDOW_SIZE] = {0};
+double previousSum = 0.0;
+
 OdomEstimationClass odomEstimation;
 std::mutex mutex_lock;
 std::queue<sensor_msgs::PointCloud2ConstPtr> pointCloudEdgeBuf;
@@ -46,8 +50,17 @@ void velodyneEdgeHandler(const sensor_msgs::PointCloud2ConstPtr &laserCloudMsg)
     mutex_lock.unlock();
 }
 
+double movingAvg(int *ptrArrNumbers, double *ptrSum, int pos, int len, int nextNum)
+{
+    //Subtract the oldest number from the prev sum, add the new number
+    *ptrSum = *ptrSum - ptrArrNumbers[pos] + nextNum;
+    //Assign the nextNum to the position in the array
+    ptrArrNumbers[pos] = nextNum;
+    //return the average
+    return *ptrSum / len;
+}
+
 bool is_odom_inited = false;
-double total_time =0;
 int total_frame=0;
 void odom_estimation(){
     while(1){
@@ -59,16 +72,16 @@ void odom_estimation(){
                 pointCloudSurfBuf.pop();
                 ROS_WARN_ONCE("time stamp unaligned with extra point cloud, pls check your data --> odom correction");
                 mutex_lock.unlock();
-                continue;  
+                continue;
             }
 
             if(!pointCloudEdgeBuf.empty() && (pointCloudEdgeBuf.front()->header.stamp.toSec()<pointCloudSurfBuf.front()->header.stamp.toSec()-0.5*lidar_param.scan_period)){
                 pointCloudEdgeBuf.pop();
                 ROS_WARN_ONCE("time stamp unaligned with extra point cloud, pls check your data --> odom correction");
                 mutex_lock.unlock();
-                continue;  
+                continue;
             }
-            //if time aligned 
+            //if time aligned
 
             pcl::PointCloud<pcl::PointXYZI>::Ptr pointcloud_surf_in(new pcl::PointCloud<pcl::PointXYZI>());
             pcl::PointCloud<pcl::PointXYZI>::Ptr pointcloud_edge_in(new pcl::PointCloud<pcl::PointXYZI>());
@@ -89,10 +102,10 @@ void odom_estimation(){
                 odomEstimation.updatePointsToMap(pointcloud_edge_in, pointcloud_surf_in);
                 end = std::chrono::system_clock::now();
                 std::chrono::duration<float> elapsed_seconds = end - start;
-                total_frame++;
                 float time_temp = elapsed_seconds.count() * 1000;
-                total_time+=time_temp;
-                ROS_INFO("average odom estimation time %f ms \n \n", total_time/total_frame);
+                double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp)
+                total_frame++;
+                ROS_INFO("average odom estimation time %f ms (%f, %d) \n \n", avg, time_temp, total_frame);
             }
 
 
@@ -140,8 +153,8 @@ int main(int argc, char **argv)
     double max_dis = 60.0;
     double min_dis = 2.0;
     double map_resolution = 0.4;
-    nh.getParam("/scan_period", scan_period); 
-    nh.getParam("/vertical_angle", vertical_angle); 
+    nh.getParam("/scan_period", scan_period);
+    nh.getParam("/vertical_angle", vertical_angle);
     nh.getParam("/max_dis", max_dis);
     nh.getParam("/min_dis", min_dis);
     nh.getParam("/scan_line", scan_line);

@@ -10,8 +10,8 @@ source ./devel/setup.bash
 pkill rosmaster
 roscore &
 
-roslaunch --wait floam floam.launch &
+roslaunch --wait floam floam_chauffeur.launch &
 sleep 5
 rosbag play --clock $FLOAM_DATA_FOLDER/2011_09_30_0027-10s.bag
 pkill roslaunch
-pkill floam 
+pkill floam
