@@ -7,7 +7,7 @@ fi
 
 if [[ $1 == "tx2" ]];then
 
-	cd ../../applications/object_detection/jetson-inference
+	cd $R_SRC_ROOT/applications/object_detection/jetson-inference
 	rm -rf build && mkdir build && cd build
 	cmake ..
 	make -j$(nproc)

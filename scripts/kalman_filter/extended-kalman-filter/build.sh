@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ../../applications/kalman_filter/extended-kalman-filter/;mkdir build;cd build
+cd $R_SRC_ROOT/applications/kalman_filter/extended-kalman-filter/;mkdir build;cd build
 cmake .. && make -j$(nproc)

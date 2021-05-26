@@ -12,7 +12,7 @@ fi
 
 
 if [[ $1 == "tx2" ]];then
-	cd ../../applications/structure_from_motion/open-mvg;mkdir build;cd build;cmake -DCMAKE_BUILD_TYPE=RELEASE ../src/;make -j$(nproc)
+	cd $R_SRC_ROOT/applications/structure_from_motion/open-mvg;mkdir build;cd build;cmake -DCMAKE_BUILD_TYPE=RELEASE ../src/;make -j$(nproc)
 	mv Linux-aarch64-RELEASE/* software/SfM/.
 fi
 

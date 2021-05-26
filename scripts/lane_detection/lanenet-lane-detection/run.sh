@@ -6,7 +6,7 @@ if [[ $# -eq 0 ]];then
 fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $DIR/../envs.sh
+source $DIR/../../envs.sh
 
 cd $LANENET_LANE_DETECTION_ROOT_FOLDER
 PYTHONPATH=$PYTHONPATH:$LANENET_LANE_DETECTION_ROOT_FOLDER
