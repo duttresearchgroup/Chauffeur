@@ -12,7 +12,7 @@ if [[ $1 == "px2" ]];then
 	mkdir -p build && cd build
 	cmake . \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/odometry/floam/devel \
+		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/localization/floam/devel \
 		-DBUILD_SHARED_LIBS=OFF
 	make -j$(nproc)
 fi
@@ -24,7 +24,7 @@ if [[ $1 == "tx2" ]];then
 	mkdir -p build && cd build
 	cmake .. \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/odometry/floam/devel \
+		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/localization/floam/devel \
 		-DBUILD_SHARED_LIBS=OFF
 	make -j$(nproc)
 fi
