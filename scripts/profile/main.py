@@ -2,19 +2,26 @@ import click
 import os
 import subprocess
 
-base_command = "perf stat -e instructions:u,branch-misses,cache-misses,cache-references,cycles,instructions,alignment-faults,bpf-output,cs,cpu-clock,migrations,dummy,emulation-faults,major-faults,minor-faults,faults,task-clock,L1-dcache-load-misses,L1-dcache-loads,L1-dcache-store-misses,L1-dcache-stores,L1-icache-load-misses,L1-icache-loads,branch-load-misses,branch-loads,dTLB-load-misses,iTLB-load-misses"
+#base_command = "perf stat -e instructions:u,branch-misses,cache-misses,cache-references,cycles,instructions,alignment-faults,bpf-output,cs,cpu-clock,migrations,dummy,emulation-faults,major-faults,minor-faults,faults,task-clock,L1-dcache-load-misses,L1-dcache-loads,L1-dcache-store-misses,L1-dcache-stores,L1-icache-load-misses,L1-icache-loads,branch-load-misses,branch-loads,dTLB-load-misses,iTLB-load-misses"
+base_command = "perf stat"
+taskset_command = "taskset -c "
 perf_result = []
 output_result = []
 output_flag = False
+is_px2 = False
+is_tx2 = False
 # 1,2 bigcore
 # 0,3,4,5 small-core
 def change_hotplug(cpus):
-    cpu_num = [ int(x) for x in cpus.split(",")]
-    for c in range(6):
-        if c in cpu_num:
-            os.system("echo 1 > /sys/devices/system/cpu/cpu"+str(c)+"/online")
-        else:
-            os.system("echo 0 > /sys/devices/system/cpu/cpu"+str(c)+"/online")
+    global taskset_command
+    #cpu_num = [ int(x) for x in cpus.split(",")]
+    #for c in range(6):
+    #    if c in cpu_num:
+    #        os.system("echo 1 > /sys/devices/system/cpu/cpu"+str(c)+"/online")
+    #    else:
+    #        os.system("echo 0 > /sys/devices/system/cpu/cpu"+str(c)+"/online")
+    taskset_command+=cpus+" "
+    
 
 def get_exectime(cmd):
     global base_command, perf_result,output_flag,output_result
@@ -98,27 +105,58 @@ def get_cpi(cmd):
     print("cpi = " + str(number_of_cycles/number_of_instructions))
 
 def get_ipc(cmd):
-    global base_command, perf_result,output_flag,output_result
+    global base_command, perf_result,output_flag,output_result, is_px2, is_tx2,taskset_command
     li = ""
-    li += base_command + " " + cmd
+    li += taskset_command + base_command + " " + cmd
     process = subprocess.Popen(li.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout_output, stderr_output = process.communicate()
     perf_result = stderr_output.decode("utf-8").strip().split("\n")
     number_of_instructions = 0
+    #ipc = []
     ipc = 0
+    #seq = []
+    #seq = []
+    exectime = 0
     for x in perf_result:
         if "insn" in x:
+            print(x)
             x = ' '.join(x.split())
             r = x.split(' ')
             t = r[0].replace(',','')
             number_of_instructions = int(t)
-            ipc = float(r[3])
+            #seq.append(r[0][1])
+            ipc = number_of_instructions
+            #ipc.append(number_of_instructions)
+        if "elapsed" in x:
+            x = ' '.join(x.split())
+            r = x.split(' ')
+            t = r[0].replace(',','')
+            exectime = float(t)
+    # px2 1 -> 1997000
+    #     0 -> 2035200
 
+    # tx2 all -> 2035200
+    #real_ipc = []
+    #if is_px2 :
+    #    for i ,data in enumerate(ipc):
+    #        if seq[i] == "0":
+    #            real_ipc.append(float(ipc[i])/(float(exectime)*2035200000))
+    #        if seq[i] == "1":
+    #            real_ipc.append(float(ipc[i])/(float(exectime)*1997000000))
+    #if is_tx2 :
+    #    for i ,data in enumerate(ipc):
+    #        real_ipc.append(float(ipc[i])/(float(exectime)*2035200000))
+
+    #calculated_ipc = sum(real_ipc)/len(real_ipc)
+    calculated_ipc = ipc/(exectime*2035200000)
     if output_flag:
-        output_result.append(str(ipc)+"\n")
+        output_result.append(str(calculated_ipc)+"\n")
 #        output_result.append("ipc,"+str(ipc)+"\n")
         return
-    print("ipc result of "+cmd)
+    print("# of instructions result of "+cmd)
+
+    print("calculated ipc"+str(calculated_ipc))
+
 #    print("number of instructions = " + str(number_of_instructions))
     print("ipc = " + str(ipc))
     print("")
@@ -129,10 +167,15 @@ def get_ipc(cmd):
 @click.option('--output', type=click.STRING, help="default=None")
 @click.option('--cpi', is_flag=True, help="Cycles Per Instructions")
 @click.option('--ipc', is_flag=True, help="instruction per cycle")
+@click.option('--device',type=click.STRING, help="px2/tx2")
 @click.argument('command')
 @click.command()
-def main(command, ipc, cpi, cpus, meminfo, exectime, output):
-    global output_flag, output_result
+def main(command, ipc, cpi, cpus, meminfo, exectime, output, device):
+    global output_flag, output_result, is_px2, is_tx2
+    if device == "px2" or device == "PX2":
+        is_px2 = True
+    if device == "tx2" or device == "TX2":
+        is_tx2 = True
     if output:
         output_flag = True
     if cpus:
