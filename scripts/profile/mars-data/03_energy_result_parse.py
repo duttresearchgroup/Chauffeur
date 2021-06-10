@@ -10,12 +10,39 @@ from statistics import mean
 # Please adjust if applications are misclassified
 POWER_CLASSIFY_MARGIN=0.2
 
-def find_files(dir) -> list:
+def find_files(dir):
     result = []
     for filename in os.listdir(dir):
         if filename.endswith("-fine_trace.csv"):
             result.append(str(filename))
     return [result, dir]
+
+def filter(name, data):
+    gpu_power_mean = data["power_gpu_w"].mean()
+    cpu_power_mean = data["power_cpu_w"].mean()
+    
+    diff_GPU = data["power_gpu_w"].max() - gpu_power_mean
+
+    # Check if GPU App
+    if diff_GPU > POWER_CLASSIFY_MARGIN:
+        print ("[GPU] ", end='')
+        tmp = data.loc[abs(data['power_gpu_w'] > gpu_power_mean)]
+        data = data[data['sample_id']>=tmp.sample_id.min()]
+        data = data[data['sample_id']<=tmp.sample_id.max()]
+    else:
+        print ("[CPU] ", end='')
+        
+        # These applications have an initialization phase
+        if (name == 'lidar-tracking' or name == 'orb-slam-3' ):
+            # The following logic tries to discount the init phase when
+            # calculating the mean
+            cpu_power_mean=cpu_power_mean+1
+            tmp = data.loc[abs(data['power_cpu_w'] > cpu_power_mean)]
+            data = data[data['sample_id']>=tmp.sample_id.min()]
+            data = data[data['sample_id']<=tmp.sample_id.max()]
+            # print ("Cutoff: ",cpu_power_mean, ", Min : ", tmp.sample_id.min(), ", Max : ", tmp.sample_id.max(),)
+
+    return data
 
 def process(files:list) -> list:
     output = []
@@ -24,36 +51,9 @@ def process(files:list) -> list:
         data = pd.read_csv(i,delimiter=";")
         name = i[:-15].replace("_", "-")
 
-        gpu_power_mean = data["power_gpu_w"].mean()
-        cpu_power_mean = data["power_cpu_w"].mean()
+        # Remove warm-up and exit phases
+        data=filter(name, data)
         
-        diff = data["power_gpu_w"].max() - gpu_power_mean
-        # Debug print what is the difference
-        # print(diff)
-
-        # Check if GPU App
-        if diff > POWER_CLASSIFY_MARGIN:
-            print ("[GPU] ", end='')
-            tmp = data.loc[abs(data['power_gpu_w'] > gpu_power_mean)]
-            data = data[data['sample_id']>tmp.sample_id.min()]
-            data = data[data['sample_id']<tmp.sample_id.max()]
-
-            data = data[data['power_gpu_w']>gpu_power_mean]
-        else:
-            print ("[CPU] ", end='')
-            
-            # These applications have an initialization phase
-            if (name == 'lidar-tracking' or name == 'orb-slam-3' ):
-                # The following logic tries to discount the init phase when
-                # calculating the mean
-                cpu_power_mean=cpu_power_mean+1
-                tmp = data.loc[abs(data['power_cpu_w'] > cpu_power_mean)]
-                data = data[data['sample_id']>tmp.sample_id.min()]
-                data = data[data['sample_id']<tmp.sample_id.max()]
-                # print ("Cutoff: ",cpu_power_mean, ", Min : ", tmp.sample_id.min(), ", Max : ", tmp.sample_id.max(),)
-
-        print (name, "processed")
-
         output.append([name, data["power_cpu_w"].mean(), data["power_gpu_w"].mean() ,data["power_mem_w"].mean()])
 
         for j in data.columns:
@@ -61,8 +61,9 @@ def process(files:list) -> list:
             data = data.rename(columns={j:temp})
 
         data["total-llc-misses"] = (data["total-llc-misses"]*20) / (10**6)
-
         # data.to_csv(name+"-pg.csv",index=False, header=True )
+
+        print (name, "processed")
     return output
 
 def write_file(data:list):

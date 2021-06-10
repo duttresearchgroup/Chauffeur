@@ -1,5 +1,5 @@
-index,idle-power,cuda-lane-detection,darknet-ros,floam,hybrid-astar,jetson-inference,kalman-filter,lane-detection,lanenet-lane-detection,openMVG
-AvgTotalMemAccess,9,562,112,521,489,189,1325,89,452,1820
-PeakTotalMemAccess,55,1827,481,1362,1247,991,2780,800,1347,3920
-AvgTotalLlcMisses,0,0,1,4,0,2,0,0,0,15
-PeakTotalLlcMisses,0,9,12,21,14,13,8,9,11,60
+index,idle-power,cuda-lane-detection,darknet-ros,floam,hybrid-astar,jetson-inference,kalman-filter,lane-detection,lanenet-lane-detection,lidar-tracking,openMVG,orb-slam-3
+AvgTotalMemAccess,9,717,120,534,499,199,1348,97,537,934,1852,1346
+PeakTotalMemAccess,55,2703,944,1703,1318,1110,2820,1189,2353,1512,7225,2088
+AvgTotalLlcMisses,0,1,1,4,1,3,0,0,1,10,15,18
+PeakTotalLlcMisses,0,19,14,25,16,17,13,14,17,21,89,67

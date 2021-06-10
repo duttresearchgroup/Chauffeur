@@ -1,6 +1,5 @@
 ### Script for Table 4. .  Comparison of memory access and main memory (DRAM) bandwidth (B/W) of Chauffeur applications on the Jetson TX2
-### Measured numbers are only from CPU performance counters and do not consider memory traffic from GPU. Unit ismillion-transfers/sec(MT/s
-### Final Version of MEM_llc_data_for_table4.py
+### Measured numbers are only from CPU performance counters and do not consider memory traffic from GPU. Unit is million-transfers/sec(MT/s)
 import sys
 import os
 import numpy as np
@@ -18,30 +17,44 @@ def find_files(dir) -> list:
             result.append(str(filename))
     return [result, dir]
 
+
+def filter(name, data):
+    gpu_power_mean = data["power_gpu_w"].mean()
+    cpu_power_mean = data["power_cpu_w"].mean()
+    
+    diff_GPU = data["power_gpu_w"].max() - gpu_power_mean
+
+    # Check if GPU App
+    if diff_GPU > POWER_CLASSIFY_MARGIN:
+        print ("[GPU] ", end='')
+        tmp = data.loc[abs(data['power_gpu_w'] > gpu_power_mean)]
+        data = data[data['sample_id']>=tmp.sample_id.min()]
+        data = data[data['sample_id']<=tmp.sample_id.max()]
+        # print ("Cutoff: ",gpu_power_mean, ", Min : ", tmp.sample_id.min(), ", Max : ", tmp.sample_id.max(),)
+    else:
+        print ("[CPU] ", end='')
+        
+        # These applications have an initialization phase
+        if (name == 'lidar-tracking' or name == 'orb-slam-3' ):
+            # The following logic tries to discount the init phase when
+            # calculating the mean
+            cpu_power_mean=cpu_power_mean+1
+            tmp = data.loc[abs(data['power_cpu_w'] > cpu_power_mean)]
+            data = data[data['sample_id']>=tmp.sample_id.min()]
+            data = data[data['sample_id']<=tmp.sample_id.max()]
+            # print ("Cutoff: ",cpu_power_mean, ", Min : ", tmp.sample_id.min(), ", Max : ", tmp.sample_id.max(),)
+
+    return data
+
 def process(files:list) -> list:
     output = []
     os.chdir(files[1])
     for i in files[0]:
         data = pd.read_csv(i,delimiter=";")
         name = i[:-15].replace("_", "-")
-        #data["total_llc_misses"] = (data["total_llc_misses"]*20) / (10**6)
-        #data["total_mem_access"] = (data["total_mem_access"]*20) / (10**6)
-
-        #gpu_power_mean = data["power_gpu_w"].mean()
-        # Check if GPU App
-        #diff = data["power_gpu_w"].max() - gpu_power_mean
-        # Debug print what is the difference
-        # print(diff)
-        #if diff > POWER_CLASSIFY_MARGIN:
-        #    print ("[GPU] ", end='')
-            # Trim GPU apps to remove initialization
-        #    data = data[data['power_gpu_w']>gpu_power_mean]
-        #else:
-        #    print ("[CPU] ", end='')
-
-        #print(name)
-
-        #data = data[data.between(data["total_llc_misses"].quantile(0), data["total_llc_misses"].quantile(0.99))]
+       
+        # Remove warm-up and exit phases
+        data=filter(name, data)
 
         data = data.sort_values(by=["total_llc_misses"])
         data_possible_outlier = data[data["total_llc_misses"].between(data["total_llc_misses"].quantile(0.99), data["total_llc_misses"].quantile(1),inclusive = True)]
@@ -60,8 +73,6 @@ def process(files:list) -> list:
         print(temp)
     return output
 
-
-
 def write_file(data:list):
     col = ['ApplicationName', 'AvgTotalMemAccess', 'PeakTotalMemAccess', 'AvgTotalLlcMisses', 'PeakTotalLlcMisses']
     new_data = pd.DataFrame(data, columns = col)
@@ -76,9 +87,6 @@ def write_file(data:list):
     data = data.transpose()
     data = data.reset_index()
     data.to_csv("mem-llc.csv", index=False)
-
-
-
 
 if __name__ == "__main__":
     FileList = find_files( str(sys.argv[1]) )
