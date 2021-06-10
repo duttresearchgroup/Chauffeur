@@ -25,6 +25,7 @@ def process(files:list) -> list:
         name = i[:-15].replace("_", "-")
 
         gpu_power_mean = data["power_gpu_w"].mean()
+        cpu_power_mean = data["power_cpu_w"].mean()
         
         diff = data["power_gpu_w"].max() - gpu_power_mean
         # Debug print what is the difference
@@ -33,9 +34,23 @@ def process(files:list) -> list:
         # Check if GPU App
         if diff > POWER_CLASSIFY_MARGIN:
             print ("[GPU] ", end='')
+            tmp = data.loc[abs(data['power_gpu_w'] > gpu_power_mean)]
+            data = data[data['sample_id']>tmp.sample_id.min()]
+            data = data[data['sample_id']<tmp.sample_id.max()]
+
             data = data[data['power_gpu_w']>gpu_power_mean]
         else:
             print ("[CPU] ", end='')
+            
+            # These applications have an initialization phase
+            if (name == 'lidar-tracking' or name == 'orb-slam-3' ):
+                # The following logic tries to discount the init phase when
+                # calculating the mean
+                cpu_power_mean=cpu_power_mean+1
+                tmp = data.loc[abs(data['power_cpu_w'] > cpu_power_mean)]
+                data = data[data['sample_id']>tmp.sample_id.min()]
+                data = data[data['sample_id']<tmp.sample_id.max()]
+                # print ("Cutoff: ",cpu_power_mean, ", Min : ", tmp.sample_id.min(), ", Max : ", tmp.sample_id.max(),)
 
         print (name, "processed")
 
@@ -47,7 +62,7 @@ def process(files:list) -> list:
 
         data["total-llc-misses"] = (data["total-llc-misses"]*20) / (10**6)
 
-        data.to_csv(name+"-pg.csv",index=False, header=True )
+        # data.to_csv(name+"-pg.csv",index=False, header=True )
     return output
 
 def write_file(data:list):
@@ -58,8 +73,7 @@ def write_file(data:list):
     df_2 = new_data.iloc[1:]
     df_2 = df_2.sort_values(by = ['ApplicationName'])
     new_data = pd.concat([df_1, df_2])
-    new_data.to_csv("energy-result.csv", index=False)
-
+    new_data.to_csv("energy-result.csv", index=False, float_format='%.3f')
 
 if __name__ == "__main__":
     FileList = find_files( str(sys.argv[1]) )
