@@ -40,7 +40,7 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 ```
 # Step 2: Deployment on board
 * Please ensure that `rsync` is installed in both host and target, and additionally `sshpass` is installed on host. 
-* In `scripts/remote_sync.sh` modify the remote credentials where you want to deploy. 
+* In `scripts/envs.sh` modify the remote credentials where you want to deploy. 
 * Create a file called `scripts/passwd` to store the ssh password.
 * Next using `bash` shell execute `scripts/send.sh applications/bin bin`. If you are using VSCode, we already include a 'Send Binaries' task.
 # Step 3: Running on board
@@ -51,6 +51,18 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 
 
 # Other important information
+## Libraries used for CPU parallelization
+| Application | Parallelism | Framework   |
+| ----------- | ----------- | ----------- |
+| cuda-lane-det | Data-level    | OpenCV (TBB, pthreads) |
+| darknet-ros   | Thread-level  | C++ |
+| floam         | Thread-level  | C++ | 
+| hybrid-astar  | None          | None | 
+| jetson-inference  | None      | None | 
+| kalman-filter | None          | None | 
+| openMVG       | Data-level    | OpenMP | 
+| lidar-tracker | Data-level    | OpenCV (TBB, pthreads) | 
+| orb-slam-3    | Thread-level  | C++ | 
 ## Application versions
 - jetson-inference @ e4ebc40967604945fd501b8d35ed0b9e86ca8b2d
 - floam @ de361346020575bd89d32eac969614bc2c72d17c
