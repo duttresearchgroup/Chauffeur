@@ -1,13 +1,14 @@
 #!/bin/bash
 
-DIR=$1/scripts/object_detection/darknet-ros
+DIR=$HOME/workspace/Chauffeur/scripts/object_detection/darknet-ros
 source $DIR/../../envs.sh
 
-cd $DIR
-source /opt/ros/melodic/setup.bash
-source install/setup.bash
+cd $DARKNET_ROS_BINARY_FOLDER
+source ./setup.bash
 
 while [ 1 ]
 do
-	roslaunch     darknet_ros     darknet_ros.launch
+	DARKNET_ROS_LABELS_FOLDER=$DARKNET_ROS_LABELS_FOLDER \
+	DARKNET_ROS_BAG_FOLDER=$DARKNET_ROS_BAG_FOLDER \
+	roslaunch --wait  darknet_ros   darknet_ros_infinite.launch
 done

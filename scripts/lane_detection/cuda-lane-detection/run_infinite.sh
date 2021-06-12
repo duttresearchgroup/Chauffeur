@@ -1,14 +1,13 @@
 #!/bin/bash
 
-DIR=$1
-source $DIR/../../envs.sh
+DIR=/home/deep/workspace/Chauffeur/
+source $DIR/scripts/envs.sh
 
-cd $CUDA_LANE_DETECTION_ROOT_FOLDER/build
 
 while [ 1 ]
 do
-./$CUDA_LANE_DETECTION_BINARY_NAME \
-    $CUDA_LANE_DETECTION_DATA_FOLDER/test-video.mp4 \
-    $CUDA_LANE_DETECTION_DATA_FOLDER/result-video.avi \
+    $DIR/applications/lane_detection/cuda-lane-detection/build/./cuda-lane-detection \
+    $DIR/data/test-video.mp4 \
+    $DIR/data/result-video.avi \
     --cuda
 done

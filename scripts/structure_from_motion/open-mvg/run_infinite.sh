@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR=$1/scripts/structure_from_motion/open-mvg
+DIR=$HOME/workspace/Chauffeur/scripts/structure_from_motion/open-mvg
 source $DIR/../../envs.sh
 
 rm -rf $OPEN_MVG_OUTPUT_FOLDER

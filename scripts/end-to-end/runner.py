@@ -81,7 +81,8 @@ def commandHandler(command):
             os.system("sudo pkill -9 roscore")
             os.system("sudo pkill -9 rosmaster")
             os.system("sudo pkill -9 rosout")
-            launchBackgoundProcessWithoutOutput("/bin/bash -c roscore > /dev/null 2>&1 &")
+            #TODO: make env function
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh > /dev/null 2>&1 &")
             command_in = False
 
     if command == 1:
@@ -92,7 +93,7 @@ def commandHandler(command):
         else:
             os.system("sudo pkill -9 rosbag")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh "+ROOT+" > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh > /dev/null 2>&1 &")
             command_in = False
 
     if command == 2:
@@ -112,9 +113,9 @@ def commandHandler(command):
             print("kalman filter is already launched")
             command_in = False
         else:
-            os.system("sudo pkill -9 hybrid_astar")
-            os.system("sudo pkill -9 map_server")
-            os.system("sudo pkill -9 tf_broadcaster")
+            #os.system("sudo pkill -9 hybrid_astar")
+            #os.system("sudo pkill -9 map_server")
+            #os.system("sudo pkill -9 tf_broadcaster")
             # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_infinite.sh > /dev/null 2>&1 &")
             command_in = False
@@ -126,9 +127,9 @@ def commandHandler(command):
             command_in = False
         else:
             #TODO : detect ROS version
-            os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
+            #os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh "+ROOT+" > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh > /dev/null 2>&1 &")
             command_in = False
 
     if command == 5:
@@ -137,9 +138,9 @@ def commandHandler(command):
             print("floam is already launched")
             command_in = False
         else:
-            os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
+            #os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/floam/run_infinite.sh "+ROOT+" > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/floam/run_infinite.sh  > /dev/null 2>&1 &")
             command_in = False
 
     if command == 6:
@@ -148,9 +149,9 @@ def commandHandler(command):
             print("cuda-lane-detection is already launched")
             command_in = False
         else:
-            os.system("sudo pkill -9 ./cuda-lane-detection")
+            #os.system("sudo pkill -9 ./cuda-lane-detection")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/cuda-lane-detection/run_infinite.sh "+ROOT+" > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_infinite.sh > /dev/null 2>&1 &")
             command_in = False
 
     if command == 7:
@@ -159,9 +160,9 @@ def commandHandler(command):
             print("openMVG is already launched")
             command_in = False
         else:
-            os.system("sudo pkill -9 SfM_SequentialPipeline.py")
+            #os.system("sudo pkill -9 SfM_SequentialPipeline.py")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run.sh > "+ROOT+" /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh > /dev/null 2>&1 &")
             command_in = False
 
 
@@ -194,7 +195,6 @@ def displayCurrentApps():
     print("current running list : "+','.join(result))
 
 if __name__ == "__main__":
-    global command_in, command
     ROOT = os.getcwd()+"/../../"
     signal.signal(signal.SIGINT, sigintHandler)
     while(1):
