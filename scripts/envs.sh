@@ -46,7 +46,7 @@ LANENET_LANE_DETECTION_PRELOAD_DIR=/usr/local/lib/python3.6/dist-packages/scikit
 LANENET_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection/lanenet-lane-detection
 
 # FLOAM:
-FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization/floam/
+FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization_and_mapping/floam/
 FLOAM_BINARY_NAME=floam
 FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
 

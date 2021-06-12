@@ -8,6 +8,9 @@ import subprocess
 command_in = False
 command = -1
 
+ROOT=""
+ROSBAG="./rosbag.sh"
+
 def checkIfProcessRunning(processName):
     #Iterate over the all the running process
     for proc in psutil.process_iter():
@@ -25,7 +28,7 @@ def displaySystemUtil():
 
 def sigintHandler(signal, frame):
     global command_in, command
-    print("press [0-7] or q")
+    print("press [a,0-7] or q")
     data = ""
 
     while(True):
@@ -43,6 +46,7 @@ def sigintHandler(signal, frame):
         except:
             command_in = False
             print("please input right command")
+
 def preexec_function():
     os.setpgrp()
 
@@ -50,11 +54,12 @@ def launchBackgoundProcessWithoutOutput(full_command):
     subprocess.Popen(full_command.split(), close_fds=True, preexec_fn = preexec_function, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def commandHandler(command):
-    global command_in
+    global command_in, ROOT
     os.system('clear')
     print("input command is "+str(command))
     
 # 0 - 7
+# a -> all commands
 # 0 - roscore
 # 1 - rosbag
 # 2 - ekf
@@ -63,6 +68,10 @@ def commandHandler(command):
 # 5 - floam
 # 6 - lane-detection
 # 7 - SFM
+# TODO
+# 8 - lidar-tracking
+# 9 - orb-slam-3
+
     if command == 0:
         #roscore
         if(checkIfProcessRunning("roscore") and checkIfProcessRunning("rosmaster") and checkIfProcessRunning("rosout")):
@@ -83,7 +92,7 @@ def commandHandler(command):
         else:
             os.system("sudo pkill -9 rosbag")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c /home/nvidia/Workspace/Chauffeur/scripts/darknet_ros/1.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh "+ROOT+" > /dev/null 2>&1 &")
             command_in = False
 
     if command == 2:
@@ -94,7 +103,7 @@ def commandHandler(command):
         else:
             os.system("sudo pkill -9 ./ExtendedKF")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c /home/nvidia/Workspace/Chauffeur/scripts/kalman_filter/run.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh > /dev/null 2>&1 &")
             command_in = False
 
     if command == 3:
@@ -107,7 +116,7 @@ def commandHandler(command):
             os.system("sudo pkill -9 map_server")
             os.system("sudo pkill -9 tf_broadcaster")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c /home/nvidia/Workspace/Chauffeur/scripts/hybrid-astar/run.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_infinite.sh > /dev/null 2>&1 &")
             command_in = False
 
     if command == 4:
@@ -116,9 +125,10 @@ def commandHandler(command):
             print("darknet_ros is already launched")
             command_in = False
         else:
-            os.system("sudo pkill -9 /opt/ros/kinetic/bin/roslaunch")
+            #TODO : detect ROS version
+            os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c /home/nvidia/Workspace/Chauffeur/scripts/darknet_ros/test.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh "+ROOT+" > /dev/null 2>&1 &")
             command_in = False
 
     if command == 5:
@@ -127,9 +137,9 @@ def commandHandler(command):
             print("floam is already launched")
             command_in = False
         else:
-            os.system("sudo pkill -9 /opt/ros/kinetic/bin/roslaunch")
+            os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c /home/nvidia/Workspace/Chauffeur/scripts/floam/test.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/floam/run_infinite.sh "+ROOT+" > /dev/null 2>&1 &")
             command_in = False
 
     if command == 6:
@@ -140,7 +150,7 @@ def commandHandler(command):
         else:
             os.system("sudo pkill -9 ./cuda-lane-detection")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c /home/nvidia/Workspace/Chauffeur/scripts/cuda-lane-detection/run.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/cuda-lane-detection/run_infinite.sh "+ROOT+" > /dev/null 2>&1 &")
             command_in = False
 
     if command == 7:
@@ -151,10 +161,8 @@ def commandHandler(command):
         else:
             os.system("sudo pkill -9 SfM_SequentialPipeline.py")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c /home/nvidia/Workspace/Chauffeur/scripts/openMVG/run.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run.sh > "+ROOT+" /dev/null 2>&1 &")
             command_in = False
-
-
 
 
 def displayCurrentApps():
@@ -187,16 +195,17 @@ def displayCurrentApps():
 
 if __name__ == "__main__":
     global command_in, command
+    ROOT = os.getcwd()+"/../../"
     signal.signal(signal.SIGINT, sigintHandler)
     while(1):
         os.system('clear')
         if(command_in):
             commandHandler(command)
-        displaySystemUtil()
         displayCurrentApps()
+        displaySystemUtil()
         columns, rows = os.get_terminal_size(0)
         number_of_chars = columns-1
         pad = int(rows/2)-2
         print(pad*"\n")
         print(number_of_chars*"-")
-        time.sleep(1)
+        time.sleep(2)

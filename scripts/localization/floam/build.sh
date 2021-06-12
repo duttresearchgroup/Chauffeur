@@ -12,19 +12,19 @@ if [[ $1 == "px2" ]];then
 	mkdir -p build && cd build
 	cmake . \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/localization/floam/devel \
+		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/localization_and_mapping/floam/devel \
 		-DBUILD_SHARED_LIBS=OFF
 	make -j$(nproc)
 fi
 
 if [[ $1 == "tx2" ]];then
 	source /opt/ros/melodic/setup.bash
-	cd $R_SRC_ROOT/applications/localization/floam
+	cd $R_SRC_ROOT/applications/localization_and_mapping/floam
 	rm -rf devel && rm -rf build
 	mkdir -p build && cd build
 	cmake .. \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/localization/floam/devel \
+		-DCATKIN_DEVEL_PREFIX=$R_SRC_ROOT/applications/localization_and_mapping/floam/devel \
 		-DBUILD_SHARED_LIBS=OFF
 	make -j$(nproc)
 fi
