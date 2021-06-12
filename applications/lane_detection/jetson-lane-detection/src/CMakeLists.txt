@@ -10,6 +10,7 @@ option(JETSON_TX2 "Build for the Jetson TX2" OFF)
 find_package(OpenCV REQUIRED)
 find_package(GSL REQUIRED)
 find_package(Threads)
+find_package (Eigen3 REQUIRED)
 
 find_package(Boost 1.58.0 REQUIRED COMPONENTS system log)
 

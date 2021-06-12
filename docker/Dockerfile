@@ -78,7 +78,7 @@ RUN OPENCV_VERSION=3.4.13 && \
     cmake -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_INSTALL_PREFIX=/usr/local \
           -DBUILD_SHARED_LIBS=OFF \
-          -DBUILD_LIST=core,improc,imgcodecs,cudev,highgui,videoio,cudaimgproc,ximgproc,objdetect \
+          -DBUILD_LIST=core,improc,imgcodecs,cudev,highgui,videoio,cudaimgproc,ximgproc,objdetect,video \
           -DBUILD_PNG=OFF \
           -DBUILD_TIFF=OFF \
           -DBUILD_TBB=OFF \
@@ -128,7 +128,65 @@ RUN CERES_VERSION=2.0.0 && \
      rm -rf /ceres-solver-${CERES_VERSION}
 
 # Docker best practise
-RUN rm -rf /var/lib/apt/lists/*
+# RUN rm -rf /var/lib/apt/lists/*
+
+# ROS key update
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+# try eigen three installation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+     ros-melodic-pcl-conversions \
+     ros-melodic-pcl-msgs \
+     ros-melodic-pcl-ros \
+     libeigen3-dev \
+     libproj-dev \
+     libmove-base-msgs-dev
+RUN ln -s /usr/include/eigen3/Eigen /usr/local/include/Eigen
+
+
+RUN apt-get install -y --no-install-recommends git
+
+# Pangolin
+ARG PANGOLIN_COMMIT=ad8b5f83222291c51b4800d5a5873b0e90a0cf81
+WORKDIR /tmp
+RUN set -x && \
+  git clone https://github.com/stevenlovegrove/Pangolin.git && \
+  cd Pangolin && \
+  git checkout ${PANGOLIN_COMMIT} && \
+  sed -i -e "193,198d" ./src/utils/file_utils.cpp && \
+  mkdir -p build && \
+  cd build && \
+  cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_PANGOLIN_DEPTHSENSE=OFF \
+    -DBUILD_PANGOLIN_FFMPEG=OFF \
+    -DBUILD_PANGOLIN_LIBDC1394=OFF \
+    -DBUILD_PANGOLIN_LIBJPEG=OFF \
+    -DBUILD_PANGOLIN_LIBOPENEXR=OFF \
+    -DBUILD_PANGOLIN_LIBPNG=OFF \
+    -DBUILD_PANGOLIN_LIBREALSENSE=OFF \
+    -DBUILD_PANGOLIN_LIBREALSENSE2=OFF \
+    -DBUILD_PANGOLIN_LIBTIFF=OFF \
+    -DBUILD_PANGOLIN_LIBUVC=OFF \
+    -DBUILD_PANGOLIN_LZ4=OFF \
+    -DBUILD_PANGOLIN_OPENNI=OFF \
+    -DBUILD_PANGOLIN_OPENNI2=OFF \
+    -DBUILD_PANGOLIN_PLEORA=OFF \
+    -DBUILD_PANGOLIN_PYTHON=OFF \
+    -DBUILD_PANGOLIN_TELICAM=OFF \
+    -DBUILD_PANGOLIN_TOON=OFF \
+    -DBUILD_PANGOLIN_UVC_MEDIAFOUNDATION=OFF \
+    -DBUILD_PANGOLIN_V4L=OFF \
+    -DBUILD_PANGOLIN_VIDEO=OFF \
+    -DBUILD_PANGOLIN_ZSTD=OFF \
+    -DBUILD_PYPANGOLIN_MODULE=OFF \
+    .. && \
+  make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
+  cd /tmp && \
+  rm -rf *
+ENV Pangolin_DIR=${CMAKE_INSTALL_PREFIX}/lib/cmake/Pangolin
 
 RUN mkdir -p /workspace
 WORKDIR /workspace
