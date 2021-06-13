@@ -21,3 +21,7 @@ killall -9 floam_odom_estimation_node
 killall -9 floam_laser_processing_node
 killall -9 static_transform_publisher
 killall -9 python
+killall -9 cuda-lane-detection
+
+killall -9 run_infinite.sh
+killall -9 hector_trajectory_server

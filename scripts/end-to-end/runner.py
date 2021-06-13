@@ -57,7 +57,10 @@ def commandHandler(command):
     global command_in, ROOT
     os.system('clear')
     print("input command is "+str(command))
-    
+    command_in = False
+    turn_all = False
+    if command == 'a':
+        turn_all = True
 # 0 - 7
 # a -> all commands
 # 0 - roscore
@@ -72,99 +75,79 @@ def commandHandler(command):
 # 8 - lidar-tracking
 # 9 - orb-slam-3
 
-    if command == 0:
+    if command == 0 or turn_all:
         #roscore
         if(checkIfProcessRunning("roscore") and checkIfProcessRunning("rosmaster") and checkIfProcessRunning("rosout")):
             print("roscore is already launched")
-            command_in = False
         else:
             os.system("sudo pkill -9 roscore")
             os.system("sudo pkill -9 rosmaster")
             os.system("sudo pkill -9 rosout")
             #TODO: make env function
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh > /dev/null 2>&1 &")
-            command_in = False
 
-    if command == 1:
+    if command == 1 or turn_all:
         #rosbag
         if(checkIfProcessRunning("rosbag")):
             print("rosbag is already launched")
-            command_in = False
         else:
             os.system("sudo pkill -9 rosbag")
             # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh > /dev/null 2>&1 &")
-            command_in = False
 
-    if command == 2:
+    if command == 2 or turn_all:
         #rosbag
         if(checkIfProcessRunning("ExtendedKF")):
             print("kalman filter is already launched")
-            command_in = False
         else:
             os.system("sudo pkill -9 ./ExtendedKF")
             # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh > /dev/null 2>&1 &")
-            command_in = False
 
-    if command == 3:
+    if command == 3 or turn_all:
         #hybrid_astar
         if(checkIfProcessRunning("hybrid_astar") and checkIfProcessRunning("map_server") and checkIfProcessRunning("tf_broadcaster") ):
             print("kalman filter is already launched")
-            command_in = False
         else:
-            #os.system("sudo pkill -9 hybrid_astar")
-            #os.system("sudo pkill -9 map_server")
-            #os.system("sudo pkill -9 tf_broadcaster")
-            # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_infinite.sh > /dev/null 2>&1 &")
-            command_in = False
 
-    if command == 4:
+    if command == 4 or turn_all:
         #darknet_ros
         if(checkIfProcessRunning("darknet_ros") and checkIfProcessRunning("map_server") and checkIfProcessRunning("tf_broadcaster") ):
             print("darknet_ros is already launched")
-            command_in = False
         else:
             #TODO : detect ROS version
-            #os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
-            # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh > /dev/null 2>&1 &")
-            command_in = False
 
-    if command == 5:
+    if command == 5 or turn_all:
         #floam
         if(checkIfProcessRunning("floam.launch")):
             print("floam is already launched")
-            command_in = False
         else:
-            #os.system("sudo pkill -9 /opt/ros/melodic/bin/roslaunch")
-            # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/floam/run_infinite.sh  > /dev/null 2>&1 &")
-            command_in = False
 
-    if command == 6:
+    if command == 6 or turn_all:
         #lane-detection
         if(checkIfProcessRunning("./cuda-lane-detection")):
             print("cuda-lane-detection is already launched")
-            command_in = False
         else:
-            #os.system("sudo pkill -9 ./cuda-lane-detection")
-            # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_infinite.sh > /dev/null 2>&1 &")
-            command_in = False
 
-    if command == 7:
+    if command == 7 or turn_all:
         #SFM
-        if(checkIfProcessRunning("python SfM_SequentialPipeline.py")):
+        if(checkIfProcessRunning("openMVG_main_ComputeFeatures")):
             print("openMVG is already launched")
-            command_in = False
         else:
-            #os.system("sudo pkill -9 SfM_SequentialPipeline.py")
-            # chane this shell file name
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh > /dev/null 2>&1 &")
-            command_in = False
 
+    if command == 8 or turn_all:
+        # lidar-tracking
+        if(checkIfProcessRunning("kf_tracker")):
+            print("lidar-tracking is already launched")
+        else:
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_tracking/lidar-tracking/run_infinite.sh > /dev/null 2>&1 &")
+ 
+    #TODO: Orb-slam-3 is work in progress
 
 def displayCurrentApps():
     result = []
@@ -189,8 +172,11 @@ def displayCurrentApps():
     if checkIfProcessRunning("cuda-lane-detection"):
        result.append("cuda-lane-detection")
 
-    if checkIfProcessRunning("SfM_SequentialPipeline.py"):
+    if checkIfProcessRunning("openMVG_main_ComputeFeatures"):
        result.append("openMVG")       
+
+    if checkIfProcessRunning("kf_tracker"):
+       result.append("lidar-tracking")
 
     print("current running list : "+','.join(result))
 

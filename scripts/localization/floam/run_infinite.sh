@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DIR=$HOME/workspace/Chauffeur
-cd $DIR/applications/localization_and_mapping/floam;
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+cd $DIR/../../../applications/localization_and_mapping/floam;
 source /opt/ros/melodic/setup.bash
 source devel/setup.bash
 

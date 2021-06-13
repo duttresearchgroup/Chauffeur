@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIR=$HOME/workspace/Chauffeur/scripts/structure_from_motion/open-mvg
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source $DIR/../../envs.sh
 
 rm -rf $OPEN_MVG_OUTPUT_FOLDER

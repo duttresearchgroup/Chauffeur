@@ -60,3 +60,7 @@ DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet-ros/
 DARKNET_ROS_BINARY_NAME=darknet_ros
 DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/data/object_detection/darknet-ros
 DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/data
+
+# ORB-SLAM-3
+ORBSLAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization_and_mapping/orb-slam-3
+ORBSLAM_DATA_FOLDER=$R_SRC_ROOT/data
