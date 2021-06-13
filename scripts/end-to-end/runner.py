@@ -42,9 +42,11 @@ def sigintHandler(signal, frame):
     else:
         command_in = True
         try:
-            if command == 'a':
-                return
-            command = int(data[0])
+            if data[0] == 'a':
+                command = data[0]
+                pass
+            else:
+                command = int(data[0])
         except:
             command_in = False
             print("please input right command")
