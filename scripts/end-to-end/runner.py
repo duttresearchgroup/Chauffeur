@@ -42,6 +42,8 @@ def sigintHandler(signal, frame):
     else:
         command_in = True
         try:
+            if command == 'a':
+                return
             command = int(data[0])
         except:
             command_in = False
