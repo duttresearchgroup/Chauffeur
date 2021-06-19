@@ -42,7 +42,7 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 * Please ensure that `rsync` is installed in both host and target, and additionally `sshpass` is installed on host. 
 * In `scripts/envs.sh` modify the remote credentials where you want to deploy. 
 * Create a file called `scripts/passwd` to store the ssh password.
-* Next using `bash` shell execute `scripts/send.sh applications/bin bin`. If you are using VSCode, we already include a 'Send Binaries' task.
+* Next using `bash` shell execute `scripts/send.sh cross-apps/ applications/`. If you are using VSCode, we already include a 'Send Binaries' task.
 # Step 3: Running on board
 * `source scripts/env.sh`
 * In `scripts` folder we have include the relevant launching script `run.sh` for each application. For example, to run application kalman_filter, `sh scripts/kalman_filter/run.sh`
