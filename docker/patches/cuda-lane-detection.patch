@@ -1,14 +1,16 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 0000000..181b450
+index 0000000..d9f2e82
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,25 @@
 +cmake_minimum_required(VERSION 3.1)
 +project(cuda-lane-detection)
 +
 +find_package(OpenCV REQUIRED)
 +find_package(CUDA 10 REQUIRED)
++find_package (Eigen3 3.3 REQUIRED)
++
 +message("-- CUDA version: ${CUDA_VERSION}")
 +
 +set(
@@ -21,7 +23,8 @@ index 0000000..181b450
 +file(GLOB projectSources *.cpp *.cu)
 +
 +cuda_add_executable(${CMAKE_PROJECT_NAME} ${projectSources})
-+target_link_libraries(${CMAKE_PROJECT_NAME} ${OpenCV_LIBS})
++target_link_libraries(${CMAKE_PROJECT_NAME} ${OpenCV_LIBS} Eigen3::Eigen)
++
 +
 +# nvcc -gencode arch=compute_62,code=sm_62 
 +# -I/usr/local/include/opencv4 
