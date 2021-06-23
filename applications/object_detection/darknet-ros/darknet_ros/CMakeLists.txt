@@ -47,6 +47,7 @@ endif ( X11_FOUND )
 
 # Find rquired packeges
 find_package(Boost REQUIRED COMPONENTS thread)
+find_package (Eigen3 3.3 REQUIRED)            ####################
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 find_package(catkin REQUIRED
@@ -189,7 +190,7 @@ target_link_libraries(${PROJECT_NAME}_lib
   ${Boost_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${catkin_LIBRARIES}
-  ${OpenCV_LIBS}
+  ${OpenCV_LIBS} Eigen3::Eigen
 )
 
 target_link_libraries(${PROJECT_NAME}
