@@ -1,0 +1,20 @@
+[submodule "utils"]
+	path = applications/object_detection/jetson-inference/utils
+	url = https://github.com/dusty-nv/jetson-utils
+	branch = master
+[submodule "tools/camera-capture"]
+	path = applications/object_detection/jetson-inference/tools/camera-capture
+	url = https://github.com/dusty-nv/camera-capture
+	branch = master
+[submodule "python/training/classification"]
+	path = applications/object_detection/jetson-inference/python/training/classification
+	url = https://github.com/dusty-nv/pytorch-classification
+	branch = master
+[submodule "python/training/detection"]
+	path = applications/object_detection/jetson-inference/python/training/detection
+	url = https://github.com/dusty-nv/pytorch-detection
+	branch = master
+[submodule "python/training/segmentation"]
+	path = applications/object_detection/jetson-inference/python/training/segmentation
+	url = https://github.com/dusty-nv/pytorch-segmentation
+	branch = master
