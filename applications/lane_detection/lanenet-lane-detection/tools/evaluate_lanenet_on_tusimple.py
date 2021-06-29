@@ -19,6 +19,13 @@ import numpy as np
 import tensorflow as tf
 import tqdm
 
+# [Chauffeur] Modified for import error for python > 3.3   
+import os, sys                                            
+currentdir = os.path.dirname(os.path.realpath(__file__))  
+parentdir = os.path.dirname(currentdir)                   
+sys.path.append(parentdir)                               
+# By Jay, 6/24/2021
+
 from lanenet_model import lanenet
 from lanenet_model import lanenet_postprocess
 from local_utils.config_utils import parse_config_utils
