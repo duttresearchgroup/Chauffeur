@@ -52,7 +52,7 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 * In `scripts` folder we have include the relevant launching script `run.sh` for each application. For example, to run application kalman_filter, `sh scripts/kalman_filter/run.sh`
 * For cross compiled environment, pass `cross` as an argument to the file. Example:  `sh scripts/kalman_filter/run.sh cross`.
 ### Extra Note:
-#######For cross-compiling, we also installed the folling libraries on the target:
+For cross-compiling, we also installed the folling libraries on the target:
 * lane_detection/jetson-lane-detection: `sudo apt-get install libconfig-dev libgsl-dev`
 * lane_detection/lanenet-lane-detection: `tensorflow`
 * localization_and_mapping/floam:`apt install ros-melodic-hector-trajectory-server`
