@@ -1,2 +1,9 @@
 libconfig-dev 
 libgsl-dev
+ros-melodic-hector-trajectory-server
+ros-melodic-cv-bridge 
+ros-melodic-image-transport
+ros-melodic-pcl-conversions
+ros-melodic-tf 
+ros-melodic-ompl 
+ros-melodic-map-server
