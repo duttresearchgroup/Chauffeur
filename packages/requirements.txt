@@ -1,4 +1,4 @@
 #lane_detection/lanenet-lane-detection
-imatplotlib
+matplotlib
 tqdm
 

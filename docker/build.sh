@@ -36,7 +36,7 @@ build_lane_detection() {
     rm -rf build && mkdir -p build && cd build
     cmake $source/lane_detection/jetson-lane-detection
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    mv $source/lane_detection/jetson-lane-detection/bin $target/lane_detection/bin
+    mv $source/lane_detection/jetson-lane-detection/bin $target/lane_detection/jetson-lane-detection/bin
     # -DJETSON_TX2=ON \
     # -DOpenCV_DIR=/usr/local/opencv2/share/OpenCV/OpenCVConfig-version.cmake \
 }
@@ -94,7 +94,7 @@ build_floam() {
     cmake $source/localization_and_mapping/floam \
         -DCMAKE_BUILD_TYPE=Release \
         -DCATKIN_DEVEL_PREFIX=$target/localization_and_mapping/floam/devel \
-        -DCMAKE_INSTALL_PREFIX=$target/localization_and_mapping/install \
+        -DCMAKE_INSTALL_PREFIX=$target/localization_and_mapping/floam/install \
         -DBUILD_SHARED_LIBS=OFF
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 

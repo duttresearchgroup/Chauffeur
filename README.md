@@ -53,13 +53,13 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 * For cross compiled environment, pass `cross` as an argument to the file. Example:  `sh scripts/kalman_filter/run.sh cross`.
 ### Extra Note:
 For cross-compiling, we also installed the following libraries on the target with the provided packages folder:
+* `cd Chauffeur`
 * `pip3 install -r packages/requirements.txt`
 * `sudo apt-get update`
-* `sudo apt-get install -y aptitude`
-* `cat ~/PATH/TO/Chauffeur/packages/requirements.system | xargs sudo aptitude install`
+* `xargs sudo apt-get install <packages/apt_requirements.txt`
 ##### Packages break down:
 * lane_detection/jetson-lane-detection: `sudo apt-get install libconfig-dev libgsl-dev`
-* lane_detection/lanenet-lane-detection: `tensorflow`
+* lane_detection/lanenet-lane-detection: `pip3 install matplotlib tqdm` Tensorflow(check Nvidia's website for more info on Tensorflow for Jetson)
 * localization_and_mapping/floam:`apt install ros-melodic-hector-trajectory-server`
 * object_detection/darknet-ros:`apt install ros-melodic-cv-bridge ros-melodic-image-transport`
 * object_tracking/lidar-tracking:`apt install ros-melodic-pcl-conversions`
