@@ -72,7 +72,7 @@ build_darknet_ros() {
     mkdir -p build && cd build
     # [HACK] cv_bridge searches in /usr/include/opencv
     ln -s /usr/local/include/opencv /usr/include/opencv
-    cmake $source/object_detection/darknet_ros \
+    cmake $source/object_detection/darknet-ros \
         -DCMAKE_BUILD_TYPE=Release \
         -DCATKIN_DEVEL_PREFIX=$target/object_detection/darknet_ros/devel \
         -DCMAKE_INSTALL_PREFIX=$target/object_detection/darknet_ros/install \
