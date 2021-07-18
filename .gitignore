@@ -5,3 +5,4 @@ build/
 applications/tmp
 scripts/passwd
 scripts/profile/output/*
+cross-apps/

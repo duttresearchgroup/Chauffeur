@@ -33,12 +33,13 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-find_package(OpenCV 4.0)
+# [Chauffeur] We only package static libs for OpenCV 3.0
+find_package(OpenCV 3.0 QUIET)
 if(NOT OpenCV_FOUND)
-  find_package(OpenCV 3.0)
-  if(NOT OpenCV_FOUND)
-    message(FATAL_ERROR "OpenCV > 3.0 not found.")
-  endif()
+   find_package(OpenCV 2.4.3 QUIET)
+   if(NOT OpenCV_FOUND)
+      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
+   endif()
 endif()
 
 MESSAGE("OPENCV VERSION:")
@@ -58,7 +59,7 @@ ${Pangolin_INCLUDE_DIRS}
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
-add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME} STATIC
 src/System.cc
 src/Tracking.cc
 src/LocalMapping.cc
@@ -121,15 +122,19 @@ target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}
 ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
-${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
-${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.a
+${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.a
 -lboost_serialization
 -lcrypto
 )
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
+
+# [Chauffeur] Disable examples
 ### Build examples
-
+#[[
 # RGB-D examples
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/RGB-D)
 
@@ -193,4 +198,4 @@ target_link_libraries(stereo_inertial_euroc ${PROJECT_NAME})
 add_executable(stereo_inertial_tum_vi
 Examples/Stereo-Inertial/stereo_inertial_tum_vi.cc)
 target_link_libraries(stereo_inertial_tum_vi ${PROJECT_NAME})
-
+]]

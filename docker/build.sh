@@ -163,13 +163,40 @@ build_lidar_tracking() {
 }
 
 build_orb_slam_3() {
-    rm -rf $source/localization_and_mapping/orb-slam-3/Thirdparty/DBoW2/build
-    rm -rf $source/localization_and_mapping/orb-slam-3/Thirdparty/g2o/build
-    rm -rf $source/localization_and_mapping/orb-slam-3/Vocabulary/build
-    rm -rf $source/localization_and_mapping/orb-slam-3/build
-
+    # **************************************
+    # Build OS3 Library
     cd $source/localization_and_mapping/orb-slam-3
+
+    rm -rf Thirdparty/DBoW2/build
+    rm -rf Thirdparty/g2o/build
+    rm -rf Vocabulary/build
+    rm -rf build
+    rm -rf lib
+    
     bash build.sh
+    # **************************************
+
+    # **************************************
+    # Build OS3 ROS
+    rm -rf $target/localization_and_mapping/orb-slam-3
+    source /opt/ros/melodic/setup.sh
+    mkdir -p $target/localization_and_mapping/orb-slam-3 && cd $target/localization_and_mapping/orb-slam-3
+    # **************************************
+
+
+    # **************************************
+    # Copy target
+    cp -r $source/localization_and_mapping/orb-slam-3/Examples/ROS/ORB_SLAM3 \
+         $target/localization_and_mapping/orb-slam-3/ORB_SLAM3
+        
+    mkdir -p $target/localization_and_mapping/orb-slam-3/Vocabulary
+    cp $source/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt \
+         $target/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt
+
+    mkdir -p $target/localization_and_mapping/orb-slam-3/Examples/Monocular
+    cp $source/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml \
+         $target/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml
+    # **************************************
 }
 
 build_jetson_inference

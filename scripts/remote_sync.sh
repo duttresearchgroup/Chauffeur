@@ -1,5 +1,5 @@
 # Password is read from this file. Don't change this line
-export R_PASS="-f passwd"
+export R_PASS="-f scripts/passwd"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source $DIR/envs.sh cross

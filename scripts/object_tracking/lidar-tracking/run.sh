@@ -21,6 +21,7 @@ fi
 
 if [[ $1 == "cross" ]];then
   source $R_SRC_ROOT/applications/object_tracking/lidar-tracking/install/setup.bash
-  $R_SRC_ROOT/applications/object_tracking/lidar-tracking/install/lib/multi_object_tracking_lidar/kf_tracker
   
+  $R_SRC_ROOT/applications/object_tracking/lidar-tracking/install/lib/multi_object_tracking_lidar/kf_tracker &
+  rosbag play $R_SRC_ROOT/data/2011_09_30_0027-10s.bag velodyne_points:=/filtered_cloud 
 fi

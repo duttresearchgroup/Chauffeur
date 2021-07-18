@@ -49,15 +49,6 @@ ${PROJECT_SOURCE_DIR}/../../../include/CameraModels
 ${Pangolin_INCLUDE_DIRS}
 )
 
-set(LIBS 
-${OpenCV_LIBS} 
-${EIGEN3_LIBS}
-${Pangolin_LIBRARIES}
-${PROJECT_SOURCE_DIR}/../../../Thirdparty/DBoW2/lib/libDBoW2.so
-${PROJECT_SOURCE_DIR}/../../../Thirdparty/g2o/lib/libg2o.so
-${PROJECT_SOURCE_DIR}/../../../lib/libORB_SLAM3.so
--lboost_system
-)
 
 # Node for monocular camera
 rosbuild_add_executable(Mono
@@ -65,8 +56,17 @@ src/ros_mono.cc
 )
 
 target_link_libraries(Mono
-${LIBS}
+${PROJECT_SOURCE_DIR}/../../../lib/libORB_SLAM3.a
+${OpenCV_LIBS}
+${EIGEN3_LIBS}
+${Pangolin_LIBRARIES}
+${PROJECT_SOURCE_DIR}/../../../Thirdparty/DBoW2/lib/libDBoW2.a
+${PROJECT_SOURCE_DIR}/../../../Thirdparty/g2o/lib/libg2o.a
+-lboost_system
 )
+
+# [Chauffeur] Disable other ROS examples
+#[[
 
 # Node for monocular camera (Augmented Reality Demo)
 rosbuild_add_executable(MonoAR
@@ -114,3 +114,4 @@ src/ros_stereo_inertial.cc
 target_link_libraries(Stereo_Inertial
 ${LIBS}
 )
+]]

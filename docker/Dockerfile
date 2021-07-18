@@ -158,6 +158,7 @@ RUN set -x && \
   cd build && \
   cmake \
     -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \
     -DBUILD_EXAMPLES=OFF \
     -DBUILD_PANGOLIN_DEPTHSENSE=OFF \
@@ -190,5 +191,9 @@ ENV Pangolin_DIR=${CMAKE_INSTALL_PREFIX}/lib/cmake/Pangolin
 
 RUN mkdir -p /workspace
 WORKDIR /workspace
+
+# Required for orb-slam-3 cmake file
+RUN rosdep init
+RUN rosdep update
 
 CMD [ "bash", "/workspace/build.sh" ]

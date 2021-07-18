@@ -1,6 +1,6 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $DIR/../envs.sh
+source $DIR/../../envs.sh
 
 if [[ $# -eq 0 ]];then
 	echo "usage : $0 [imagenet/detectnet/segnet] [image/video]"

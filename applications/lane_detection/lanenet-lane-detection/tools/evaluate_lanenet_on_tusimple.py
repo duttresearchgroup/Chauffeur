@@ -24,7 +24,6 @@ import os, sys
 currentdir = os.path.dirname(os.path.realpath(__file__))  
 parentdir = os.path.dirname(currentdir)                   
 sys.path.append(parentdir)                               
-# By Jay, 6/24/2021
 
 from lanenet_model import lanenet
 from lanenet_model import lanenet_postprocess
