@@ -1,7 +1,7 @@
 version: '3'
 services:
-  miself.builder:
-    image: miself.builder
+  chauffeur.builder:
+    image: chauffeur.builder
     build: .
     volumes:
       - $PWD/../applications:/workspace/applications

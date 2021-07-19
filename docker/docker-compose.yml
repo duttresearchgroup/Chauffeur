@@ -1,7 +1,7 @@
 version: '3'
 services:
-  miself.qemu.builder:
-    image: miself.qemu.builder
+  chauffeur.qemu.builder:
+    image: chauffeur.qemu.builder
     build: .
     volumes:
       - $PWD/../cross-apps:/workspace/cross-apps

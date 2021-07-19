@@ -1,10 +1,10 @@
 # Chimera
 
 if [[ $1 == 'cross' ]]; then
-    export R_USER=username
+    export R_USER=deep
     export R_PORT=-p22
-    export R_HOST=hostname
-    export R_SRC_ROOT=~/workspace/miself
+    export R_HOST=chimera.ics.uci.edu
+    export R_SRC_ROOT=/home/deep/workspace/Chauffeur
 else
     export R_SRC_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/.."
 fi
