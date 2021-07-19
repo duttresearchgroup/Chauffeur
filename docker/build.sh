@@ -178,8 +178,10 @@ build_orb_slam_3() {
 
     # **************************************
     # Build OS3 ROS
-    rm -rf $target/localization_and_mapping/orb-slam-3
     source /opt/ros/melodic/setup.sh
+    export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$source/localization_and_mapping/orb-slam-3/Examples/ROS
+    bash build_ros.sh
+    rm -rf $target/localization_and_mapping/orb-slam-3
     mkdir -p $target/localization_and_mapping/orb-slam-3 && cd $target/localization_and_mapping/orb-slam-3
     # **************************************
 
