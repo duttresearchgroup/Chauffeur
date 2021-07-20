@@ -57,7 +57,7 @@ build_cuda_lane_detection() {
 
 # Build OpenMVG
 build_openmvg() {
-    mkdir -p $target/openMVG/openMVG && cd $target/openMVG/openMVG
+    mkdir -p $target/structure_from_motion/open-mvg/ && cd $target/structure_from_motion/open-mvg/
     rm -rf build && mkdir -p build && cd build
     cmake -DOpenMVG_USE_OCVSIFT=ON $source/structure_from_motion/open-mvg/src
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
