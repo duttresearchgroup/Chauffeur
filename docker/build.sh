@@ -99,6 +99,14 @@ build_floam() {
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
     make install
+
+    mkdir -p $target/localization_and_mapping/floam/install/share/floam/launch
+    cp -r $source/localization_and_mapping/floam/launch \
+            $target/localization_and_mapping/floam/install/share/floam/
+    cp -r $target/localization_and_mapping/floam/devel/lib/floam \
+            $target/localization_and_mapping/floam/install/lib/
+    rm -rf $target/localization_and_mapping/floam/devel/ && \
+        rm -rf $target/localization_and_mapping/floam/build
 }
 
 # Build path planner
