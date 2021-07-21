@@ -2,9 +2,9 @@
 
 # Citation
 If you use this work, please cite our paper published in ESWEEK-TECS special issue and presented in the International Conference on Hardware/Software Codesign and System Synthesis (CODES+ISSS), 2021.
-```
-B.  Maity,  S.  Yi,  D.  Seo,  L.  Cheng,  S. S.  Lim,  J. C.  Kim,  B.  Donyanavard,  and  N.  Dutt, "Chauffeur:  Benchmark  suite  for  design  and  end-to-end  analysis  of  self-driving  vehicles  onembedded systems," ACM Transactions on Embedded Computing Systems (TECS), Oct. 2021.
-```
+
+> B.  Maity,  S.  Yi,  D.  Seo,  L.  Cheng,  S. S.  Lim,  J. C.  Kim,  B.  Donyanavard,  and  N.  Dutt, "Chauffeur:  Benchmark  suite  for  design  and  end-to-end  analysis  of  self-driving  vehicles  onembedded systems," ACM Transactions on Embedded Computing Systems (TECS), Oct. 2021.
+
 
 # Step 0: Download Chauffeur :)
 ```
@@ -49,6 +49,8 @@ source scripts/env.sh
 bash scripts/APP_NAME/build.sh [tx2/px2>] 
 (e.g., bash scripts/darknet_ros/build.sh tx2)
 ```
+
+See the [wiki](https://github.com/duttresearchgroup/Chauffeur/wiki) for more information.
 # Step 2: Deployment from host onto target board
 * This step is only required if you are cross-compiling Chauffeur
 * Please ensure that `rsync` is installed in both host and target, and additionally `sshpass` is installed on host. 
@@ -71,6 +73,7 @@ For cross-compiling, we also installed the following libraries on the target wit
 * `sudo apt-get update`
 * `xargs sudo apt-get install <packages/apt_requirements.txt`
 
+More information for required packages can be found [here](packages/breakdown.md).
 # Other important information
 ## Libraries used for CPU parallelization
 | Application | Parallelism | Framework   |
@@ -88,19 +91,3 @@ For cross-compiling, we also installed the following libraries on the target wit
 - jetson-inference @ e4ebc40967604945fd501b8d35ed0b9e86ca8b2d
 - floam @ de361346020575bd89d32eac969614bc2c72d17c
 - cuda-sfm @ 2e3dcdfeb959426ba897358471f4bee7d9c99b79
-## Essential dependencies for running Chauffeur:
-- ROS Melodic
-- TensorFlow - 1.15 (For LaneNet-Lane-Detection)
-- OpenCV (with CUDA) -- 3.4.13
-- Eigen3 -- 3.3.9
-- Ceres Solver -- 2.0.0
-
-
-Instruction for installing TensorFlow 1.15 for Python3.6+JetPack4.4. Source from https://forums.developer.nvidia.com/t/tensorflow-for-jetson-tx2/64596 \
-```
-sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
-sudo apt-get install python3-pip
-sudo pip3 install -U pip
-sudo pip3 install -U pip testresources setuptools numpy==1.16.1 future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
-sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow==1.15.4+nv20.12
-```
