@@ -73,17 +73,20 @@ For cross-compiling, we also installed the following libraries on the target wit
 * `sudo apt-get update`
 * `xargs sudo apt-get install <packages/apt_requirements.txt`
 
-# Extra step : Running workloads on board with python
-For end-to-end pipeline running, We support python script for launching all applications in Chauffeur.
+More information for required packages can be found [here](packages/breakdown.md).
+# End-to-end evaluation
+For running instances of the end-to-end pipeline consisting of Chauffeur applications, we support a python based script. 
 * `cd Chauffeur/scripts/end-to-end`
 * `pip3 install -r requirements.txt`
 * `python3 runner.py`
  
-Then the runner is ready for getting input from the user.
-Users can select workloads by typing ctrl+c and the number(0-8) or character 'a' for launching.
+Now, the runner is ready for accepting inputs from the user.
+Users can select workloads by typing ctrl+c and then followed either by a number(0-8) for selecting the workload, or the character 'a' for launching.
 
-More information for required packages can be found [here](packages/breakdown.md).
 # Other important information
+## Supported platforms
+- **NVIDIA Jetson TX2** : Tested with Jetpack 4.2.1, L4T 32.2.0]
+- **NVIDIA Drive PX2** : No cross-compiler support, Tested with NVIDIA DRIVE OS 4.9.80-rt61-tegra
 ## Libraries used for CPU parallelization
 | Application | Parallelism | Framework   |
 | ----------- | ----------- | ----------- |
