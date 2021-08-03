@@ -1,0 +1,13 @@
+ApplicationName,Cpu,Gpu,Mem
+idle-power,0.445,0.153,1.119
+cuda-lane-detection,1.761,1.393,1.272
+darknet-ros,0.799,7.621,2.736
+floam,2.498,0.460,1.340
+hybrid-astar,2.036,0.460,1.504
+jetson-inference,1.301,1.743,1.630
+kalman-filter,2.429,0.464,1.181
+lane-detection,0.720,0.460,1.145
+lanenet-lane-detection,1.993,1.303,1.404
+lidar-tracking,3.637,0.155,1.439
+openMVG,4.389,0.460,1.538
+orb-slam-3,3.981,0.460,1.724

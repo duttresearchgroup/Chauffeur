@@ -1,0 +1,8 @@
+docker/cross-compiler/*
+docker/jetpack-files/*
+applications/bin
+build/
+applications/tmp
+scripts/passwd
+scripts/profile/output/*
+cross-apps/
