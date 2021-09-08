@@ -66,7 +66,7 @@ scripts/send.sh data/ data/
 * `source scripts/env.sh`
 * In `scripts` folder we have include the relevant launching script `run.sh` for each application. For example, to run application kalman_filter, `sh scripts/kalman_filter/run.sh`
 * For cross compiled environment, pass `cross` as an argument to the file. Example:  `sh scripts/kalman_filter/run.sh cross`.
-* Only one app should be running at a time. Use `sudo kill` to end all other Chauffeur processes before starting a new roscore and a new app.
+* Be careful about running multiple instances of the same app. Only one instance of each app should be running at a time. Use `sudo kill` to end a previous instance of an app before running a new one.
 ### Extra Note:
 For cross-compiling, we also installed the following libraries on the target with the provided packages folder:
 * `cd Chauffeur`
