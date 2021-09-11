@@ -45,7 +45,7 @@ We are using dockers to compile the source code of the micro-benchmarks. Please 
 
 ## 1.b Compilation on the board
 ```
-source scripts/env.sh
+source scripts/envs.sh
 bash scripts/APP_NAME/build.sh [tx2/px2>] 
 (e.g., bash scripts/darknet_ros/build.sh tx2)
 ```
@@ -63,7 +63,7 @@ scripts/send.sh scripts/ scripts/
 scripts/send.sh data/ data/
 ```
 # Step 3: Running on board
-* `source scripts/env.sh`
+* `source scripts/envs.sh`
 * In `scripts` folder we have include the relevant launching script `run.sh` for each application. For example, to run application kalman_filter, `sh scripts/kalman_filter/run.sh`
 * For cross compiled environment, pass `cross` as an argument to the file. Example:  `sh scripts/kalman_filter/run.sh cross`.
 * Be careful about running multiple instances of the same app. Only one instance of each app should be running at a time. Use `sudo kill` to end a previous instance of an app before running a new one.
