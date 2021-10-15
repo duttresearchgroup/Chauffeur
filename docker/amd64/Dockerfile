@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/l4t-base:r32.2
+FROM ubuntu:bionic
 
 # Use bash as default shell
 SHELL ["/bin/bash", "-c"]
@@ -7,73 +7,81 @@ SHELL ["/bin/bash", "-c"]
 ARG DEBIAN_FRONTEND=noninteractive
 
 # nvidia repo public keys
-COPY keys/trusted-keys /trusted-keys
+# COPY keys/trusted-keys /trusted-keys
 
-# TensorRT required for Jetson Inference (apt-get install -y tensorrt)
-RUN printf 'deb https://repo.download.nvidia.com/jetson/common r32 main\ndeb https://repo.download.nvidia.com/jetson/t210 r32 main' > /etc/apt/sources.list.d/nvidia-l4t-apt-source.list && \
-     apt-key add /trusted-keys
-
-# Add ROS package server
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
-     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 
+# # TensorRT required for Jetson Inference (apt-get install -y tensorrt)
+# RUN printf 'deb https://repo.download.nvidia.com/jetson/common r32 main\ndeb https://repo.download.nvidia.com/jetson/t210 r32 main' > /etc/apt/sources.list.d/nvidia-l4t-apt-source.list && \
+#      apt-key add /trusted-keysss
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-     ca-certificates curl \
-     cmake \
-     build-essential \
-     # *** Jetson inference starts ***
-     libgstreamer1.0-dev \                   
-     libgstreamer-plugins-base1.0-dev \
-     libglew-dev\ 
-     tensorrt \
-     # *** Jetson inference ends ***
-     # *** Lane detection starts ***
-     libgsl-dev \
-     libboost-system-dev \
-     libboost-log-dev \
-     libconfig++-dev \
-     # *** Lane detection ends ***
-     # *** OpenCV starts ***
-     libhdf5-dev \
-     python3-pip \
-     libgtk2.0-dev \
-     # *** OpenCV ends ***
-     # *** FFMpeg (OpenCV) starts ***
-     libavcodec-dev \
-     libavformat-dev \
-     libavutil-dev \
-     libswscale-dev \
-     libswresample-dev \
-     # *** FFMpeg (OpenCV) ends ***
-     # *** ROS starts ***
-     ros-melodic-ros-base \
-     ros-melodic-cv-bridge \
-     ros-melodic-tf \
-     ros-melodic-image-transport \
-     python-catkin-tools \
-     python-rosdep \
-     # *** ROS ends ***
-     # *** Path planner starts ***
-     ros-melodic-ompl \
-     libeigen3-dev \
-     # *** Path planner ends ***
-     # Floam
+    ca-certificates curl \
+    cmake \
+    build-essential \
+    wget \
+    gnupg \
+    software-properties-common \ 
+    git \
+    python3-pip \
+    libgsl-dev \
+    libboost-system-dev \
+    libboost-log-dev \
+    libconfig++-dev  \
+    libeigen3-dev \
+    libproj-dev \
+    libmove-base-msgs-dev \
+    libglew-dev \
+    libboost-all-dev
+
+
+
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add
+
+RUN apt-get update && apt-get install -y --no-install-recommends \ 
+    ros-melodic-pcl-conversions \
+    ros-melodic-pcl-msgs \
+    ros-melodic-pcl-ros \
+    ros-melodic-ros-base \
+    ros-melodic-cv-bridge \
+    ros-melodic-tf \
+    ros-melodic-image-transport \
+    python-catkin-tools \
+    python-rosdep \
+    ros-melodic-ompl \
     ros-melodic-eigen-conversions \
-     # CERES
     libgoogle-glog-dev
 
-RUN apt-get install python3-setuptools
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin 
+
+RUN mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+RUN add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
+RUN apt-get update
+RUN wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+RUN apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+RUN apt-get update
+
+RUN apt-get install -y --no-install-recommends \
+    cuda-11-0 \
+    libcudnn8=8.0.4.30-1+cuda11.0  \
+    libcudnn8-dev=8.0.4.30-1+cuda11.0
+
+RUN apt-get install -y --no-install-recommends libnvinfer7=7.1.3-1+cuda11.0 \
+    libnvinfer-dev=7.1.3-1+cuda11.0 \
+    libnvinfer-plugin7=7.1.3-1+cuda11.0
+
+
+RUN apt-get install -y python3-setuptools
 
 RUN pip3 --no-cache-dir install \
-     Cython \
-     numpy
+    Cython \
+    numpy
 
-# OpenCV
 RUN OPENCV_VERSION=3.4.13 && \
     curl -L https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.tar.gz | tar -xzf - && \
     curl -L https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.tar.gz | tar -xzf - && \
     cd /opencv-${OPENCV_VERSION} && \
-#     wget -O cmake/FindCUDA.cmake https://raw.githubusercontent.com/opencv/opencv/master/cmake/FindCUDA.cmake && \
     mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -102,7 +110,7 @@ RUN OPENCV_VERSION=3.4.13 && \
           -DWITH_GSTREAMER=OFF \
           -DWITH_GSTREAMER_0_10=OFF \
           -DWITH_CUDA=ON \
-          -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/targets/aarch64-linux/ \
+          -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/targets/x86_64-linux/ \
           -DCUDA_ARCH_BIN="6.2" \
           -DOPENCV_EXTRA_MODULES_PATH=/opencv_contrib-${OPENCV_VERSION}/modules \
           -DCMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs \
@@ -120,33 +128,13 @@ RUN OPENCV_VERSION=3.4.13 && \
     rm -rf /opencv_contrib-{OPENCV_VERSION}
 
 RUN CERES_VERSION=2.0.0 && \
-     curl -L https://github.com/ceres-solver/ceres-solver/archive/refs/tags/${CERES_VERSION}.tar.gz | tar -xzf - && \
-     cd ceres-solver-${CERES_VERSION} && \
-     mkdir build && cd build && \
-     cmake .. && \
-     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
-     rm -rf /ceres-solver-${CERES_VERSION}
+    curl -L https://github.com/ceres-solver/ceres-solver/archive/refs/tags/${CERES_VERSION}.tar.gz | tar -xzf - && \
+    cd ceres-solver-${CERES_VERSION} && \
+    mkdir build && cd build && \
+    cmake .. && \
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install && \
+    rm -rf /ceres-solver-${CERES_VERSION}
 
-# Docker best practise
-# RUN rm -rf /var/lib/apt/lists/*
-
-# ROS key update
-RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-
-# try eigen three installation
-RUN apt-get update && apt-get install -y --no-install-recommends \
-     ros-melodic-pcl-conversions \
-     ros-melodic-pcl-msgs \
-     ros-melodic-pcl-ros \
-     libeigen3-dev \
-     libproj-dev \
-     libmove-base-msgs-dev
-RUN ln -s /usr/include/eigen3/Eigen /usr/local/include/Eigen
-
-
-RUN apt-get install -y --no-install-recommends git
-
-# Pangolin
 ARG PANGOLIN_COMMIT=ad8b5f83222291c51b4800d5a5873b0e90a0cf81
 WORKDIR /tmp
 RUN set -x && \
@@ -192,7 +180,6 @@ ENV Pangolin_DIR=${CMAKE_INSTALL_PREFIX}/lib/cmake/Pangolin
 RUN mkdir -p /workspace
 WORKDIR /workspace
 
-# Required for orb-slam-3 cmake file
 RUN rosdep init
 RUN rosdep update
 

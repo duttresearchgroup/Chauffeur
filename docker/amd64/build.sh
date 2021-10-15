@@ -11,15 +11,15 @@ build_jetson_inference () {
     mkdir -p $target/object_detection/jetson-inference && cd $target/object_detection/jetson-inference
     rm -rf build && mkdir -p build && cd build
     cmake \
-        -DCUDA_nppicc_LIBRARY=/usr/local/cuda/targets/aarch64-linux/lib/stubs/libnppicc.so \
+        -DCUDA_nppicc_LIBRARY=/usr/local/cuda/targets/x86_64-linux/lib/stubs/libnppicc.so \
         -DBUILD_INTERACTIVE=NO \
         $source/object_detection/jetson-inference
-    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    cd $target/object_detection/jetson-inference/build/aarch64/bin 
-    target_images=$(readlink images)
-    target_networks=$(readlink networks)
-    rm -rf images && rm -rf networks
-    cp -r $target_images . && cp -r $target_networks .
+    # make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+    # cd $target/object_detection/jetson-inference/build/aarch64/bin 
+    # target_images=$(readlink images)
+    # target_networks=$(readlink networks)
+    # rm -rf images && rm -rf networks
+    # cp -r $target_images . && cp -r $target_networks .
 }
 
 # Build Kalman filter
@@ -36,7 +36,9 @@ build_lane_detection() {
     rm -rf build && mkdir -p build && cd build
     cmake $source/lane_detection/jetson-lane-detection
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    mv $source/lane_detection/jetson-lane-detection/bin $target/lane_detection/jetson-lane-detection/bin
+    [ -d "$target/lane_detection/jetson-lane-detection/bin" ] && rm -rf $target/lane_detection/jetson-lane-detection/bin
+    cp -r $source/lane_detection/jetson-lane-detection/bin $target/lane_detection/jetson-lane-detection/bin
+    rm -rf $source/lane_detection/jetson-lane-detection/bin
     # -DJETSON_TX2=ON \
     # -DOpenCV_DIR=/usr/local/opencv2/share/OpenCV/OpenCVConfig-version.cmake \
 }
@@ -61,7 +63,7 @@ build_openmvg() {
     rm -rf build && mkdir -p build && cd build
     cmake -DOpenMVG_USE_OCVSIFT=ON $source/structure_from_motion/open-mvg/src
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    mv Linux-aarch64-Release/* software/SfM/.
+    mv Linux-x86_64-Release/* software/SfM/.
 }
 
 #  Build darknet_ros
@@ -182,41 +184,45 @@ build_orb_slam_3() {
     rm -rf lib
     
     bash build.sh
-    # **************************************
 
-    # **************************************
-    # Build OS3 ROS
+    rosdep init
+    rosdep update
+
+    # # **************************************
+
+    # # **************************************
+    # # Build OS3 ROS
     source /opt/ros/melodic/setup.sh
     export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$source/localization_and_mapping/orb-slam-3/Examples/ROS
     bash build_ros.sh
-    rm -rf $target/localization_and_mapping/orb-slam-3
-    mkdir -p $target/localization_and_mapping/orb-slam-3 && cd $target/localization_and_mapping/orb-slam-3
-    # **************************************
+    # rm -rf $target/localization_and_mapping/orb-slam-3
+    # mkdir -p $target/localization_and_mapping/orb-slam-3 && cd $target/localization_and_mapping/orb-slam-3
+    # # **************************************
 
 
-    # **************************************
-    # Copy target
-    cp -r $source/localization_and_mapping/orb-slam-3/Examples/ROS/ORB_SLAM3 \
-         $target/localization_and_mapping/orb-slam-3/ORB_SLAM3
+    # # **************************************
+    # # Copy target
+    # cp -r $source/localization_and_mapping/orb-slam-3/Examples/ROS/ORB_SLAM3 \
+    #      $target/localization_and_mapping/orb-slam-3/ORB_SLAM3
         
-    mkdir -p $target/localization_and_mapping/orb-slam-3/Vocabulary
-    cp $source/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt \
-         $target/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt
+    # mkdir -p $target/localization_and_mapping/orb-slam-3/Vocabulary
+    # cp $source/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt \
+    #      $target/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt
 
-    mkdir -p $target/localization_and_mapping/orb-slam-3/Examples/Monocular
-    cp $source/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml \
-         $target/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml
+    # mkdir -p $target/localization_and_mapping/orb-slam-3/Examples/Monocular
+    # cp $source/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml \
+    #      $target/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml
     # **************************************
 }
 
-build_jetson_inference
-build_kalman_filter
-build_lane_detection
-build_cuda_lane_detection
-build_lanenet_lane_detection
-build_openmvg
-build_darknet_ros
-build_floam
-build_path_planning
-build_lidar_tracking
+# build_jetson_inference
+# build_kalman_filter
+# build_lane_detection
+# build_cuda_lane_detection
+# build_lanenet_lane_detection
+# build_openmvg
+# build_darknet_ros
+# build_floam
+# build_path_planning
+# build_lidar_tracking
 build_orb_slam_3
