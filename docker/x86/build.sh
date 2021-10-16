@@ -14,12 +14,12 @@ build_jetson_inference () {
         -DCUDA_nppicc_LIBRARY=/usr/local/cuda/targets/x86_64-linux/lib/stubs/libnppicc.so \
         -DBUILD_INTERACTIVE=NO \
         $source/object_detection/jetson-inference
-    # make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    # cd $target/object_detection/jetson-inference/build/aarch64/bin 
-    # target_images=$(readlink images)
-    # target_networks=$(readlink networks)
-    # rm -rf images && rm -rf networks
-    # cp -r $target_images . && cp -r $target_networks .
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
+    cd $target/object_detection/jetson-inference/build/aarch64/bin 
+    target_images=$(readlink images)
+    target_networks=$(readlink networks)
+    rm -rf images && rm -rf networks
+    cp -r $target_images . && cp -r $target_networks .
 }
 
 # Build Kalman filter
@@ -173,8 +173,8 @@ build_lidar_tracking() {
 }
 
 build_orb_slam_3() {
-    # **************************************
-    # Build OS3 Library
+    **************************************
+    Build OS3 Library
     cd $source/localization_and_mapping/orb-slam-3
 
     rm -rf Thirdparty/DBoW2/build
@@ -184,7 +184,8 @@ build_orb_slam_3() {
     rm -rf lib
     
     bash build.sh
-
+    
+    [ -f "/etc/ros/rosdep/sources.list.d/20-default.list" ] && rm -f /etc/ros/rosdep/sources.list.d/20-default.list
     rosdep init
     rosdep update
 
@@ -195,24 +196,24 @@ build_orb_slam_3() {
     source /opt/ros/melodic/setup.sh
     export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$source/localization_and_mapping/orb-slam-3/Examples/ROS
     bash build_ros.sh
-    # rm -rf $target/localization_and_mapping/orb-slam-3
-    # mkdir -p $target/localization_and_mapping/orb-slam-3 && cd $target/localization_and_mapping/orb-slam-3
-    # # **************************************
-
-
-    # # **************************************
-    # # Copy target
-    # cp -r $source/localization_and_mapping/orb-slam-3/Examples/ROS/ORB_SLAM3 \
-    #      $target/localization_and_mapping/orb-slam-3/ORB_SLAM3
-        
-    # mkdir -p $target/localization_and_mapping/orb-slam-3/Vocabulary
-    # cp $source/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt \
-    #      $target/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt
-
-    # mkdir -p $target/localization_and_mapping/orb-slam-3/Examples/Monocular
-    # cp $source/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml \
-    #      $target/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml
+    rm -rf $target/localization_and_mapping/orb-slam-3
+    mkdir -p $target/localization_and_mapping/orb-slam-3 && cd $target/localization_and_mapping/orb-slam-3
     # **************************************
+
+
+    # **************************************
+    # Copy target
+    cp -r $source/localization_and_mapping/orb-slam-3/Examples/ROS/ORB_SLAM3 \
+         $target/localization_and_mapping/orb-slam-3/ORB_SLAM3
+        
+    mkdir -p $target/localization_and_mapping/orb-slam-3/Vocabulary
+    cp $source/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt \
+         $target/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt
+
+    mkdir -p $target/localization_and_mapping/orb-slam-3/Examples/Monocular
+    cp $source/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml \
+         $target/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml
+    **************************************
 }
 
 # build_jetson_inference

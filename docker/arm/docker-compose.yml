@@ -1,7 +1,7 @@
 version: '3'
 services:
   chauffeur.qemu.builder:
-    image: aarch64.chauffeur.qemu.builder
+    image: arm.chauffeur.qemu.builder
     build: .
     volumes:
       - $PWD/../../cross-apps:/workspace/cross-apps

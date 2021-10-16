@@ -36,7 +36,9 @@ build_lane_detection() {
     rm -rf build && mkdir -p build && cd build
     cmake $source/lane_detection/jetson-lane-detection
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
-    mv $source/lane_detection/jetson-lane-detection/bin $target/lane_detection/jetson-lane-detection/bin
+    [ -d "$target/lane_detection/jetson-lane-detection/bin" ] && rm -rf $target/lane_detection/jetson-lane-detection/bin
+    cp -r $source/lane_detection/jetson-lane-detection/bin $target/lane_detection/jetson-lane-detection/bin
+    rm -rf $source/lane_detection/jetson-lane-detection/bin
     # -DJETSON_TX2=ON \
     # -DOpenCV_DIR=/usr/local/opencv2/share/OpenCV/OpenCVConfig-version.cmake \
 }
@@ -209,14 +211,14 @@ build_orb_slam_3() {
     # **************************************
 }
 
-build_jetson_inference
-build_kalman_filter
-build_lane_detection
-build_cuda_lane_detection
-build_lanenet_lane_detection
-build_openmvg
-build_darknet_ros
-build_floam
-build_path_planning
-build_lidar_tracking
+# build_jetson_inference
+# build_kalman_filter
+# build_lane_detection
+# build_cuda_lane_detection
+# build_lanenet_lane_detection
+# build_openmvg
+# build_darknet_ros
+# build_floam
+# build_path_planning
+# build_lidar_tracking
 build_orb_slam_3
