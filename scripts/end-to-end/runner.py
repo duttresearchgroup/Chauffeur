@@ -75,8 +75,8 @@ def commandHandler(command):
 # 5 - floam
 # 6 - lane-detection
 # 7 - SFM
-# TODO
 # 8 - lidar-tracking
+# TODO
 # 9 - orb-slam-3
 
     if command == 0 or turn_all:
