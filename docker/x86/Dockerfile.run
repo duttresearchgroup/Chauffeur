@@ -183,11 +183,11 @@ COPY docker/x86/build_run.sh /workspace/build.sh
 COPY docker/x86/patches /workspace/applications/patches
 RUN pip3 install psutil==5.8.0
 
-COPY scripts /workspace/scripts
 RUN mkdir -p /workspace
 WORKDIR /workspace
 
 RUN /bin/bash /workspace/build.sh
+COPY scripts /workspace/scripts
 # RUN rosdep init
 # RUN rosdep update
 
@@ -196,4 +196,7 @@ COPY data /workspace/data
 RUN source /opt/ros/melodic/setup.bash
 RUN apt-get install -y --no-install-recommends ros-melodic-map-server ros-melodic-hector-trajectory-server libxmlrpcpp-dev
 RUN rm -rf /workspace/applications/path_planning/hybrid-astar/lib
+
+RUN mkdir -p /workspace/logs
+
 CMD ["python3","runner.py"]
