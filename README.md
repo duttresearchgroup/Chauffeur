@@ -80,7 +80,13 @@ For running instances of the end-to-end pipeline consisting of Chauffeur applica
 * `cd Chauffeur/scripts/end-to-end`
 * `pip3 install -r requirements.txt`
 * `python3 runner.py`
- 
+* 
+
+# x86 Docker based End-to-End pipeline launcher
+* `cp docker/x86/Dockerfile.run ./Dockerfile`
+* `docker build . -t x86.runner`
+* `docker run -it -v $(pwd)/logs:/workspace/logs x86.runner`
+
 Now, the runner is ready for accepting inputs from the user.
 Users can select workloads by typing ctrl+c and then followed either by a number(0-8) for selecting the workload, or the character 'a' for launching.
 
