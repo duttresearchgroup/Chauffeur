@@ -188,15 +188,18 @@ WORKDIR /workspace
 
 RUN /bin/bash /workspace/build.sh
 COPY scripts /workspace/scripts
+RUN mv /workspace/scripts/perf /usr/bin/
+RUN mv /workspace/scripts/trace /usr/bin/
 # RUN rosdep init
 # RUN rosdep update
 
 WORKDIR /workspace/scripts/end-to-end
 COPY data /workspace/data
 RUN source /opt/ros/melodic/setup.bash
-RUN apt-get install -y --no-install-recommends ros-melodic-map-server ros-melodic-hector-trajectory-server libxmlrpcpp-dev
+RUN apt-get install -y --no-install-recommends ros-melodic-map-server ros-melodic-hector-trajectory-server libxmlrpcpp-dev file
 RUN rm -rf /workspace/applications/path_planning/hybrid-astar/lib
 
 RUN mkdir -p /workspace/logs
+RUN pip3 install damo
 
 CMD ["python3","runner.py"]
