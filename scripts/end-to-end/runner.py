@@ -38,6 +38,7 @@ def sigintHandler(signal, frame):
 
     if data[0] == 'q' or data[0] == 'Q':
         print("bye")
+        os.system('kill -9 -1 > /dev/null')
         sys.exit(0)
     else:
         command_in = True
@@ -106,7 +107,7 @@ def commandHandler(command):
         else:
             os.system("sudo pkill -9 ./ExtendedKF")
             # chane this shell file name
-            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh")
 
     if command == 3 or turn_all:
         #hybrid_astar

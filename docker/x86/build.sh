@@ -221,9 +221,10 @@ build_orb_slam_3() {
 # build_lane_detection
 # build_cuda_lane_detection
 # build_lanenet_lane_detection
-# build_openmvg
+build_openmvg
 # build_darknet_ros
 # build_floam
 # build_path_planning
 # build_lidar_tracking
-build_orb_slam_3
+# build_orb_slam_3
+
