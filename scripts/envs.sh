@@ -9,6 +9,8 @@ else
     export R_SRC_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/.."
 fi
 
+LOGS_FOLDER=/workspace/logs
+
 # Jetson Lane Detection
 # Info: cmake generates output in bin not build
 JETSON_LANE_DETECTION_BINARY_FOLDER=$R_SRC_ROOT/applications/lane_detection/jetson-lane-detection/bin
@@ -19,6 +21,7 @@ JETSON_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection/jetson-lane-de
 EXTENDED_KALMAN_FILTER_BINARY_FOLDER=$R_SRC_ROOT/applications/kalman_filter/extended-kalman-filter/build
 EXTENDED_KALMAN_FILTER_BINARY_NAME=ExtendedKF
 EXTENDED_KALMAN_FILTER_DATA_FOLDER=$R_SRC_ROOT/data/kalman_filter/extended-kalman-filter
+EXTENDED_KALMAN_FILTER_TIMING_LOGS=$LOGS_FOLDER/time_kf.txt
 
 # Jetson Inference
 JETSON_INFERENCE_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/jetson-inference/build/aarch64/bin
@@ -49,17 +52,21 @@ LANENET_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection/lanenet-lane-
 FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization_and_mapping/floam/
 FLOAM_BINARY_NAME=floam
 FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
+FLOAM_TIMING_LOGS=$LOGS_FOLDER/time_floam.txt
 
 # Hybrid A* Path Planner:
 HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar
 HYBRID_ASTAR_BINARY_NAME=hybrid_astar
 HYBRID_ASTAR_DATA_FOLDER=$R_SRC_ROOT/data/path_planning/hybrid-astar/maps
+HYBRID_ASTAR_TIMING_LOGS=$LOGS_FOLDER/time_h_a_star.txt
+HYBRID_ASTAR_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/path_planning/hybrid-astar
 
 # YOLO ROS
 DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet-ros/install
 DARKNET_ROS_BINARY_NAME=darknet_ros
 DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/data/object_detection/darknet-ros
 DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/data
+DARKNET_ROS_TIMING_LOGS=$LOGS_FOLDER/time_darknet_ros.txt
 
 # ORB-SLAM-3
 ORBSLAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization_and_mapping/orb-slam-3
