@@ -14,7 +14,7 @@ if [[ $1 == "local" ]];then
   # run ros nodes individually so we can kill them when the planner exits
   rosrun map_server map_server $HYBRID_ASTAR_DATA_FOLDER/map.yaml &
   rosrun hybrid_astar tf_broadcaster &
-  rosrun hybrid_astar hybrid_astar
+  rosrun hybrid_astar hybrid_astar 1> /dev/null
   pkill tf_broadcaster 
   pkill map_server
 

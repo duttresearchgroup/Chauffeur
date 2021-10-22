@@ -13,14 +13,15 @@ if [[ $1 == "local" ]];then
   source ./devel/setup.bash
 
   # (re)start roscore
-  pkill rosmaster
-  roscore &
+  # pkill rosmaster
+  # roscore &
 
-  roslaunch --wait floam floam_chauffeur.launch &
-  sleep 5
+  # roslaunch floam floam_chauffeur.launch
+  # sleep 5
+  # ehco "hey"
   rosbag play --clock -r 0.2 $FLOAM_DATA_FOLDER/2011_09_30_0027-10s.bag
-  pkill roslaunch
-  pkill floam
+  # pkill roslaunch
+  # pkill floam
 
 fi
 

@@ -6,6 +6,7 @@ source $DIR/../../envs.sh
 cd $DARKNET_ROS_BINARY_FOLDER
 cat ./setup.bash
 source ./setup.bash
+
 while [ 1 ]
 do
 	DARKNET_ROS_LABELS_FOLDER=$DARKNET_ROS_LABELS_FOLDER \

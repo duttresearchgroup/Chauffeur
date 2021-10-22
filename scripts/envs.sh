@@ -53,6 +53,7 @@ FLOAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization_and_mapping/floam/
 FLOAM_BINARY_NAME=floam
 FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
 FLOAM_TIMING_LOGS=$LOGS_FOLDER/time_floam.txt
+FLOAM_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/localization/floam
 
 # Hybrid A* Path Planner:
 HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar

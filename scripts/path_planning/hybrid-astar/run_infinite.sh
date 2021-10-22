@@ -10,15 +10,8 @@ source ./devel/setup.bash
 
 cd $HYBRID_ASTAR_RUNNING_SCRIPT_FOLDER
 
-while [ 1 ]
+while [ 1 ] 
 do
-    time (
-        rosrun map_server map_server $HYBRID_ASTAR_DATA_FOLDER/map.yaml & 
-        rosrun hybrid_astar tf_broadcaster &
-        rosrun hybrid_astar hybrid_astar 1> /dev/null
-        pkill tf_broadcaster 
-        pkill map_server 
-        wait 2> /dev/null
-    )
+    time ./run.sh "local"
     
 done 2>> $HYBRID_ASTAR_TIMING_LOGS
