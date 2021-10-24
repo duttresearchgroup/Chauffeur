@@ -38,7 +38,7 @@ def sigintHandler(signal, frame):
 
     if data[0] == 'q' or data[0] == 'Q':
         print("bye")
-        os.system('kill -9 -1 > /dev/null')
+        os.system('kill -9 -1 2> /dev/null')
         sys.exit(0)
     else:
         command_in = True
