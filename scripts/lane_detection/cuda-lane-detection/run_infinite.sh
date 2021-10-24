@@ -3,12 +3,11 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source $DIR/../../envs.sh
+cd $CUDA_LANE_DETECTION_RUNNING_SCRIPT_FOLDER
 
-
+[ -f $CUDA_LANE_DETECTION_TIMING_LOGS ] && > $CUDA_LANE_DETECTION_TIMING_LOGS
+[ -f $CUDA_LANE_DETECTION_OUTPUT_LOGS ] && > $CUDA_LANE_DETECTION_OUTPUT_LOGS
 while [ 1 ]
 do
-    $DIR/../../../applications/lane_detection/cuda-lane-detection/build/./cuda-lane-detection \
-    $DIR/../../../data/test-video.mp4 \
-    $DIR/../../../data/result-video.avi \
-    --cuda
-done
+    time ./run.sh >> $CUDA_LANE_DETECTION_OUTPUT_LOGS
+done 2>> $CUDA_LANE_DETECTION_TIMING_LOGS

@@ -10,14 +10,14 @@ fi
 if [[ $1 == "local" ]];then
   cd $HYBRID_ASTAR_BINARY_FOLDER
   source ./devel/setup.bash
-
-  # run ros nodes individually so we can kill them when the planner exits
+  
+  run ros nodes individually so we can kill them when the planner exits
   rosrun map_server map_server $HYBRID_ASTAR_DATA_FOLDER/map.yaml &
   rosrun hybrid_astar tf_broadcaster &
-  rosrun hybrid_astar hybrid_astar 1> /dev/null
+  rosrun hybrid_astar hybrid_astar 1> $HYBRID_ASTAR_OUTPUT_LOGS
   pkill tf_broadcaster 
   pkill map_server
-
+  
 fi 2> /dev/null
 
 if [[ $1 == "cross" ]];then

@@ -3,7 +3,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source $DIR/../../envs.sh
 
-
 if [[ $# -eq 0 ]];then
 	echo "usage : $0 [local/cross]"
 fi
@@ -13,16 +12,14 @@ if [[ $1 == "local" ]];then
   source ./devel/setup.bash
 
   # (re)start roscore
-  # pkill rosmaster
-  # roscore &
+  pkill rosmaster
+  roscore &
 
-  # roslaunch floam floam_chauffeur.launch
-  # sleep 5
-  # ehco "hey"
-  rosbag play --clock -r 0.2 $FLOAM_DATA_FOLDER/2011_09_30_0027-10s.bag
-  # pkill roslaunch
-  # pkill floam
-
+  roslaunch --wait floam floam_chauffeur.launch &
+  sleep 5
+  rosbag play --clock $FLOAM_DATA_FOLDER/2011_09_30_0027-10s.bag
+  pkill roslaunch
+  pkill floam
 fi
 
 if [[ $1 == "cross" ]];then
