@@ -9,8 +9,9 @@ source $DIR/../../envs.sh
 source devel/setup.bash
 
 [ -f $LIDAR_TRACKING_OUTPUT_LOGS ] && > $LIDAR_TRACKING_OUTPUT_LOGS
+
 while [ 1 ]
 do
-    devel/lib/multi_object_tracking_lidar/kf_tracker >> $LIDAR_TRACKING_OUTPUT_LOGS
+    devel/lib/multi_object_tracking_lidar/kf_tracker
 done
 

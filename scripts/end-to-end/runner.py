@@ -133,14 +133,14 @@ def commandHandler(command):
 
     if command == 6 or turn_all:
         #lane-detection
-        if(checkIfProcessRunning("./cuda-lane-detection")):
+        if(checkIfProcessRunning("cuda-lane-detection")):
             print("cuda-lane-detection is already launched")
         else:
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_infinite.sh > /dev/null 2>&1 &")
 
     if command == 7 or turn_all:
         #SFM
-        if(checkIfProcessRunning("openMVG_main_ComputeFeatures")):
+        if(checkIfProcessRunning("openMVG")):
             print("openMVG is already launched")
         else:
             launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh > /dev/null 2>&1 &")
@@ -177,7 +177,7 @@ def displayCurrentApps():
     if checkIfProcessRunning("cuda-lane-detection"):
        result.append("cuda-lane-detection")
 
-    if checkIfProcessRunning("openMVG_main_ComputeFeatures"):
+    if checkIfProcessRunning("openMVG"):
        result.append("openMVG")       
 
     if checkIfProcessRunning("kf_tracker"):
