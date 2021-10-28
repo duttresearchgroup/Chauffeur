@@ -2,7 +2,6 @@
 
 ROSBAG_PATH=/workspace/data/2011_09_30_0027-10s.bag
 
-echo $ROSBAG_PATH
 # for darknet_ros -> camera/rgb/image_raw
 # for lidar-tracking -> filtered_cloud
 source /opt/ros/melodic/setup.bash
