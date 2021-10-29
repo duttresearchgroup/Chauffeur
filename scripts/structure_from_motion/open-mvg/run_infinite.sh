@@ -16,4 +16,6 @@ do
                 $OPEN_MVG_OUTPUT_FOLDER \
                 $OPEN_MVG_BINARY_FOLDER \
                 $OPEN_MVG_WEIGHT_FOLDER > $OPEN_MVG_OUTPUT_LOGS
+    rm -rf $OPEN_MVG_OUTPUT_FOLDER
+    mkdir -p $OPEN_MVG_OUTPUT_FOLDER
 done 2>> $OPEN_MVG_TIMING_LOGS
