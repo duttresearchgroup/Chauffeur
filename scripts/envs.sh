@@ -81,6 +81,7 @@ DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/data/object_detection/darknet-ros
 DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/data
 DARKNET_ROS_TIMING_LOGS=$LOGS_FOLDER/time_darknet_ros.txt
 DARKNET_ROS_OUTPUT_LOGS=$LOGS_FOLDER/darknet_ros.txt
+DARKNET_ROS_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/darknet_ros_memory.txt
 
 # ORB-SLAM-3
 ORBSLAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization_and_mapping/orb-slam-3
@@ -88,3 +89,7 @@ ORBSLAM_DATA_FOLDER=$R_SRC_ROOT/data
 
 #LIDAR TRACKING
 LIDAR_TRACKING_OUTPUT_LOGS=$LOGS_FOLDER/lidar_tracking.txt
+
+#PROFILE
+WSS_FOLDER=$R_SRC_ROOT/scripts/end-to-end/wss
+WSS_BINARY_NAME=wss.pl

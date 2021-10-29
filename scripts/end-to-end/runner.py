@@ -141,6 +141,7 @@ def commandHandler(command):
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh > /dev/null 2>&1 &")
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss.sh > /dev/null 2>&1 &")
 
     if command == 5 or turn_all:
         #floam
