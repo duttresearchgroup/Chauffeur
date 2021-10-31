@@ -4,4 +4,4 @@ lines = f.readlines()
 
 for d in lines[2:]:
     raw = d.split()
-    print(raw[0]+"\t"+raw[1]+"\t"+raw[2]+"\t"+raw[3])
+    print(raw[1]+","+raw[2]+","+raw[3])
