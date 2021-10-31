@@ -207,6 +207,7 @@ def commandHandler(command):
             else: 
                 # os.system(cmd)   
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_infinite.sh > /dev/null 2>&1 &")
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_orb_slam_3 > /dev/null 2>&1 &")
 
 def displayCurrentApps():
     result = []
