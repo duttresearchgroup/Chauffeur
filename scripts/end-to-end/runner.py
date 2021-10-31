@@ -133,6 +133,7 @@ def commandHandler(command):
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh > /dev/null 2>&1 &")
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_kalman.sh > /dev/null 2>&1 &")
     
     if command == 3 or turn_all:
         #hybrid_astar

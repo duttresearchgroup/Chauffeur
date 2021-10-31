@@ -25,6 +25,7 @@ EXTENDED_KALMAN_FILTER_DATA_FOLDER=$R_SRC_ROOT/data/kalman_filter/extended-kalma
 EXTENDED_KALMAN_FILTER_TIMING_LOGS=$LOGS_FOLDER/time_kf.txt
 EXTENDED_KALMAN_FILTER_OUTPUT_LOGS=$LOGS_FOLDER/kf.txt
 EXTENDED_KALMAN_FILTER_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/kalman_filter/extended-kalman-filter
+KALMAN_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/kf_memory.txt
 
 # Jetson Inference
 JETSON_INFERENCE_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/jetson-inference/build/aarch64/bin
@@ -40,6 +41,7 @@ CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection/cuda-lane-detect
 CUDA_LANE_DETECTION_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/lane_detection/cuda-lane-detection
 CUDA_LANE_DETECTION_OUTPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection.txt
 CUDA_LANE_DETECTION_TIMING_LOGS=$LOGS_FOLDER/time_cuda_lane_detection.txt
+CLD_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection_memory.txt
 
 # OpenMVG
 OPEN_MVG_BINARY_FOLDER=$R_SRC_ROOT/applications/structure_from_motion/open-mvg/build/software/SfM/
@@ -49,6 +51,7 @@ OPEN_MVG_WEIGHT_FOLDER=$R_SRC_ROOT/data/structure_from_motion/open-mvg
 OPEN_MVG_OUTPUT_FOLDER=$R_SRC_ROOT/applications/structure_from_motion/open-mvg/output
 OPEN_MVG_OUTPUT_LOGS=$LOGS_FOLDER/open_mvg.txt
 OPEN_MVG_TIMING_LOGS=$LOGS_FOLDER/time_open_mvg.txt
+MVG_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/open_mvg_memory.txt
 
 # Lanenet Lane Detection
 LANENET_LANE_DETECTION_ROOT_FOLDER=$R_SRC_ROOT/applications/lane_detection/lanenet-lane-detection
@@ -64,6 +67,7 @@ FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
 FLOAM_TIMING_LOGS=$LOGS_FOLDER/time_floam.txt
 FLOAM_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/localization/floam
 FLOAM_ROS_BAG_FOLDER=$R_SRC_ROOT/data
+FLOAM_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/floam.txt
 
 # Hybrid A* Path Planner:
 HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar
@@ -72,7 +76,7 @@ HYBRID_ASTAR_DATA_FOLDER=$R_SRC_ROOT/data/path_planning/hybrid-astar/maps
 HYBRID_ASTAR_TIMING_LOGS=$LOGS_FOLDER/time_h_a_star.txt
 HYBRID_ASTAR_OUTPUT_LOGS=$LOGS_FOLDER/h_a_star.txt
 HYBRID_ASTAR_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/path_planning/hybrid-astar
-
+H_A_STAR_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/h_a_star_memory.txt
 
 # YOLO ROS
 DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet-ros/install
@@ -88,9 +92,11 @@ ORBSLAM_BINARY_FOLDER=$R_SRC_ROOT/applications/localization_and_mapping/orb-slam
 ORBSLAM_DATA_FOLDER=$R_SRC_ROOT/data
 ORBSLAM_TIMING_LOGS=$LOGS_FOLDER/time_orb_slam_3.txt
 ORBSLAM_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/localization/orb-slam-3
+OST_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/orb_slam_3_memory.txt
 
 #LIDAR TRACKING
 LIDAR_TRACKING_OUTPUT_LOGS=$LOGS_FOLDER/lidar_tracking.txt
+LT_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/lidar_tracking_memory.txt
 
 #PROFILE
 WSS_FOLDER=$R_SRC_ROOT/scripts/end-to-end/wss
