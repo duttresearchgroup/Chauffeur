@@ -187,6 +187,7 @@ def commandHandler(command):
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh > /dev/null 2>&1 &")
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_openmvg.sh > /dev/null 2>&1 &")
 
     if command == 8 or turn_all:
         # lidar-tracking
