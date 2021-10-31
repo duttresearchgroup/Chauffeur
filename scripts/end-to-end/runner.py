@@ -133,7 +133,7 @@ def commandHandler(command):
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_kalman.sh > /dev/null 2>&1 &")
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_kalman_filter.sh > /dev/null 2>&1 &")
     
     if command == 3 or turn_all:
         #hybrid_astar
@@ -144,6 +144,7 @@ def commandHandler(command):
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_infinite.sh > /dev/null 2>&1 &")
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_hybrid_a_star.sh > /dev/null 2>&1 &")
 
     if command == 4 or turn_all:
         #darknet_ros
@@ -155,7 +156,7 @@ def commandHandler(command):
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss.sh > /dev/null 2>&1 &")
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_darknet_ros.sh > /dev/null 2>&1 &")
 
     if command == 5 or turn_all:
         #floam
@@ -205,8 +206,7 @@ def commandHandler(command):
         else:
             if debug:
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_debug.sh")
-            else: 
-                # os.system(cmd)   
+            else:   
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_infinite.sh > /dev/null 2>&1 &")
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_orb_slam_3.sh > /dev/null 2>&1 &")
 
