@@ -41,7 +41,7 @@ CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection/cuda-lane-detect
 CUDA_LANE_DETECTION_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/lane_detection/cuda-lane-detection
 CUDA_LANE_DETECTION_OUTPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection.txt
 CUDA_LANE_DETECTION_TIMING_LOGS=$LOGS_FOLDER/cuda_lane_detection_time.txt
-CUDA_LANE_DETECTION_OUTPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection_memory.txt
+CUDA_LANE_DETECTION_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection_memory.txt
 
 # OpenMVG
 OPEN_MVG_BINARY_FOLDER=$R_SRC_ROOT/applications/structure_from_motion/open-mvg/build/software/SfM/
