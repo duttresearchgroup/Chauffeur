@@ -6,4 +6,7 @@ source $DIR/../envs.sh
 
 sleep 3
 cd $WSS_FOLDER
-./$WSS_BINARY_NAME -s 1 $(ps -aux | grep result-video.avi | awk '{print $2}' | head -n 1) 0.1 > $CUDA_LANE_DETECTION_MEMORY_OUTPUT_LOGS
+while [ 1 ]
+do
+./$WSS_BINARY_NAME -s 1 $(ps -aux | grep result-video.avi | awk '{print $2}' | head -n 1) 0.1 >> $CUDA_LANE_DETECTION_MEMORY_OUTPUT_LOGS
+done
