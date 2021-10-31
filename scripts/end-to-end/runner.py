@@ -28,7 +28,18 @@ def displaySystemUtil():
 
 def sigintHandler(signal, frame):
     global command_in, command
-    print("press [a,0-7] or q")
+    print("\n")
+    print("Press [a,2-9] or q to quit benchmarking")
+    print("The following is the end-to-end autonomous driving appications that you can launch: ")
+    print("Key 2: Kalman filter (ExtendedKF)")
+    print("Key 3: Path Plannung (hybrid_astar)")
+    print("Key 4: Object Detection (darknet_ros)")
+    print("Key 5: Fast Lidar Odometry And Mapping (floam)")
+    print("Key 6: Lane Detection (cuda-lane-detection)")
+    print("Key 7: Structure from Motion (openMVG)")
+    print("Key 8: Lidar Tracking (lidar-tracking)")
+    print("Key 9: Localization (orb-slam-3)")
+    print("Key a: Launch all applications")
     data = ""
 
     while(True):
@@ -61,15 +72,8 @@ def launchBackgoundProcessWithoutOutput(full_command):
 def launchBackgoundProcessWithOutput(full_command):
     subprocess.Popen(full_command, shell=True, close_fds=True, preexec_fn = preexec_function, stdout=sys.stdout, stderr=sys.stdout)
 
-def commandHandler(command):
-    global command_in, ROOT, debug
-    os.system('clear')
-    print("input command is "+str(command))
-    command_in = False
-    turn_all = False
-    if command == 'a':
-        turn_all = True
-# 0 - 7
+
+# 0 - 9
 # a -> all commands
 # 0 - roscore
 # 1 - rosbag
@@ -80,8 +84,17 @@ def commandHandler(command):
 # 6 - lane-detection
 # 7 - SFM
 # 8 - lidar-tracking
-# TODO
 # 9 - orb-slam-3
+
+def commandHandler(command):
+    global command_in, ROOT, debug
+    os.system('clear')
+    print("Input command is "+str(command))
+    command_in = False
+    turn_all = False
+
+    if command == 'a':
+        turn_all = True
 
     if command == 0 or turn_all:
         #roscore
@@ -159,7 +172,7 @@ def commandHandler(command):
             print("cuda-lane-detection is already launched")
         else:
             if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_infinite.sh")
+                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_infinite.sh > /dev/null 2>&1 &")
 
@@ -169,7 +182,7 @@ def commandHandler(command):
             print("openMVG is already launched")
         else:
             if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh")
+                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh > /dev/null 2>&1 &")
 
@@ -179,11 +192,20 @@ def commandHandler(command):
             print("lidar-tracking is already launched")
         else:
             if debug:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_tracking/lidar-tracking/run_infinite.sh")
+                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/object_tracking/lidar-tracking/run_infinite.sh")
             else:    
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_tracking/lidar-tracking/run_infinite.sh > /dev/null 2>&1 &")
  
-    #TODO: Orb-slam-3 is work in progress
+    if command == 9 or turn_all:
+        # Orb-slam-3 
+        if(checkIfProcessRunning("Mono")):
+            print("orb-slam-3 is already launched")
+        else:
+            if debug:
+                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_debug.sh")
+            else: 
+                # os.system(cmd)   
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_infinite.sh > /dev/null 2>&1 &")
 
 def displayCurrentApps():
     result = []
@@ -214,15 +236,23 @@ def displayCurrentApps():
     if checkIfProcessRunning("kf_tracker"):
        result.append("lidar-tracking")
 
+    if(checkIfProcessRunning("Mono")):
+        result.append("orb-slam-3")
+
     print("current running list : "+','.join(result))
 
 if __name__ == "__main__":
     ROOT = os.getcwd()+"/../../"
     signal.signal(signal.SIGINT, sigintHandler)
     debug = False
-    # p = subprocess.Popen("/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh", shell=True, close_fds=True, preexec_fn = preexec_function, stdout=sys.stdout, stderr=sys.stdout)
-    # os.system('./roscore.sh &')
-    # os.system('./rosbag.sh &')
+    
+    prerun_ros_cmd = "/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh > /dev/null 2>&1 &"
+    subprocess.Popen(prerun_ros_cmd.split(), close_fds=True, preexec_fn = preexec_function, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    prerun_ros_cmd = "/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh"
+    subprocess.Popen(prerun_ros_cmd.split(), close_fds=False, preexec_fn = preexec_function, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
+   
     while(len(sys.argv) > 1):
         if(sys.argv[1] == 'debug'):
             debug = True
@@ -231,8 +261,10 @@ if __name__ == "__main__":
             print('Use python3 runner.py debug to activate the debug mode')
             print('Use python3 runner.py to start benchmarking')     
             sys.exit(0)
+    
     while(1):
         os.system('clear')
+        print("Use Ctrl + C to input the application you want to launch")
         if(command_in):
             commandHandler(command)
         displayCurrentApps()

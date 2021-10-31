@@ -22,8 +22,8 @@ sleep 5
 # Check if vocabulary is loaded
 ( tail -f -n0 os3_ros.log & ) | grep -q "Vocabulary loaded!"
 
-rosbag play $ORBSLAM_DATA_FOLDER/2011_09_30_0027-10s.bag /cam00/image_raw:=/camera/image_raw
+# rosbag play -l $ORBSLAM_DATA_FOLDER/2011_09_30_0027-10s.bag /cam00/image_raw:=/camera/image_raw 1> /dev/null
 
-pkill Mono
+# pkill Mono
 wait
 

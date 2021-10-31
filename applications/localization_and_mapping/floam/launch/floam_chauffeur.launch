@@ -46,6 +46,4 @@
         <param name="/trajectory_publish_rate" value="10.0" />
     </node>
 
-    <!-- Camera input stream -->
-    <node pkg="rosbag" type="play" name="rosbag_play" args='--clock $(optenv FLOAM_ROS_BAG_FOLDER /workspace/data/)/2011_09_30_0027-10s.bag /velodyne_points:=/filtered_cloud'/>
 </launch>
