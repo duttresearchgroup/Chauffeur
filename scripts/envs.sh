@@ -71,7 +71,8 @@ FLOAM_DATA_FOLDER=$R_SRC_ROOT/data
 FLOAM_TIMING_LOGS=$LOGS_FOLDER/floam_time.txt
 FLOAM_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/localization/floam
 FLOAM_ROS_BAG_FOLDER=$R_SRC_ROOT/data
-FLOAM_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/floam.txt
+FLOAM_MEMORY_OUTPUT_LOGS_1=$LOGS_FOLDER/floam_odom_estimation_node_memory.txt
+FLOAM_MEMORY_OUTPUT_LOGS_2=$LOGS_FOLDER/floam_laser_processing_node_memory.txt
 
 # Hybrid A* Path Planner:
 HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar

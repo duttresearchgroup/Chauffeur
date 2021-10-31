@@ -167,7 +167,7 @@ def commandHandler(command):
                 launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/localization/floam/run_debug.sh")
             else:
                 launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/floam/run_infinite.sh > /dev/null 2>&1 &")
-
+                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_floam.sh > /dev/null 2>&1 &")
     if command == 6 or turn_all:
         #lane-detection
         if(checkIfProcessRunning("cuda-lane-detection")):
