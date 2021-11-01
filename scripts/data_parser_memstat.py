@@ -62,9 +62,3 @@ while(len(sys.argv) > 1):
 ani = animation.FuncAnimation(fig, func=animate, interval=2000)
 plt.show()
 
-<<<<<<< HEAD
-=======
-for d in lines[2:]:
-    raw = d.split()
-    print(raw[1]+","+raw[2]+","+raw[3])
->>>>>>> b1c02035b984ef06b1ec1204ef7301cd05d30437
