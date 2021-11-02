@@ -49,7 +49,7 @@ def sigintHandler(signal, frame):
 
     if data[0] == 'q' or data[0] == 'Q':
         print("bye")
-        os.system('kill -9 -1 2> /dev/null')
+        os.system('kill -9 -1 > /dev/null 2>&1')
         sys.exit(0)
     else:
         command_in = True
@@ -87,12 +87,10 @@ def launchBackgoundProcessWithOutput(full_command):
 # 9 - orb-slam-3
 
 def commandHandler(command):
-    global command_in, ROOT, debug
+    global command_in, ROOT
     os.system('clear')
-    print("Input command is "+str(command))
     command_in = False
     turn_all = False
-
     if command == 'a':
         turn_all = True
 
@@ -105,10 +103,7 @@ def commandHandler(command):
             os.system("sudo pkill -9 rosmaster")
             os.system("sudo pkill -9 rosout")
             #TODO: make env function
-            if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh > /dev/null 2>&1 &")
 
     if command == 1 or turn_all:
         #rosbag
@@ -116,35 +111,23 @@ def commandHandler(command):
             print("rosbag is already launched")
         else:
             os.system("sudo pkill -9 rosbag")
-            # change this shell file name
-            if(debug):
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh > /dev/null 2>&1 &")
 
     if command == 2 or turn_all:
-        #rosbag
         if(checkIfProcessRunning("ExtendedKF")):
             print("kalman filter is already launched")
         else:
             os.system("sudo pkill -9 ./ExtendedKF")
-            # change this shell file name
-            if(debug):
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_debug.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_kalman_filter.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/kalman_filter/extended-kalman-filter/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_kalman_filter.sh > /dev/null 2>&1 &")
     
     if command == 3 or turn_all:
         #hybrid_astar
         if(checkIfProcessRunning("hybrid_astar") and checkIfProcessRunning("map_server") and checkIfProcessRunning("tf_broadcaster") ):
-            print("kalman filter is already launched")
+            print("hybrid_astar is already launched")
         else:
-            if(debug):
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_debug.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_hybrid_a_star.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/path_planning/hybrid-astar/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_hybrid_a_star.sh > /dev/null 2>&1 &")
 
     if command == 4 or turn_all:
         #darknet_ros
@@ -152,65 +135,47 @@ def commandHandler(command):
             print("darknet_ros is already launched")
         else:
             #TODO : detect ROS version
-            if(debug):
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_debug.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_darknet_ros.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_detection/darknet-ros/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_darknet_ros.sh > /dev/null 2>&1 &")
 
     if command == 5 or turn_all:
         #floam
         if(checkIfProcessRunning("floam.launch")):
             print("floam is already launched")
         else:
-            if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/localization/floam/run_debug.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/floam/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_floam.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/floam/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_floam.sh > /dev/null 2>&1 &")
     if command == 6 or turn_all:
         #lane-detection
         if(checkIfProcessRunning("cuda-lane-detection")):
             print("cuda-lane-detection is already launched")
         else:
-            if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_debug.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_cuda_lane_detection.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/lane_detection/cuda-lane-detection/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_cuda_lane_detection.sh > /dev/null 2>&1 &")
 
     if command == 7 or turn_all:
         #SFM
         if(checkIfProcessRunning("openMVG")):
             print("openMVG is already launched")
-        else:
-            if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_debug.sh")
-            else:
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_openmvg.sh > /dev/null 2>&1 &")
+        else: 
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/structure_from_motion/open-mvg/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_openmvg.sh > /dev/null 2>&1 &")
 
     if command == 8 or turn_all:
         # lidar-tracking
         if(checkIfProcessRunning("kf_tracker")):
             print("lidar-tracking is already launched")
         else:
-            if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/object_tracking/lidar-tracking/run_infinite.sh")
-            else:    
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_tracking/lidar-tracking/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_lidar_tracking.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/object_tracking/lidar-tracking/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_lidar_tracking.sh > /dev/null 2>&1 &")
  
     if command == 9 or turn_all:
         # Orb-slam-3 
         if(checkIfProcessRunning("Mono")):
             print("orb-slam-3 is already launched")
-        else:
-            if debug:
-                launchBackgoundProcessWithOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_debug.sh")
-            else:   
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_infinite.sh > /dev/null 2>&1 &")
-                launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_orb_slam_3.sh > /dev/null 2>&1 &")
+        else:  
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/localization/orb-slam-3/run_infinite.sh > /dev/null 2>&1 &")
+            launchBackgoundProcessWithoutOutput("/bin/bash -c "+ROOT+"/scripts/profile/memory_wss_orb_slam_3.sh > /dev/null 2>&1 &")
 
 def displayCurrentApps():
     result = []
@@ -249,7 +214,6 @@ def displayCurrentApps():
 if __name__ == "__main__":
     ROOT = os.getcwd()+"/../../"
     signal.signal(signal.SIGINT, sigintHandler)
-    debug = False
     
     prerun_ros_cmd = "/bin/bash -c "+ROOT+"/scripts/end-to-end/roscore.sh > /dev/null 2>&1 &"
     subprocess.Popen(prerun_ros_cmd.split(), close_fds=True, preexec_fn = preexec_function, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -257,17 +221,17 @@ if __name__ == "__main__":
     prerun_ros_cmd = "/bin/bash -c "+ROOT+"/scripts/end-to-end/rosbag.sh"
     subprocess.Popen(prerun_ros_cmd.split(), close_fds=False, preexec_fn = preexec_function, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
-   
-    while(len(sys.argv) > 1):
-        if(sys.argv[1] == 'debug'):
-            debug = True
-            break
+    prelaunchcmd = sys.argv[1:]
+
+    for cmd in prelaunchcmd:
+        if cmd == 'a':
+                pass
         else:
-            print('Use python3 runner.py debug to activate the debug mode')
-            print('Use python3 runner.py to start benchmarking')     
-            sys.exit(0)
-    
+            cmd = int(cmd)
+        commandHandler(cmd)
+
     while(1):
+        time.sleep(2)
         os.system('clear')
         print("Use Ctrl + C to input the application you want to launch")
         if(command_in):

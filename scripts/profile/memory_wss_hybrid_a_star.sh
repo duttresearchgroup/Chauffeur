@@ -6,8 +6,10 @@ source $DIR/../envs.sh
 [ -f $HYBRID_ASTAR_MEMORY_OUTPUT_LOGS_2 ] && > $HYBRID_ASTAR_MEMORY_OUTPUT_LOGS_2
 [ -f $HYBRID_ASTAR_MEMORY_OUTPUT_LOGS_3 ] && > $HYBRID_ASTAR_MEMORY_OUTPUT_LOGS_3
 
-sleep 1
+sleep $WARM_UP_TIME
+
 cd $WSS_FOLDER
+
 while [ 1 ]
 do
 ./$WSS_BINARY_NAME -s 1 $(ps -aux | grep map_server | awk '{print $2}' | head -n 1) 0.1 >> $HYBRID_ASTAR_MEMORY_OUTPUT_LOGS_1 &

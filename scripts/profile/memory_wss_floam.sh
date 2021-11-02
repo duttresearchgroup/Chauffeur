@@ -5,7 +5,8 @@ source $DIR/../envs.sh
 [ -f $FLOAM_MEMORY_OUTPUT_LOGS_1 ] && > $FLOAM_MEMORY_OUTPUT_LOGS_1
 [ -f $FLOAM_MEMORY_OUTPUT_LOGS_2 ] && > $FLOAM_MEMORY_OUTPUT_LOGS_2
 
-sleep 3
+sleep $WARM_UP_TIME
+
 cd $WSS_FOLDER
 
 ./$WSS_BINARY_NAME -s 1 $(ps -aux | grep __name:=floam_odom_estimation_node | awk '{print $2}' | head -n 1) 0.1 > $FLOAM_MEMORY_OUTPUT_LOGS_1 &

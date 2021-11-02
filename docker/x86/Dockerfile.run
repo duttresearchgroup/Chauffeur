@@ -34,7 +34,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libglew-dev \
     libboost-all-dev
 
-RUN python3 -m pip install matplotlib
+
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add
@@ -194,6 +194,8 @@ COPY scripts /workspace/scripts
 # RUN rosdep update
 
 WORKDIR /workspace/scripts/end-to-end
+RUN [ -d wss ] && rm -rf wss
+RUN git clone https://github.com/brendangregg/wss
 COPY data /workspace/data
 RUN source /opt/ros/melodic/setup.bash
 RUN apt-get install -y --no-install-recommends ros-melodic-map-server ros-melodic-hector-trajectory-server libxmlrpcpp-dev file
