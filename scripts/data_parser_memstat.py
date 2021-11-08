@@ -46,19 +46,19 @@ def animate(i):
     plt.xlabel("Time (s)")
     plt.ylabel("Memory (Mbs)")
    
-
-if len(sys.argv) == 1:
-    print("Please input the file name")
-    sys.exit(0)
-
-while(len(sys.argv) > 1):
-    if(os.path.exists(sys.argv[1])):
-        break
-    else:
-        print('Please input the correct memory profile file name')
-        print('Usage python3 data_parser_memstat.py "filename"')     
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        print("Please input the file name")
         sys.exit(0)
 
-ani = animation.FuncAnimation(fig, func=animate, interval=2000)
-plt.show()
+    while(len(sys.argv) > 1):
+        if(os.path.exists(sys.argv[1])):
+            break
+        else:
+            print('Please input the correct memory profile file name')
+            print('Usage python3 data_parser_memstat.py "filename"')     
+            sys.exit(0)
+
+    ani = animation.FuncAnimation(fig, func=animate, interval=2000)
+    plt.show()
 
