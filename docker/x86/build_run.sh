@@ -163,13 +163,13 @@ build_orb_slam_3() {
 }
 
 # build_jetson_inference
-# build_kalman_filter
-# build_lane_detection
-# build_cuda_lane_detection
+build_kalman_filter
+build_lane_detection
+build_cuda_lane_detection
 # build_lanenet_lane_detection
-# build_openmvg
-# build_darknet_ros
-# build_floam
+build_openmvg
+build_darknet_ros
+build_floam
 build_path_planning
-# build_lidar_tracking
-# build_orb_slam_3
+build_lidar_tracking
+build_orb_slam_3
