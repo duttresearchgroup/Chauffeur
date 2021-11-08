@@ -718,11 +718,11 @@ else
   end = std::chrono::system_clock::now();
   std::chrono::duration<float> elapsed_seconds = end - start;
   float time_temp = elapsed_seconds.count() * 1000;
-  //double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
-  double avg=movingAvg(slidingWindow, &previousSum, total_frame, total_frame+1, time_temp);
-  total_frame++;   
+  // double avg= movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
+  // double avg=movingAvg(slidingWindow, &previousSum, total_frame, total_frame+1, time_temp);
+  // total_frame++;   
 
-  cout<<"average object tracking time"<<avg<<" ms ("<<time_temp<<", "<<total_frame<<")"<<"\n";
+  printf("Processing time %f ms / per input \n \n", time_temp);
 
 }   
 
