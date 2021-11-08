@@ -3,6 +3,7 @@
 #include "Preprocessing.h"
 #include <time.h>
 #include <iomanip>
+#include <chrono>
 
 extern void detectLanes(VideoCapture inputVideo, VideoWriter outputVideo, int houghStrategy);
 extern void drawLines(Mat &frame, vector<Line> lines);
@@ -52,6 +53,8 @@ void detectLanes(VideoCapture inputVideo, VideoWriter outputVideo, int houghStra
     Mat frame, preProcFrame;
     vector<Line> lines;
 
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+    
     clock_t readTime = 0;
 	clock_t prepTime = 0;
 	clock_t houghTime = 0;
@@ -68,6 +71,8 @@ void detectLanes(VideoCapture inputVideo, VideoWriter outputVideo, int houghStra
 
 	for( ; ; ) {
         // Read next frame
+        start = std::chrono::system_clock::now();
+
         readTime -= clock();
 		inputVideo >> frame;
         readTime += clock();
@@ -96,6 +101,13 @@ void detectLanes(VideoCapture inputVideo, VideoWriter outputVideo, int houghStra
         drawLines(frame, lines);
         outputVideo << frame;
         writeTime += clock();
+
+        end = std::chrono::system_clock::now();
+
+        std::chrono::duration<float> elapsed_seconds; 
+        elapsed_seconds= end - start;
+        float time_temp = elapsed_seconds.count() * 1000;
+        printf("Processing time %f ms / per input \n \n", time_temp);
     }
 
     destroyHandle(handle, houghStrategy);

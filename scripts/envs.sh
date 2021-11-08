@@ -115,7 +115,7 @@ HYBRID_ASTAR_MEMORY_OUTPUT_LOGS_2_ON_HOST=$LOGS_FOLDER_ON_HOST/h_a_star_tf_broad
 HYBRID_ASTAR_MEMORY_OUTPUT_LOGS_3_ON_HOST=$LOGS_FOLDER_ON_HOST/h_a_star_h_a_star_memory.txt
 
 # YOLO ROS
-DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet-ros/install
+DARKNET_ROS_BINARY_FOLDER=$R_SRC_ROOT/applications/object_detection/darknet_ros/install
 DARKNET_ROS_BINARY_NAME=darknet_ros
 DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/data/object_detection/darknet-ros
 DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/data

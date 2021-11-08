@@ -380,7 +380,7 @@ void* YoloObjectDetector::detectInThread() {
   float time_temp = elapsed_seconds.count() * 1000;
   double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
   total_frame++;
-  printf("Avg detction time %f ms (%f, %d) \n \n", avg, time_temp, total_frame);
+  printf("Processing time %f ms / per input \n \n", avg);
   return 0;
 }
 

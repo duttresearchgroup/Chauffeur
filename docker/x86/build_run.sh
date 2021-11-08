@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Remove previous build
-cd cross-apps/
+# cd cross-apps/
 
 target="/workspace/applications"
 source="/workspace/applications"
@@ -66,15 +66,17 @@ build_openmvg() {
 build_darknet_ros() {
     source /opt/ros/melodic/setup.sh
     cd $target/object_detection/darknet-ros
-    # mkdir -p $target/object_detection/darknet_ros && cd $target/object_detection/darknet_ros
-    # rm -rf devel && rm -rf build
-    # mkdir -p build && cd build
+
+    rm -rf $target/object_detection/darknet_ros
+    mkdir -p $target/object_detection/darknet_ros && cd $target/object_detection/darknet_ros
+    rm -rf devel && rm -rf build
+    mkdir -p build && cd build
     # [HACK] cv_bridge searches in /usr/include/opencv
     ln -s /usr/local/include/opencv /usr/include/opencv
     cmake $source/object_detection/darknet-ros \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$source/object_detection/darknet-ros/devel \
-        -DCMAKE_INSTALL_PREFIX=$source/object_detection/darknet-ros/install \
+        -DCATKIN_DEVEL_PREFIX=$source/object_detection/darknet_ros/devel \
+        -DCMAKE_INSTALL_PREFIX=$source/object_detection/darknet_ros/install \
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
 
