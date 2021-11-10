@@ -4,6 +4,7 @@ applications/
 build/
 scripts/passwd
 scripts/profile/output/*
+scripts/*.png
 cross-apps/
 Dockerfile
 logs

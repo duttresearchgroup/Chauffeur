@@ -64,7 +64,6 @@ int main(int argc, char* argv[]) {
 
   vector<MeasurementPackage> measurement_pack_list;
   vector<GroundTruthPackage> gt_pack_list;
-  std::chrono::time_point<std::chrono::system_clock> start, end;
   string line;
 
   // prep the measurement packages (each line represents a measurement at a
@@ -135,7 +134,11 @@ int main(int argc, char* argv[]) {
 
   //Call the EKF-based fusion
   size_t N = measurement_pack_list.size();
+  
+  std::chrono::time_point<std::chrono::system_clock> start, end;
+
   for (size_t k = 0; k < N; ++k) {
+    
     start = std::chrono::system_clock::now();
     // start filtering from the second frame (the speed is unknown in the first
     // frame)
@@ -175,7 +178,7 @@ int main(int argc, char* argv[]) {
     end = std::chrono::system_clock::now();
 
     std::chrono::duration<float> elapsed_seconds; 
-    elapsed_seconds= end - start;
+    elapsed_seconds = end - start;
     float time_temp = elapsed_seconds.count() * 1000;
     printf("Processing time %f ms / per input \n \n", time_temp);
   }

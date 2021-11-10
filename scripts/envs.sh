@@ -24,6 +24,7 @@ EXTENDED_KALMAN_FILTER_BINARY_FOLDER=$R_SRC_ROOT/applications/kalman_filter/exte
 EXTENDED_KALMAN_FILTER_BINARY_NAME=ExtendedKF
 EXTENDED_KALMAN_FILTER_DATA_FOLDER=$R_SRC_ROOT/data/kalman_filter/extended-kalman-filter
 EXTENDED_KALMAN_FILTER_TIMING_LOGS=$LOGS_FOLDER/kf_time.txt
+EXTENDED_KALMAN_FILTER_TIMING_PER_INPUT_LOGS=$LOGS_FOLDER/kf_time_per_input.txt
 EXTENDED_KALMAN_FILTER_OUTPUT_LOGS=$LOGS_FOLDER/kf.txt
 EXTENDED_KALMAN_FILTER_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/kalman_filter/extended-kalman-filter
 
@@ -43,13 +44,14 @@ CUDA_LANE_DETECTION_ROOT_FOLDER=$R_SRC_ROOT/applications/lane_detection/cuda-lan
 CUDA_LANE_DETECTION_BINARY_NAME=cuda-lane-detection
 CUDA_LANE_DETECTION_DATA_FOLDER=$R_SRC_ROOT/data/lane_detection/cuda-lane-detection
 CUDA_LANE_DETECTION_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/lane_detection/cuda-lane-detection
+
 CUDA_LANE_DETECTION_OUTPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection.txt
-
 CUDA_LANE_DETECTION_TIMING_LOGS=$LOGS_FOLDER/cuda_lane_detection_time.txt
-
 CUDA_LANE_DETECTION_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection_memory.txt
+CUDA_LANE_DETECTION_TIMING_PER_INPUT_LOGS=$LOGS_FOLDER/cuda_lane_detection_time_per_input.txt
 
 CUDA_LANE_DETECTION_MEMORY_OUTPUT_LOGS_ON_HOST=$LOGS_FOLDER_ON_HOST/cuda_lane_detection_memory.txt
+
 
 
 # OpenMVG
@@ -103,6 +105,7 @@ HYBRID_ASTAR_BINARY_FOLDER=$R_SRC_ROOT/applications/path_planning/hybrid-astar
 HYBRID_ASTAR_BINARY_NAME=hybrid_astar
 HYBRID_ASTAR_DATA_FOLDER=$R_SRC_ROOT/data/path_planning/hybrid-astar/maps
 HYBRID_ASTAR_TIMING_LOGS=$LOGS_FOLDER/h_a_star_time.txt
+HYBRID_ASTAR_TIMING_PER_INPUT_LOGS=$LOGS_FOLDER/h_a_star_time_per_input.txt
 HYBRID_ASTAR_OUTPUT_LOGS=$LOGS_FOLDER/h_a_star.txt
 HYBRID_ASTAR_RUNNING_SCRIPT_FOLDER=$R_SRC_ROOT/scripts/path_planning/hybrid-astar
 
@@ -120,6 +123,7 @@ DARKNET_ROS_BINARY_NAME=darknet_ros
 DARKNET_ROS_LABELS_FOLDER=$R_SRC_ROOT/data/object_detection/darknet-ros
 DARKNET_ROS_BAG_FOLDER=$R_SRC_ROOT/data
 DARKNET_ROS_TIMING_LOGS=$LOGS_FOLDER/darknet_ros_time.txt
+DARKNET_ROS_TIMING_PER_INPUT_LOGS=$LOGS_FOLDER/darknet_ros_time_per_input.txt
 DARKNET_ROS_OUTPUT_LOGS=$LOGS_FOLDER/darknet_ros.txt
 DARKNET_ROS_MEMORY_OUTPUT_LOGS=$LOGS_FOLDER/darknet_ros_memory.txt
 
