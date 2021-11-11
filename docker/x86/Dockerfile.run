@@ -190,6 +190,11 @@ WORKDIR /workspace
 
 RUN /bin/bash /workspace/build.sh
 COPY scripts /workspace/scripts
+
+
+WORKDIR /workspace/scripts
+
+
 # RUN rosdep init
 # RUN rosdep update
 
@@ -197,6 +202,11 @@ WORKDIR /workspace/scripts/end-to-end
 RUN [ -d wss ] && rm -rf wss
 RUN git clone https://github.com/brendangregg/wss
 COPY data /workspace/data
+
+WORKDIR /workspace/scripts/
+RUN ls
+RUN /bin/bash /workspace/scripts/download_rosbag.sh
+
 RUN source /opt/ros/melodic/setup.bash
 RUN apt-get install -y --no-install-recommends ros-melodic-map-server ros-melodic-hector-trajectory-server libxmlrpcpp-dev file
 RUN rm -rf /workspace/applications/path_planning/hybrid-astar/lib
