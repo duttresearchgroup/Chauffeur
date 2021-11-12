@@ -11,5 +11,8 @@ source devel/setup.bash
 
 while [ 1 ]
 do
-    devel/lib/multi_object_tracking_lidar/kf_tracker >> $LIDAR_TRACKING_OUTPUT_LOGS 2>> $LIDAR_TRACKING_OUTPUT_LOGS
-done
+    devel/lib/multi_object_tracking_lidar/kf_tracker | grep --line-buffered "Processing time"
+done 1>> $LIDAR_TRACKING_OUTPUT_LOGS 
+
+
+

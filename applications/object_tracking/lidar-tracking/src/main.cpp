@@ -361,7 +361,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 {
     std::chrono::time_point<std::chrono::system_clock> start, end;
-    start = std::chrono::system_clock::now();
+    
    // cout<<"IF firstFrame="<<firstFrame<<"\n";
     // If this is the first frame, initialize kalman filters for the clustered objects
 if (firstFrame)
@@ -565,21 +565,32 @@ else
    * Cluster_indices is a vector containing one instance of PointIndices for each detected 
    * cluster. Cluster_indices[0] contain all indices of the first cluster in input point cloud.
    */
+
+  
+
+  start = std::chrono::system_clock::now();
+
   std::vector<pcl::PointIndices> cluster_indices;
   pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
-  ec.setClusterTolerance (0.3);
+  ec.setClusterTolerance (0.01);
   ec.setMinClusterSize (10); 
   ec.setMaxClusterSize (600);
   ec.setSearchMethod (tree);
   ec.setInputCloud (input_cloud);
-//cout<<"PCL init successfull\n";
+  
+  //cout<<"PCL init successfull\n";
   /* Extract the clusters out of pc and save indices in cluster_indices.*/
+  
+  
   ec.extract (cluster_indices);
-//cout<<"PCL extract successfull\n";
+  
+  //cout<<"PCL extract successfull\n";
+  
   /* To separate each cluster out of the vector<PointIndices> we have to 
    * iterate through cluster_indices, create a new PointCloud for each 
    * entry and write all points of the current cluster in the PointCloud. 
    */
+  
   //pcl::PointXYZ origin (0,0,0);
   //float mindist_this_cluster = 1000;
   //float dist_this_point = 1000;
@@ -589,43 +600,44 @@ else
   // Vector of cluster pointclouds
   std::vector<pcl::PointCloud<pcl::PointXYZ>::Ptr > cluster_vec;
 
+  
      // Cluster centroids
   std::vector<pcl::PointXYZ> clusterCentroids;
 
-  
-
   for(it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
-   {
-        float x=0.0; float y=0.0;
-         int numPts=0;
-          pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster (new pcl::PointCloud<pcl::PointXYZ>);
-          for(pit = it->indices.begin(); pit != it->indices.end(); pit++) 
-          {
-          
-                  cloud_cluster->points.push_back(input_cloud->points[*pit]);
+  {
+    float x=0.0; float y=0.0;
+    int numPts=0;
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster (new pcl::PointCloud<pcl::PointXYZ>);
+    
+    for(pit = it->indices.begin(); pit != it->indices.end(); pit++) 
+    {
+    
+            cloud_cluster->points.push_back(input_cloud->points[*pit]);
 
 
-                  x+=input_cloud->points[*pit].x;
-                  y+=input_cloud->points[*pit].y;
-                  numPts++;
+            x+=input_cloud->points[*pit].x;
+            y+=input_cloud->points[*pit].y;
+            numPts++;
 
-                  //dist_this_point = pcl::geometry::distance(input_cloud->points[*pit],
-                  //                                          origin);
-                  //mindist_this_cluster = std::min(dist_this_point, mindist_this_cluster);
-          }
+            //dist_this_point = pcl::geometry::distance(input_cloud->points[*pit],
+            //                                          origin);
+            //mindist_this_cluster = std::min(dist_this_point, mindist_this_cluster);
+    }
 
     pcl::PointXYZ centroid;
-      centroid.x=x/numPts;
-      centroid.y=y/numPts;
-      centroid.z=0.0;
-      
-      cluster_vec.push_back(cloud_cluster);
+    centroid.x=x/numPts;
+    centroid.y=y/numPts;
+    centroid.z=0.0;
+    
+    cluster_vec.push_back(cloud_cluster);
 
-      //Get the centroid of the cluster
-      clusterCentroids.push_back(centroid);
+    //Get the centroid of the cluster
+    clusterCentroids.push_back(centroid);
 
-    }
+  }
    // cout<<"cluster_vec got some clusters\n";
+    
 
     //Ensure at least 6 clusters exist to publish (later clusters may be empty)
     while (cluster_vec.size() < 6){
@@ -653,6 +665,12 @@ else
         cc.data.push_back(clusterCentroids.at(i).z);    
 
     }
+
+    end = std::chrono::system_clock::now();
+    std::chrono::duration<float> elapsed_seconds = end - start;
+    float time_temp = elapsed_seconds.count() * 1000;
+    printf("Processing time %f ms / per input \n \n", time_temp);
+
    // cout<<"6 clusters initialized\n";
 
     //cc_pos.publish(cc);// Publish cluster mid-points.
@@ -715,15 +733,12 @@ else
         }
 
 } 
-  end = std::chrono::system_clock::now();
-  std::chrono::duration<float> elapsed_seconds = end - start;
-  float time_temp = elapsed_seconds.count() * 1000;
+  
   // double avg= movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
   // double avg=movingAvg(slidingWindow, &previousSum, total_frame, total_frame+1, time_temp);
   // total_frame++;   
 
-  printf("Processing time %f ms / per input \n \n", time_temp);
-
+  
 }   
 
 
