@@ -205,6 +205,7 @@ COPY data /workspace/data
 WORKDIR /workspace/scripts/
 RUN /bin/bash /workspace/scripts/download_rosbag.sh
 
+WORKDIR /workspace/scripts/end-to-end
 RUN source /opt/ros/melodic/setup.bash
 RUN apt-get install -y --no-install-recommends ros-melodic-map-server ros-melodic-hector-trajectory-server libxmlrpcpp-dev file
 RUN rm -rf /workspace/applications/path_planning/hybrid-astar/lib
