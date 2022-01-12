@@ -115,7 +115,7 @@ For running instances of the end-to-end pipeline consisting of Chauffeur applica
 
 # x86 Setup
 
-## Step 1: Using NVIDIA GPUs with docker
+## Step 1: Setting up docker with NVIDIA GPUs
 * Follow instructions [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install NVIDIA Container Toolkit.
 
 ## Step 2: Compilation
