@@ -1,5 +1,5 @@
-FROM ubuntu:bionic
-
+FROM nvidia/cuda:11.4.0-cudnn8-devel-ubuntu18.04
+ 
 # Use bash as default shell
 SHELL ["/bin/bash", "-c"]
 
@@ -51,25 +51,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-melodic-eigen-conversions \
     libgoogle-glog-dev
 
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin 
+#RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin 
 
-RUN mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+#RUN mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
 
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-RUN add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
-RUN apt-get update
-RUN wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
-RUN apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
-RUN apt-get update
+#RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+#RUN add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/ /"
+#RUN apt-get update
+#RUN wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+#RUN apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+#RUN apt-get update
 
-RUN apt-get install -y --no-install-recommends \
-    cuda-11-0 \
-    libcudnn8=8.0.4.30-1+cuda11.0  \
-    libcudnn8-dev=8.0.4.30-1+cuda11.0
+#RUN apt-get install -y --no-install-recommends \
+#    cuda-11-0 \
+#    libcudnn8=8.0.4.30-1+cuda11.0  \
+#    libcudnn8-dev=8.0.4.30-1+cuda11.0
 
-RUN apt-get install -y --no-install-recommends libnvinfer7=7.1.3-1+cuda11.0 \
-    libnvinfer-dev=7.1.3-1+cuda11.0 \
-    libnvinfer-plugin7=7.1.3-1+cuda11.0
+#RUN apt-get install -y --no-install-recommends libnvinfer7=7.1.3-1+cuda11.0 \
+#    libnvinfer-dev=7.1.3-1+cuda11.0 \
+#    libnvinfer-plugin7=7.1.3-1+cuda11.0
 
 
 RUN apt-get install -y python3-setuptools
@@ -177,10 +177,38 @@ RUN set -x && \
   rm -rf *
 ENV Pangolin_DIR=${CMAKE_INSTALL_PREFIX}/lib/cmake/Pangolin
 
+
+COPY applications /workspace/applications
+COPY docker/x86/build.sh /workspace/build.sh
+COPY docker/x86/patches /workspace/applications/patches
+RUN pip3 install psutil==5.8.0
+
 RUN mkdir -p /workspace
 WORKDIR /workspace
 
-RUN rosdep init
-RUN rosdep update
+RUN /bin/bash /workspace/build.sh
+COPY scripts /workspace/scripts
 
-CMD [ "bash", "/workspace/build.sh" ]
+
+WORKDIR /workspace/scripts
+
+# RUN rosdep init
+# RUN rosdep update
+
+WORKDIR /workspace/scripts/end-to-end
+RUN [ -d wss ] && rm -rf wss
+RUN git clone https://github.com/brendangregg/wss
+COPY data /workspace/data
+
+WORKDIR /workspace/scripts/
+RUN /bin/bash /workspace/scripts/download_rosbag.sh
+
+WORKDIR /workspace/scripts/end-to-end
+RUN source /opt/ros/melodic/setup.bash
+RUN apt-get install -y --no-install-recommends ros-melodic-map-server ros-melodic-hector-trajectory-server libxmlrpcpp-dev file
+RUN rm -rf /workspace/applications/path_planning/hybrid-astar/lib
+
+RUN mkdir -p /workspace/logs
+
+CMD ["python3","runner.py"]
+

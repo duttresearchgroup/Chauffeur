@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Remove previous build
-cd cross-apps/
+# cd cross-apps/
 
-target="/workspace/cross-apps"
+target="/workspace/applications"
 source="/workspace/applications"
 
 #   Build Jetson-Inference
@@ -18,8 +18,6 @@ build_jetson_inference () {
     cd $target/object_detection/jetson-inference/build/aarch64/bin 
     target_images=$(readlink images)
     target_networks=$(readlink networks)
-    rm -rf images && rm -rf networks
-    cp -r $target_images . && cp -r $target_networks .
 }
 
 # Build Kalman filter
@@ -37,8 +35,6 @@ build_lane_detection() {
     cmake $source/lane_detection/jetson-lane-detection
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
     [ -d "$target/lane_detection/jetson-lane-detection/bin" ] && rm -rf $target/lane_detection/jetson-lane-detection/bin
-    cp -r $source/lane_detection/jetson-lane-detection/bin $target/lane_detection/jetson-lane-detection/bin
-    rm -rf $source/lane_detection/jetson-lane-detection/bin
     # -DJETSON_TX2=ON \
     # -DOpenCV_DIR=/usr/local/opencv2/share/OpenCV/OpenCVConfig-version.cmake \
 }
@@ -69,6 +65,9 @@ build_openmvg() {
 #  Build darknet_ros
 build_darknet_ros() {
     source /opt/ros/melodic/setup.sh
+    cd $target/object_detection/darknet-ros
+
+    rm -rf $target/object_detection/darknet_ros
     mkdir -p $target/object_detection/darknet_ros && cd $target/object_detection/darknet_ros
     rm -rf devel && rm -rf build
     mkdir -p build && cd build
@@ -76,39 +75,29 @@ build_darknet_ros() {
     ln -s /usr/local/include/opencv /usr/include/opencv
     cmake $source/object_detection/darknet-ros \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$target/object_detection/darknet_ros/devel \
-        -DCMAKE_INSTALL_PREFIX=$target/object_detection/darknet_ros/install \
+        -DCATKIN_DEVEL_PREFIX=$source/object_detection/darknet_ros/devel \
+        -DCMAKE_INSTALL_PREFIX=$source/object_detection/darknet_ros/install \
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_CXX_FLAGS=-DCV__ENABLE_C_API_CTORS
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install
-    rm -rf $target/object_detection/darknet_ros/devel && \
-        rm -rf $target/object_detection/darknet_ros/build
 }
 
 
 # Build 3 FLOAM
 build_floam() {
     source /opt/ros/melodic/setup.sh
-    mkdir -p $target/localization_and_mapping/floam && cd $target/localization_and_mapping/floam
+    mkdir -p $source/localization_and_mapping/floam && cd $source/localization_and_mapping/floam
     rm -rf devel && rm -rf build && rm -rf install
     mkdir -p build && cd build
     cmake $source/localization_and_mapping/floam \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$target/localization_and_mapping/floam/devel \
-        -DCMAKE_INSTALL_PREFIX=$target/localization_and_mapping/floam/install \
+        -DCATKIN_DEVEL_PREFIX=$source/localization_and_mapping/floam/devel \
+        -DCMAKE_INSTALL_PREFIX=$source/localization_and_mapping/floam/install \
         -DBUILD_SHARED_LIBS=OFF
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" 
     make install
-
-    mkdir -p $target/localization_and_mapping/floam/install/share/floam/launch
-    cp -r $source/localization_and_mapping/floam/launch \
-            $target/localization_and_mapping/floam/install/share/floam/
-    cp -r $target/localization_and_mapping/floam/devel/lib/floam \
-            $target/localization_and_mapping/floam/install/lib/
-    rm -rf $target/localization_and_mapping/floam/devel/ && \
-        rm -rf $target/localization_and_mapping/floam/build
 }
 
 # Build path planner
@@ -126,8 +115,6 @@ build_path_planning() {
         -DCMAKE_CXX_FLAGS=-I/usr/include/eigen3
 
     make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install
-    rm -rf $target/path_planning/hybrid-astar/devel && \
-        rm -rf $target/path_planning/hybrid-astar/build
 }
 
 
@@ -137,39 +124,15 @@ build_lanenet_lane_detection() {
 }
 
 build_lidar_tracking() {
-    rm -rf $target/object_tracking/lidar-tracking
     source /opt/ros/melodic/setup.sh
-    mkdir -p $target/object_tracking/lidar-tracking && cd $target/object_tracking/lidar-tracking
-    rm -rf devel && rm -rf build
     mkdir -p build && cd build
     cmake $source/object_tracking/lidar-tracking \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$target/object_tracking/lidar-tracking/devel \
-        -DCMAKE_INSTALL_PREFIX=$target/object_tracking/lidar-tracking/install \
+        -DCATKIN_DEVEL_PREFIX=$source/object_tracking/lidar-tracking/devel \
+        -DCMAKE_INSTALL_PREFIX=$source/object_tracking/lidar-tracking/install \
         -DBUILD_SHARED_LIBS=OFF
 
-    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install
-    rm -rf $target/object_tracking/lidar-tracking/devel && \
-        rm -rf $target/object_tracking/lidar-tracking/build
-    
-}
-
-build_lidar_tracking() {
-    rm -rf $target/object_tracking/lidar-tracking
-    source /opt/ros/melodic/setup.sh
-    mkdir -p $target/object_tracking/lidar-tracking && cd $target/object_tracking/lidar-tracking
-    rm -rf devel && rm -rf build
-    mkdir -p build && cd build
-    cmake $source/object_tracking/lidar-tracking \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCATKIN_DEVEL_PREFIX=$target/object_tracking/lidar-tracking/devel \
-        -DCMAKE_INSTALL_PREFIX=$target/object_tracking/lidar-tracking/install \
-        -DBUILD_SHARED_LIBS=OFF
-
-    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install
-    rm -rf $target/object_tracking/lidar-tracking/devel && \
-        rm -rf $target/object_tracking/lidar-tracking/build
-    
+    make -j"$(grep ^processor /proc/cpuinfo | wc -l)" install    
 }
 
 build_orb_slam_3() {
@@ -196,35 +159,17 @@ build_orb_slam_3() {
     source /opt/ros/melodic/setup.sh
     export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$source/localization_and_mapping/orb-slam-3/Examples/ROS
     bash build_ros.sh
-    rm -rf $target/localization_and_mapping/orb-slam-3
-    mkdir -p $target/localization_and_mapping/orb-slam-3 && cd $target/localization_and_mapping/orb-slam-3
-    # **************************************
-
-
-    # **************************************
-    # Copy target
-    cp -r $source/localization_and_mapping/orb-slam-3/Examples/ROS/ORB_SLAM3 \
-         $target/localization_and_mapping/orb-slam-3/ORB_SLAM3
-        
-    mkdir -p $target/localization_and_mapping/orb-slam-3/Vocabulary
-    cp $source/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt \
-         $target/localization_and_mapping/orb-slam-3/Vocabulary/ORBvoc.txt
-
-    mkdir -p $target/localization_and_mapping/orb-slam-3/Examples/Monocular
-    cp $source/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml \
-         $target/localization_and_mapping/orb-slam-3/Examples/Monocular/KITTI03.yaml
-    **************************************
+    # ****************************************
 }
 
 # build_jetson_inference
-# build_kalman_filter
-# build_lane_detection
-# build_cuda_lane_detection
+build_kalman_filter
+build_lane_detection
+build_cuda_lane_detection
 # build_lanenet_lane_detection
 build_openmvg
-# build_darknet_ros
-# build_floam
-# build_path_planning
-# build_lidar_tracking
-# build_orb_slam_3
-
+build_darknet_ros
+build_floam
+build_path_planning
+build_lidar_tracking
+build_orb_slam_3

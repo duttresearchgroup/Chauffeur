@@ -17,7 +17,7 @@ index 0000000..d9f2e82
 +	CUDA_NVCC_FLAGS
 +	${CUDA_NVCC_FLAGS}; 
 +    -O3 
-+	-gencode arch=compute_60,code=sm_60
++	-gencode arch=compute_86,code=sm_86
 +)
 +
 +file(GLOB projectSources *.cpp *.cu)
@@ -26,7 +26,7 @@ index 0000000..d9f2e82
 +target_link_libraries(${CMAKE_PROJECT_NAME} ${OpenCV_LIBS} Eigen3::Eigen)
 +
 +
-+# nvcc -gencode arch=compute_62,code=sm_62 
++# nvcc -gencode arch=compute_86,code=sm_86 
 +# -I/usr/local/include/opencv4 
 +# -L/usr/local/lib/ *.cpp *cu -lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -std=c++11 -o $root/bin/cudaLaneDetection
 diff --git a/commons.h b/commons.h
