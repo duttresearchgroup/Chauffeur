@@ -7,6 +7,7 @@
 #include "FusionEKF.h"
 #include "ground_truth_package.h"
 #include "measurement_package.h"
+#include <chrono>
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -63,7 +64,6 @@ int main(int argc, char* argv[]) {
 
   vector<MeasurementPackage> measurement_pack_list;
   vector<GroundTruthPackage> gt_pack_list;
-
   string line;
 
   // prep the measurement packages (each line represents a measurement at a
@@ -134,7 +134,12 @@ int main(int argc, char* argv[]) {
 
   //Call the EKF-based fusion
   size_t N = measurement_pack_list.size();
+  
+  std::chrono::time_point<std::chrono::system_clock> start, end;
+
   for (size_t k = 0; k < N; ++k) {
+    
+    start = std::chrono::system_clock::now();
     // start filtering from the second frame (the speed is unknown in the first
     // frame)
     fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
@@ -169,6 +174,13 @@ int main(int argc, char* argv[]) {
     
     // compute the accuracy (RMSE)
     cout << "RMSE:" << endl << tools.CalculateRMSE(estimations, ground_truth) << endl;
+
+    end = std::chrono::system_clock::now();
+
+    std::chrono::duration<float> elapsed_seconds; 
+    elapsed_seconds = end - start;
+    float time_temp = elapsed_seconds.count() * 1000;
+    printf("Processing time %f ms / per input \n \n", time_temp);
   }
 
   // close files

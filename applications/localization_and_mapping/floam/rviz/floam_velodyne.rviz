@@ -107,7 +107,7 @@ Visualization Manager:
       Size (Pixels): 1
       Size (m): 0.009999999776482582
       Style: Points
-      Topic: /velodyne_points_filtered
+      Topic: /filtered_cloud_filtered
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
