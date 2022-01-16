@@ -1,14 +1,8 @@
 docker/cross-compiler/*
 docker/jetpack-files/*
-applications/
+applications/bin
 build/
+applications/tmp
 scripts/passwd
 scripts/profile/output/*
-scripts/*.png
-scripts/*.txt
 cross-apps/
-Dockerfile
-logs
-.vscode/
-data/2011_09_30_0027-10s.bag
-*.txt

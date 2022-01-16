@@ -12,14 +12,14 @@ if [[ $1 == "local" ]];then
   source ./devel/setup.bash
 
   # (re)start roscore
-  # pkill rosmaster
-  # roscore &
+  pkill rosmaster
+  roscore &
 
   roslaunch --wait floam floam_chauffeur.launch &
-  # sleep 5
-  # rosbag play --clock $FLOAM_DATA_FOLDER/2011_09_30_0027-10s.bag
-  # pkill roslaunch
-  # pkill floam
+  sleep 5
+  rosbag play --clock $FLOAM_DATA_FOLDER/2011_09_30_0027-10s.bag
+  pkill roslaunch
+  pkill floam
 fi
 
 if [[ $1 == "cross" ]];then

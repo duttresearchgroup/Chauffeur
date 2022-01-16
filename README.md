@@ -5,45 +5,19 @@ If you use this work, please cite our paper published in ESWEEK-TECS special iss
 
 > B.  Maity,  S.  Yi,  D.  Seo,  L.  Cheng,  S. S.  Lim,  J. C.  Kim,  B.  Donyanavard,  and  N.  Dutt, "Chauffeur:  Benchmark  suite  for  design  and  end-to-end  analysis  of  self-driving  vehicles  onembedded systems," ACM Transactions on Embedded Computing Systems (TECS), Oct. 2021.
 
-Getting started with Chauffeur
-=============================
-- [Basic Setup](#basic-setup)
-  - [Download Chauffeur](#step-0-download-chauffeur)
-  - [Setup Docker](#step-1-setup-docker)
-- [arm Setup](#arm-setup)
-  - [Compilation](#step-1-compilation)
-    - [(Cross) using qemu based docker](#1a-cross-using-qemu-based-docker)
-    - [Compilation on the board](#1b-compilation-on-the-board)
-  - [Deployment from host onto target board](#step-2-deployment-from-host-onto-target-board)
-  - [Running on board](#step-3-running-on-board)
-  - [End-to-end evaluation](#end-to-end-evaluation)
-  - [Supported platforms](#supported-platforms)
-- [x86 Setup](#x86-setup)
-  - [Setting up docker with NVIDIA GPUs](#step-1-using-nvidia-gpus-with-docker)
-  - [Compilation](#step-2-compilation)
-  - [Check applications using GPUs are sucessfully ruuning on your host](#step-3-checking-applications-using-GPUs-are-successfully-running-on-your-host)
-  - [Running the benchmark](#step-4-running-the-benchmark)
-  - [Extra notes when setting up](#extra-notes-when-setting-up)
-- [Other important information](#other-important-information)
 
-# Basic Setup
-
-## Step 0: Download Chauffeur
+# Step 0: Download Chauffeur :)
 ```
 git clone https://github.com/duttresearchgroup/Chauffeur
 cd Chauffeur
 git submodule update --init --recursive
 ```
+# Step 1 Compilation
+## 1.a (Cross)  using qemu based docker
+We are using dockers to compile the source code of the micro-benchmarks. Please navigate to the `docker` folder and perform the following steps:
 
-## Step 1: Setup Docker
-* Follow instructions [here](https://docs.docker.com/engine/install/ubuntu/) to make sure docker is installed
-
-
-# Arm Setup
-
-## Step 1 Compilation
-### 1.a (Cross) using qemu based docker
-* We are using dockers to compile the source code of the micro-benchmarks. Please navigate to the `docker/arm` folder and perform the following steps:
+### Setting up docker
+* follow instructions [here](https://docs.docker.com/engine/install/ubuntu/) to make sure docker is installed
 
 ### Setting up qemu based cross-compiler env
 *  For Linux(debian):<br />
@@ -69,7 +43,7 @@ git submodule update --init --recursive
 
 * [Debug] For using an interactive debugging environment, please run `docker-compose run Chauffeur.builder bash`
 
-### 1.b Compilation on the board
+## 1.b Compilation on the board
 ```
 source scripts/envs.sh
 bash scripts/APP_NAME/build.sh [tx2/px2>] 
@@ -77,8 +51,7 @@ bash scripts/APP_NAME/build.sh [tx2/px2>]
 ```
 
 See the [wiki](https://github.com/duttresearchgroup/Chauffeur/wiki) for more information.
-
-## Step 2: Deployment from host onto target board
+# Step 2: Deployment from host onto target board
 * This step is only required if you are cross-compiling Chauffeur
 * Please ensure that `rsync` is installed in both host and target, and additionally `sshpass` is installed on host. 
 * In `scripts/envs.sh` modify the remote credentials where you want to deploy. 
@@ -89,7 +62,7 @@ scripts/send.sh cross-apps/ applications/
 scripts/send.sh scripts/ scripts/
 scripts/send.sh data/ data/
 ```
-## Step 3: Running on board
+# Step 3: Running on board
 * `source scripts/envs.sh`
 * In `scripts` folder we have include the relevant launching script `run.sh` for each application. For example, to run application kalman_filter, `sh scripts/kalman_filter/run.sh`
 * For cross compiled environment, pass `cross` as an argument to the file. Example:  `sh scripts/kalman_filter/run.sh cross`.
@@ -102,57 +75,23 @@ For cross-compiling, we also installed the following libraries on the target wit
 * `xargs sudo apt-get install <packages/apt_requirements.txt`
 
 More information for required packages can be found [here](packages/breakdown.md).
-## End-to-end evaluation
+# End-to-end evaluation
 For running instances of the end-to-end pipeline consisting of Chauffeur applications, we support a python based script. 
 * `cd Chauffeur/scripts/end-to-end`
 * `pip3 install -r requirements.txt`
 * `python3 runner.py`
+ 
+Now, the runner is ready for accepting inputs from the user.
+Users can select workloads by typing ctrl+c and then followed either by a number(0-8) for selecting the workload, or the character 'a' for launching.
 
+# Other important information
 ## Supported platforms
 - **NVIDIA Jetson TX2** : Tested with Jetpack 4.2.1, L4T 32.2.0]
 - **NVIDIA Drive PX2** : No cross-compiler support, Tested with NVIDIA DRIVE OS 4.9.80-rt61-tegra
-
-
-# x86 Setup
-
-## Step 1: Setting up docker with NVIDIA GPUs
-* Follow instructions [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install NVIDIA Container Toolkit.
-
-## Step 2: Compilation
-
-### Make sure the base image in Dockerfile is compatible with the NVIDIA Driver and CUDA varsion on your host machine.
-  * Use `nvidia-smi` to check the CUDA version.
-  * Base on the CUDA version, go to here to choose the base image of your docker container [here](https://hub.docker.com/r/nvidia/cuda).
-  * Navigate to `docker/x86`, use the text editor to modify the first line of `Dockerfile`, modify the base image you just choose
-
-### Build the docker image and compile the application in the docker image
-* `cd Chauffeur`
-* `cp docker/x86/Dockerfile ./Dockerfile`
-* `docker build . -t x86.runner`
-
-## Step 3: Check applications using GPUs are sucessfully ruuning on your host
-* Use following command to run the container and get in to the container's bash: 
-  * `docker run -it --gpus all -v $(pwd)/logs:/workspace/logs x86.runner /bin/bash`
-* We use cuda-lane-detection as testing example:
-  * Navigate to `/workspace/scripts/lane_detection/cuda-lane-detection` in the docker container.
-  * Run `./run.sh`
-  * The terminal should successfully run the cuda-lane-detection one time without error messages related to CUDA.
-
-
-## Step 4: Running the benchmark
-* `docker run -it --gpus all -v $(pwd)/logs:/workspace/logs x86.runner`
-* Now, the runner is ready for accepting inputs from the user. Users can select workloads by typing ctrl+c and then followed either by a number(0-8) for selecting the workload, or the character 'a' for launching.
-
-## Extra notes when setting up
-* You might suffer a lot because the compatibilty of the NVIDIA GPUs. You can check whether you match CUDA arch and CUDA gencode for your NVIDIA GPU architecture. You can see [here](https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/) for more information.
-* If you fail to match the architecture, you need to go to source code of the applicatoin, and change the compilation flag, and compile the application again.
-
-# Other important information
-
 ## Libraries used for CPU parallelization
 | Application | Parallelism | Framework   |
 | ----------- | ----------- | ----------- |
-| cuda-lane-detection | Data-level    | OpenCV (TBB, pthreads) |
+| cuda-lane-det | Data-level    | OpenCV (TBB, pthreads) |
 | darknet-ros   | Thread-level  | C++ |
 | floam         | Thread-level  | C++ | 
 | hybrid-astar  | None          | None | 

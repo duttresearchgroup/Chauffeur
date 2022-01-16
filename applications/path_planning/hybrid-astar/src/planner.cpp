@@ -227,8 +227,7 @@ void Planner::plan() {
     smoothedPath.updatePath(smoother.getPath());
     ros::Time t1 = ros::Time::now();
     ros::Duration d(t1 - t0);
-    std::cout << "Processing time "<< d * 1000<<" ms / per input"<<std::endl;
-    // printf("Processing time %f ms / per input \n \n", d * 1000);
+    std::cout << "TIME in ms: " << d * 1000 << std::endl;
 
     // _________________________________
     // PUBLISH THE RESULTS OF THE SEARCH

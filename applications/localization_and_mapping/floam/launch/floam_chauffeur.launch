@@ -38,7 +38,6 @@
         <param name="/trajectory_update_rate" value="10.0" />
         <param name="/trajectory_publish_rate" value="10.0" />
     </node>
-
     <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_loam" ns="base_link" >
         <param name="/target_frame_name" value="world" />
         <param name="/source_frame_name" value="base_link" />

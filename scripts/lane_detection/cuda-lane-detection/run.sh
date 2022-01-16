@@ -3,7 +3,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source $DIR/../../envs.sh
 
-$DIR/../../../applications/lane_detection/cuda-lane-detection/build/./cuda-lane-detection \
-$DIR/../../../data/test-video.mp4 \
-$DIR/../../../data/result-video.avi \
---cuda
+cd $CUDA_LANE_DETECTION_ROOT_FOLDER/build
+./$CUDA_LANE_DETECTION_BINARY_NAME \
+    $CUDA_LANE_DETECTION_DATA_FOLDER/test-video.mp4 \
+    $CUDA_LANE_DETECTION_DATA_FOLDER/result-video.avi \
+    --cuda

@@ -103,10 +103,9 @@ void odom_estimation(){
                 end = std::chrono::system_clock::now();
                 std::chrono::duration<float> elapsed_seconds = end - start;
                 float time_temp = elapsed_seconds.count() * 1000;
-                // double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
-                // total_frame++;
-                ROS_INFO("Processing time %f ms / per input \n \n", time_temp);
-                // ROS_INFO("average odom estimation time %f ms (%f, %d) \n \n", avg, time_temp, total_frame);
+                double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
+                total_frame++;
+                ROS_INFO("average odom estimation time %f ms (%f, %d) \n \n", avg, time_temp, total_frame);
             }
 
 

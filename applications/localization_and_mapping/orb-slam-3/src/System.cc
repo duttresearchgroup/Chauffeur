@@ -352,11 +352,11 @@ cv::Mat System::TrackMonocular(const cv::Mat &im, const double &timestamp, const
     end = std::chrono::system_clock::now();
     std::chrono::duration<float> elapsed_seconds = end - start;
     float time_temp = elapsed_seconds.count() * 1000;
-    double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
-    // double avg=movingAvg(slidingWindow, &previousSum, total_frame, total_frame+1, time_temp);
+    //double avg=movingAvg(slidingWindow, &previousSum, total_frame%SLIDING_WINDOW_SIZE, SLIDING_WINDOW_SIZE, time_temp);
+    double avg=movingAvg(slidingWindow, &previousSum, total_frame, total_frame+1, time_temp);
     total_frame++;   
 
-    cout<<"average track time "<<avg<<" ms ("<<time_temp<<", "<<total_frame<<")"<<"\n";
+  cout<<"average track time"<<avg<<" ms ("<<time_temp<<", "<<total_frame<<")"<<"\n";
 
 
     return Tcw;
