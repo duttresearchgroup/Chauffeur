@@ -3,7 +3,7 @@
 # Citation
 If you use this work, please cite our paper published in ESWEEK-TECS special issue and presented in the International Conference on Hardware/Software Codesign and System Synthesis (CODES+ISSS), 2021.
 
-> B.  Maity,  S.  Yi,  D.  Seo,  L.  Cheng,  S. S.  Lim,  J. C.  Kim,  B.  Donyanavard,  and  N.  Dutt, "Chauffeur:  Benchmark  suite  for  design  and  end-to-end  analysis  of  self-driving  vehicles  onembedded systems," ACM Transactions on Embedded Computing Systems (TECS), Oct. 2021.
+> B.  Maity,  S.  Yi,  D.  Seo,  L.  Cheng,  S. S.  Lim,  J. C.  Kim,  B.  Donyanavard,  and  N.  Dutt, "Chauffeur:  Benchmark  suite  for  design  and  end-to-end  analysis  of  self-driving  vehicles  on embedded systems," ACM Transactions on Embedded Computing Systems (TECS), Oct. 2021.
 
 Getting started with Chauffeur
 =============================
@@ -19,9 +19,9 @@ Getting started with Chauffeur
   - [End-to-end evaluation](#end-to-end-evaluation)
   - [Supported platforms](#supported-platforms)
 - [x86 Setup](#x86-setup)
-  - [Setting up docker with NVIDIA GPUs](#step-1-using-nvidia-gpus-with-docker)
+  - [Setting up docker with NVIDIA GPUs](#step-1-setting-up-docker-with-nvidia-gpus)
   - [Compilation](#step-2-compilation)
-  - [Check applications using GPUs are sucessfully ruuning on your host](#step-3-checking-applications-using-GPUs-are-successfully-running-on-your-host)
+  - [Check applications using GPUs are sucessfully ruuning on your host](#step-3-check-applications-using-gpus-are-successfully-running-on-your-host)
   - [Running the benchmark](#step-4-running-the-benchmark)
   - [Extra notes when setting up](#extra-notes-when-setting-up)
 - [Other important information](#other-important-information)
@@ -130,7 +130,7 @@ For running instances of the end-to-end pipeline consisting of Chauffeur applica
 * `cp docker/x86/Dockerfile ./Dockerfile`
 * `docker build . -t x86.runner`
 
-## Step 3: Check applications using GPUs are sucessfully ruuning on your host
+## Step 3: Check applications using GPUs are successfully running on your host
 * Use following command to run the container and get in to the container's bash: 
   * `docker run -it --gpus all -v $(pwd)/logs:/workspace/logs x86.runner /bin/bash`
 * We use cuda-lane-detection as testing example:
