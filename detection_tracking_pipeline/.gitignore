@@ -1,0 +1,9 @@
+source/__pycache__/*
+__pycache__/*
+monitor/__pycache__/*
+monitor/vehicle_detection_and_tracking_pipeline_detector_1/*
+monitor/vehicle_detection_and_tracking_pipeline_tracker_1/*
+dataset/*
+
+source/vehicle_detection_and_tracking_pipeline_detector_1/*
+source/vehicle_detection_and_tracking_pipeline_tracker_1/*
