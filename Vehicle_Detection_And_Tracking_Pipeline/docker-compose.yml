@@ -1,0 +1,66 @@
+version: "2.9"
+
+services:
+  input_sensor_app:
+    image: pipeline:latest
+    network_mode: "host"
+    volumes:
+      - ./source:/source
+      - ./monitor:/monitor
+      - ./configs:/configs
+      - /var/run/docker.sock:/var/run/docker.sock 
+    command: ["python3","input.py","-f","${INPUT_VIDEO}", "-t", "1", "-m","${MONITORING_PERIOD}","-r","${RATIO_CONFIG}"]
+    tty: true
+    pid: "host"
+    cpuset: "1"
+
+  detector:
+    image: pipeline:latest
+    network_mode: "host"
+    entrypoint: ["python3","detect.py"]
+    tty: true
+    cpuset: "2-5"
+    volumes:
+       - ./source:/source
+       - ./monitor:/monitor
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  tracker:
+    image: pipeline:latest
+    network_mode: "host"
+    entrypoint: ["python3","track.py"]
+    tty: true
+    cpuset: "6"
+    volumes:
+       - ./source:/source
+
+  output_sensor:
+    image: pipeline:latest
+    network_mode: "host"
+    entrypoint: ["python3","output.py","-d","output"]
+    volumes:
+       - ./source:/source
+    tty: true
+    cpuset: "7"
+    
+  promethus_client:
+    image: pipeline:latest
+    network_mode: "host"
+    volumes:
+      - ./source:/source
+      - ./monitor:/monitor
+      - ./configs:/configs
+      - /var/run/docker.sock:/var/run/docker.sock 
+    # cmd_list = ["/usr/bin/python3","/monitor/monitor.py","-l", str(label),"-i",str(interval),"-t",str(total_time)]
+    command: ["python3","/monitor/monitor.py","-l","1", "-i","${MONITORING_PERIOD}","-t","${TOTAL_TIME}"]
+    expose:
+      - "9090"
+    tty: true
+    pid: "host"
+    cpuset: "8-10"
